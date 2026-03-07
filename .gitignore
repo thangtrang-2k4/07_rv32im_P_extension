@@ -1,0 +1,62 @@
+# =========================
+# Giữ lại source quan trọng
+# =========================
+
+!rtl/
+!rtl/**
+
+!tb/
+!tb/**
+
+!sw/
+!sw/**
+
+!sim/filelists/
+!sim/filelists/**
+
+!sim/Makefile
+
+
+# =========================
+# Ignore toàn bộ sim build
+# =========================
+
+sim/work/
+sim/logs/
+sim/transcript
+sim/vsim.*
+sim/modelsim.ini
+sim/*.wlf
+sim/*.vcd
+sim/*.log
+sim/*.jou
+sim/*.pb
+sim/*.dbg
+sim/*.bak
+
+
+# =========================
+# Editor & OS
+# =========================
+
+*.swp
+*.swo
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+
+# =========================
+# Quartus (nếu có dùng)
+# =========================
+
+quartus/db/
+quartus/incremental_db/
+quartus/output_files/
+quartus/*.rpt
+quartus/*.qws
+quartus/*.sof
+quartus/*.pof
+quartus/*.jdi
+quartus/*.smsg
