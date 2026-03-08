@@ -249,6 +249,21 @@ module Control_Logic (
          MemRW  = 1'b0;
          WBSel  = WB_PC4; // rd := PC+4
        end
+
+       // ===== P-type =====
+       OC_P: begin
+         ASel   = 1'b0;
+         BSel   = 1'b0;
+         RegWEn = 1'b1;
+         MemRW  = 1'b0;
+         WBSel  = WB_ALU;
+       
+         unique case (funct7)
+           7'b0100100: ALUSel = ALU_ADD8;
+           7'b0100000: ALUSel = ALU_ADD16;
+           default:    ALUSel = ALU_ADD;
+         endcase
+       end
    
        default: begin
          //PCSel  = PC_PC4;   // cứ tiến bình thường

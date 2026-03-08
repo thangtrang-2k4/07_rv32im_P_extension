@@ -2,7 +2,7 @@
 // Branch_Control.sv
 // Quyết định nhảy (taken) và tính địa chỉ đích (target)
 // ================================================================
-module pc_selection (
+module PC_Selection (
   input  rv32_pkg::opcode_t  opcode_EX,
   input  rv32_pkg::funct3_t  funct3_EX,
   input  logic               BrEq,

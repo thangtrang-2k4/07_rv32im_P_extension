@@ -167,7 +167,7 @@ module rv32im_pipeline #(
   // ------------------------------
   // Instruction memory 
   // ------------------------------
-  imem #(
+  IMem #(
     .DEPTH_WORDS(DEPTH_WORDS),
     .BASE_ADDR(32'h8000_0000)   // 🔥 thêm dòng này
   )u_imem (
@@ -197,7 +197,7 @@ module rv32im_pipeline #(
   // ------------------------------
   // Decoder
   // ------------------------------
-  decoder u_decoder (
+  Decoder u_decoder (
     .inst   (inst_ID),
     .opcode  (opcode_ID),
     .rd      (rd_ID),
@@ -335,7 +335,7 @@ module rv32im_pipeline #(
   // ------------------------------
   // Branch Control
   // ------------------------------
-  pc_selection u_pc_sel (
+  PC_Selection u_pc_sel (
     .opcode_EX(opcode_t'(opcode_EX)),
     .funct3_EX(funct3_EX),
     .BrEq(BrEq),

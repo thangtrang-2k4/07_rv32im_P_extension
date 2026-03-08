@@ -1,4 +1,4 @@
-module decoder (
+module Decoder (
     input  logic [31:0] inst,
     output rv32_pkg::opcode_t opcode,
     output logic [4:0]  rd,

@@ -11,6 +11,7 @@ package rv32_pkg;
 
   // ALU Select
   typedef enum logic [4:0] {
+    // rv32i base
     ALU_ADD    = 5'b00000,   // rs1 + rs2
     ALU_SUB    = 5'b00001,   // rs1 - rs2
     ALU_SLT    = 5'b00010,   // signed less-than
@@ -28,14 +29,18 @@ package rv32_pkg;
     ALU_JALR   = 5'b01011,
 
     // M extension
-    ALU_MUL    = 5'b10000,
-    ALU_MULH   = 5'b10001,
-    ALU_MULHSU = 5'b10010,
-    ALU_MULHU  = 5'b10011,
-    ALU_DIV    = 5'b10100,
-    ALU_DIVU   = 5'b10101,
-    ALU_REM    = 5'b10111,
-    ALU_REMU   = 5'b11000
+    ALU_MUL    = 5'b01100,
+    ALU_MULH   = 5'b01101,
+    ALU_MULHSU = 5'b01110,
+    ALU_MULHU  = 5'b01111,
+    ALU_DIV    = 5'b10000,
+    ALU_DIVU   = 5'b10001,
+    ALU_REM    = 5'b10011,
+    ALU_REMU   = 5'b10100,
+
+    // P extension
+    ALU_ADD8   = 5'b10101,
+    ALU_ADD16  = 5'b10110
   } ALUSel_t;
 
   //PCSel 
@@ -61,7 +66,8 @@ package rv32_pkg;
     OC_U_LUI     = 7'b0110111,
     OC_U_AUIPC   = 7'b0010111,
     OC_J         = 7'b1101111,
-    OC_I_JALR    = 7'b1100111
+    OC_I_JALR    = 7'b1100111,
+    OC_P         = 7'b1110111
   } opcode_t;
 
   //Funct 3
