@@ -1,0 +1,64 @@
+
+test_p_ext.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00010094 <_start>:
+   10094:	010202b7          	lui	t0,0x1020
+   10098:	30428293          	addi	t0,t0,772 # 1020304 <__global_pointer$+0x100e994>
+   1009c:	11121337          	lui	t1,0x11121
+   100a0:	31430313          	addi	t1,t1,788 # 11121314 <__global_pointer$+0x1110f9a4>
+   100a4:	00001397          	auipc	t2,0x1
+   100a8:	0cc38393          	addi	t2,t2,204 # 11170 <__DATA_BEGIN__>
+   100ac:	84628e3b          	padd.b	t3,t0,t1
+   100b0:	01c3a023          	sw	t3,0(t2)
+   100b4:	00438393          	addi	t2,t2,4
+   100b8:	80628e3b          	padd.h	t3,t0,t1
+   100bc:	01c3a023          	sw	t3,0(t2)
+   100c0:	00438393          	addi	t2,t2,4
+   100c4:	94628e3b          	psadd.b	t3,t0,t1
+   100c8:	01c3a023          	sw	t3,0(t2)
+   100cc:	00438393          	addi	t2,t2,4
+   100d0:	90628e3b          	psadd.h	t3,t0,t1
+   100d4:	01c3a023          	sw	t3,0(t2)
+   100d8:	00438393          	addi	t2,t2,4
+   100dc:	b4628e3b          	psaddu.b	t3,t0,t1
+   100e0:	01c3a023          	sw	t3,0(t2)
+   100e4:	00438393          	addi	t2,t2,4
+   100e8:	b0628e3b          	psaddu.h	t3,t0,t1
+   100ec:	01c3a023          	sw	t3,0(t2)
+   100f0:	00438393          	addi	t2,t2,4
+   100f4:	c4628e3b          	psub.b	t3,t0,t1
+   100f8:	01c3a023          	sw	t3,0(t2)
+   100fc:	00438393          	addi	t2,t2,4
+   10100:	c0628e3b          	psub.h	t3,t0,t1
+   10104:	01c3a023          	sw	t3,0(t2)
+   10108:	00438393          	addi	t2,t2,4
+   1010c:	d4628e3b          	pssub.b	t3,t0,t1
+   10110:	01c3a023          	sw	t3,0(t2)
+   10114:	00438393          	addi	t2,t2,4
+   10118:	d0628e3b          	pssub.h	t3,t0,t1
+   1011c:	01c3a023          	sw	t3,0(t2)
+   10120:	00438393          	addi	t2,t2,4
+   10124:	e062ee3b          	pmin.h	t3,t0,t1
+   10128:	01c3a023          	sw	t3,0(t2)
+   1012c:	00438393          	addi	t2,t2,4
+   10130:	f062ee3b          	pmax.h	t3,t0,t1
+   10134:	01c3a023          	sw	t3,0(t2)
+   10138:	00438393          	addi	t2,t2,4
+   1013c:	e072ae1b          	psabs.h	t3,t0
+   10140:	01c3a023          	sw	t3,0(t2)
+   10144:	00438393          	addi	t2,t2,4
+   10148:	e172ce1b          	psati.h	t3,t0,0x7
+   1014c:	01c3a023          	sw	t3,0(t2)
+   10150:	00438393          	addi	t2,t2,4
+   10154:	a172ce1b          	pusati.h	t3,t0,0x7
+   10158:	01c3a023          	sw	t3,0(t2)
+   1015c:	00438393          	addi	t2,t2,4
+   10160:	00000e93          	li	t4,0
+   10164:	8862febb          	pmhacc.h	t4,t0,t1
+   10168:	01d3a023          	sw	t4,0(t2)
+
+0001016c <loop>:
+   1016c:	0000006f          	j	1016c <loop>

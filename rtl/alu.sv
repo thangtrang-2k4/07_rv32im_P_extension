@@ -2,7 +2,7 @@ module ALU (
   input  logic [31:0]               A,
   input  logic [31:0]               B,
   input  rv32_pkg::ALUSel_t         ALUSel,
-  output logic [31:0]               alu
+  output logic [31:0]               result
 );
   import rv32_pkg::*;
   
@@ -33,74 +33,75 @@ module ALU (
   always_comb begin
     alu = 32'd0;                     // giá trị mặc định an toàn
     unique case (ALUSel)
-      ALU_ADD : alu = A + B;
-      ALU_SUB : alu = A - B;
+   
 
-      ALU_SLT  : alu = {31'b0, $signed(A) <  $signed(B)};   // signed compare
-      ALU_SLTU : alu = {31'b0, $unsigned(A) < $unsigned(B)}; // unsigned compare
+      //ALU_SUB : alu = A - B;
 
-      ALU_AND : alu = A & B;
-      ALU_OR  : alu = A | B;
-      ALU_XOR : alu = A ^ B;
+      ALU_SLT  : result = {31'b0, $signed(A) <  $signed(B)};   // signed compare
+      ALU_SLTU :  = {31'b0, $unsigned(A) < $unsigned(B)}; // unsigned compare
 
-      ALU_SLL : alu = A <<  shamt;
-      ALU_SRL : alu = $unsigned(A) >>  shamt;  // logical right
-      ALU_SRA : alu = $signed(A)   >>> shamt;  // arithmetic right
+      ALU_AND : result = A & B;
+      ALU_OR  : result = A | B;
+      ALU_XOR : result = A ^ B;
 
-      ALU_LUI : alu = B;
+      ALU_SLL : result = A <<  shamt;
+      ALU_SRL : result = $unsigned(A) >>  shamt;  // logical right
+      ALU_SRA : result = $signed(A)   >>> shamt;  // arithmetic right
 
-      ALU_JALR : alu = (A + B) & 32'hFFFF_FFFE;
+      ALU_LUI : result = B;
+
+      ALU_JALR : result = (A + B) & 32'hFFFF_FFFE;
       
-      ALU_MUL:    alu = A * B;
-      ALU_MULH:   alu = prod_ss[63:32];
-      ALU_MULHSU: alu = prod_su[63:32];
-      ALU_MULHU:  alu = prod_uu[63:32];
+      ALU_MUL:    result = A * B;
+      ALU_MULH:   result = prod_ss[63:32];
+      ALU_MULHSU: result = prod_su[63:32];
+      ALU_MULHU:  result = prod_uu[63:32];
 
       ALU_DIV: begin
     if (B == 0) begin
-        alu = 32'hFFFFFFFF;   // Spec: -1
+        result = 32'hFFFFFFFF;   // Spec: -1
     end
     else if (A == 32'h80000000 && B == 32'hFFFFFFFF) begin
-        alu = 32'h80000000;   // Overflow case
+        result = 32'h80000000;   // Overflow case
     end
     else begin
-        alu = $signed(A) / $signed(B);
+        result = $signed(A) / $signed(B);
     end
 end
 
 // ================= DIVU =================
 ALU_DIVU: begin
     if (B == 0) begin
-        alu = 32'hFFFFFFFF;
+        result = 32'hFFFFFFFF;
     end
     else begin
-        alu = A / B;
+        result = A / B;
     end
 end
 
 // ================= REM =================
 ALU_REM: begin
     if (B == 0) begin
-        alu = A;              // Spec: remainder = dividend
+        result = A;              // Spec: remainder = dividend
     end
     else if (A == 32'h80000000 && B == 32'hFFFFFFFF) begin
-        alu = 32'h0;
+        result = 32'h0;
     end
     else begin
-        alu = $signed(A) % $signed(B);
+        result = $signed(A) % $signed(B);
     end
 end
 
 // ================= REMU =================
 ALU_REMU: begin
     if (B == 0) begin
-        alu = A;
+        result = A;
     end
     else begin
-        alu = A % B;
+        result = A % B;
     end
 end
-      default :  alu = 32'd0;
+      default :  result = 32'd0;
 
     endcase
   end

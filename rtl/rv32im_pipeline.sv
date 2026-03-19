@@ -92,7 +92,7 @@ module rv32im_pipeline #(
   logic [31:0] A, B;
 
   // ALU
-  logic [31:0] alu;
+  logic [31:0] ResultALU, ResultALUP, alu;
 
   /////////////////////////////
   // EX
@@ -225,7 +225,8 @@ module rv32im_pipeline #(
       .MemUnsigned (ctrl.MemUnsigned),   // THÊM
       .MemSize     (ctrl.MemSize),       // THÊM
       .RegWEn      (ctrl.RegWEn),
-      .WBSel       (ctrl.WBSel)
+      .WBSel       (ctrl.WBSel),
+      .rdSel       (ctrl.rdSel)
   );
 
   // ------------------------------
@@ -329,9 +330,24 @@ module rv32im_pipeline #(
     .A      (A),
     .B      (B),
     .ALUSel (ctrl_EX.ALUSel),
-    .alu    (alu)
+    .result    (ResultALU)
   );
 
+  // ------------------------------
+  // ALUP
+  // ------------------------------
+  ALUP u_alup (
+    .A      (A),
+    .B      (B),
+    .ALUSel (ctrl_EX.ALUSel),
+    .result    (ResultALUP)
+  );
+
+  unique case (ctrl_EX.rdSel)
+    RD_ALU: alu = ResultALU;
+    RD_ALUP: alu = ResultALUP;
+    default: alu = 32'h0;
+  endcase
   // ------------------------------
   // Branch Control
   // ------------------------------

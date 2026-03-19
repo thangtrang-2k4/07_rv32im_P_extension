@@ -12,7 +12,6 @@ module ImmGen (
          Imm_B : imm = { {19{inst_imm[24]}}, inst_imm[24], inst_imm[0], inst_imm[23:18], inst_imm[4:1], 1'b0 };
          Imm_U : imm = { inst_imm[24:5], 12'b0 };
          Imm_J : imm = { {11{inst_imm[24]}}, inst_imm[24], inst_imm[12:5], inst_imm[13], inst_imm[23:14], 1'b0 };
-         Imm_P : imm = { 28'b0, inst_imm[16:13]};
          default: imm = 32'b0;
       endcase
    end
