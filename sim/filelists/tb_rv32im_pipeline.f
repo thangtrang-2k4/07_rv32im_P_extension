@@ -1,6 +1,8 @@
 ../rtl/rv32_pkg.sv
+../rtl/adder_9bit.sv
 ../rtl/adder.sv
 ../rtl/alu.sv
+../rtl/alup.sv
 ../rtl/branch_comparator.sv
 ../rtl/control_logic.sv
 ../rtl/data_memory.sv
