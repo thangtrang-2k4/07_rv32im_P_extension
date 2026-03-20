@@ -1,4 +1,4 @@
-module Adder_9bit (
+module Adder_9Bit (
     input logic [8:0] A0, A1, A2, A3,
     input logic [8:0] B0, B1, B2, B3,
     input logic CarryIn0, CarryIn1, CarryIn2, CarryIn3,

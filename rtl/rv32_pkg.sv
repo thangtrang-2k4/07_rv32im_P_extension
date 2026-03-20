@@ -242,7 +242,8 @@ package rv32_pkg;
       MemUnsigned: 1'b0,       // không quan trọng
       MemSize    : 2'b10,      // mặc định word (LW)
       RegWEn     : 1'b0,       // ❗ không ghi register
-      WBSel      : WB_ALU
+      WBSel      : WB_ALU,
+      rdSel      : ALU_RESULT
   };
 
   localparam if_id_t IF_ID_BUBBLE = '{

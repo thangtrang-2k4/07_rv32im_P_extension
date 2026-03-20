@@ -31,14 +31,14 @@ module ALU (
   end
 
   always_comb begin
-    alu = 32'd0;                     // giá trị mặc định an toàn
+    result = 32'd0;                     // giá trị mặc định an toàn
     unique case (ALUSel)
    
 
       //ALU_SUB : alu = A - B;
 
       ALU_SLT  : result = {31'b0, $signed(A) <  $signed(B)};   // signed compare
-      ALU_SLTU :  = {31'b0, $unsigned(A) < $unsigned(B)}; // unsigned compare
+      ALU_SLTU : result = {31'b0, $unsigned(A) < $unsigned(B)}; // unsigned compare
 
       ALU_AND : result = A & B;
       ALU_OR  : result = A | B;

@@ -166,7 +166,7 @@ module ALUP(
                 CarryIn3 = 1'b1;
 
                 if(Sum0[8]==1'b1 && Sum0[7]==1'b0) begin
-                    Result0 = 9'sd-128; 
+                    Result0 = -9'sd128; 
                 end else if(Sum0[8]==1'b0 && Sum0[7]==1'b1) begin
                     Result0 = 9'sd127; 
                 end else begin
@@ -174,7 +174,7 @@ module ALUP(
                 end
 
                 if(Sum1[8]==1'b1 && Sum1[7]==1'b0) begin
-                    Result1 = 9'sd-128; 
+                    Result1 = -9'sd128; 
                 end else if(Sum1[8]==1'b0 && Sum1[7]==1'b1) begin
                     Result1 = 9'sd127; 
                 end else begin
@@ -182,7 +182,7 @@ module ALUP(
                 end
 
                 if(Sum2[8]==1'b1 && Sum2[7]==1'b0) begin
-                    Result2 = 9'sd-128; 
+                    Result2 = -9'sd128; 
                 end else if(Sum2[8]==1'b0 && Sum2[7]==1'b1) begin
                     Result2 = 9'sd127; 
                 end else begin
@@ -190,7 +190,7 @@ module ALUP(
                 end
 
                 if(Sum3[8]==1'b1 && Sum3[7]==1'b0) begin
-                    Result3 = 9'd-128; 
+                    Result3 = -9'sd128; 
                 end else if(Sum3[8]==1'b0 && Sum3[7]==1'b1) begin
                     Result3 = 9'sd127; 
                 end else begin

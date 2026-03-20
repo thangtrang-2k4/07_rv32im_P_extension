@@ -34,7 +34,7 @@ module Control_Logic (
      MemUnsigned = 1'b0;
      RegWEn = 1'b0;
      WBSel  = WB_ALU;
-     rdSel  = RD_ALU;
+     rdSel  = ALU_RESULT;
    
      unique case (opcode)
      
@@ -44,7 +44,7 @@ module Control_Logic (
         RegWEn = 1'b1;
         MemRW  = 1'b0;
         WBSel  = WB_ALU;
-        rdSel  = RD_ALUP;
+        rdSel  = ALUP_RESULT;
 
         unique case ({funct7, funct3})
 

@@ -342,12 +342,14 @@ module rv32im_pipeline #(
     .ALUSel (ctrl_EX.ALUSel),
     .result    (ResultALUP)
   );
-
-  unique case (ctrl_EX.rdSel)
-    RD_ALU: alu = ResultALU;
-    RD_ALUP: alu = ResultALUP;
-    default: alu = 32'h0;
-  endcase
+  
+  always_comb begin
+    unique case (ctrl_EX.rdSel)
+      ALU_RESULT: alu = ResultALU;
+      ALUP_RESULT: alu = ResultALUP;
+      default: alu = 32'h0;
+    endcase
+  end
   // ------------------------------
   // Branch Control
   // ------------------------------
