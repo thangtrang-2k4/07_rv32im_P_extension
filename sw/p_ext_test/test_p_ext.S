@@ -2,7 +2,7 @@
 .global _start
 
 _start:
-
+li a2, 0
 li t0, 0x01020304
 li t1, 0x11121314
 la t2, results
