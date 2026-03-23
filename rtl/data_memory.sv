@@ -1,6 +1,6 @@
 module Data_Memory #(
-    parameter int DEPTH_WORDS = 16384,
-    parameter logic [31:0] BASE_ADDR = 32'h8000_0000
+    parameter int DEPTH_WORDS = 16384
+    //parameter logic [31:0] BASE_ADDR = 32'h8000_0000
 )(
     input  logic        clk,
     input  logic        rst_n,
@@ -24,9 +24,9 @@ module Data_Memory #(
     logic [7:0] selected_byte;
     logic [15:0] selected_half;
 
-    //assign word_addr   = addr[31:2];
+    assign word_addr   = addr[31:2];
     //assign byte_offset = addr[1:0];
-    assign word_addr   = (addr - BASE_ADDR) >> 2;
+    //assign word_addr   = (addr - BASE_ADDR) >> 2;
     //assign word_addr   = addr >> 2;
     assign byte_offset = addr[1:0];
 

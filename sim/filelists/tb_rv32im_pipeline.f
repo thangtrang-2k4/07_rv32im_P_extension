@@ -15,6 +15,6 @@
 ../rtl/pc.sv
 ../rtl/pipe_reg.sv
 ../rtl/regfile.sv
-../rtl/rv32im_pipeline.sv
+../rtl/rv32imp_pipeline.sv
    
-../tb/tb_rv32im_pipeline.sv
+../tb/tb_rv32imp_pipeline.sv
