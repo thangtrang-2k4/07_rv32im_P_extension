@@ -1,0 +1,86 @@
+
+test_p_ext.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+80000000 <_start>:
+80000000:	00000613          	li	a2,0
+80000004:	010202b7          	lui	t0,0x1020
+80000008:	30428293          	addi	t0,t0,772 # 1020304 <_start-0x7efdfcfc>
+8000000c:	11121337          	lui	t1,0x11121
+80000010:	31430313          	addi	t1,t1,788 # 11121314 <_start-0x6eedecec>
+80000014:	00000397          	auipc	t2,0x0
+80000018:	0cc38393          	addi	t2,t2,204 # 800000e0 <results>
+8000001c:	84628e3b          	padd.b	t3,t0,t1
+80000020:	01c3a023          	sw	t3,0(t2)
+80000024:	00438393          	addi	t2,t2,4
+80000028:	80628e3b          	padd.h	t3,t0,t1
+8000002c:	01c3a023          	sw	t3,0(t2)
+80000030:	00438393          	addi	t2,t2,4
+80000034:	94628e3b          	psadd.b	t3,t0,t1
+80000038:	01c3a023          	sw	t3,0(t2)
+8000003c:	00438393          	addi	t2,t2,4
+80000040:	90628e3b          	psadd.h	t3,t0,t1
+80000044:	01c3a023          	sw	t3,0(t2)
+80000048:	00438393          	addi	t2,t2,4
+8000004c:	b4628e3b          	psaddu.b	t3,t0,t1
+80000050:	01c3a023          	sw	t3,0(t2)
+80000054:	00438393          	addi	t2,t2,4
+80000058:	b0628e3b          	psaddu.h	t3,t0,t1
+8000005c:	01c3a023          	sw	t3,0(t2)
+80000060:	00438393          	addi	t2,t2,4
+80000064:	c4628e3b          	psub.b	t3,t0,t1
+80000068:	01c3a023          	sw	t3,0(t2)
+8000006c:	00438393          	addi	t2,t2,4
+80000070:	c0628e3b          	psub.h	t3,t0,t1
+80000074:	01c3a023          	sw	t3,0(t2)
+80000078:	00438393          	addi	t2,t2,4
+8000007c:	d4628e3b          	pssub.b	t3,t0,t1
+80000080:	01c3a023          	sw	t3,0(t2)
+80000084:	00438393          	addi	t2,t2,4
+80000088:	d0628e3b          	pssub.h	t3,t0,t1
+8000008c:	01c3a023          	sw	t3,0(t2)
+80000090:	00438393          	addi	t2,t2,4
+80000094:	e062ee3b          	pmin.h	t3,t0,t1
+80000098:	01c3a023          	sw	t3,0(t2)
+8000009c:	00438393          	addi	t2,t2,4
+800000a0:	f062ee3b          	pmax.h	t3,t0,t1
+800000a4:	01c3a023          	sw	t3,0(t2)
+800000a8:	00438393          	addi	t2,t2,4
+800000ac:	e072ae1b          	psabs.h	t3,t0
+800000b0:	01c3a023          	sw	t3,0(t2)
+800000b4:	00438393          	addi	t2,t2,4
+800000b8:	e172ce1b          	psati.h	t3,t0,0x7
+800000bc:	01c3a023          	sw	t3,0(t2)
+800000c0:	00438393          	addi	t2,t2,4
+800000c4:	a172ce1b          	pusati.h	t3,t0,0x7
+800000c8:	01c3a023          	sw	t3,0(t2)
+800000cc:	00438393          	addi	t2,t2,4
+800000d0:	00000e93          	li	t4,0
+800000d4:	8862febb          	pmhacc.h	t4,t0,t1
+800000d8:	01d3a023          	sw	t4,0(t2)
+
+800000dc <loop>:
+800000dc:	0000006f          	j	800000dc <loop>
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	2d41                	.insn	2, 0x2d41
+   2:	0000                	.insn	2, 0x0000
+   4:	7200                	.insn	2, 0x7200
+   6:	7369                	.insn	2, 0x7369
+   8:	01007663          	bgeu	zero,a6,14 <_start-0x7fffffec>
+   c:	00000023          	sb	zero,0(zero) # 0 <_start-0x80000000>
+  10:	7205                	.insn	2, 0x7205
+  12:	3376                	.insn	2, 0x3376
+  14:	6932                	.insn	2, 0x6932
+  16:	7032                	.insn	2, 0x7032
+  18:	5f31                	.insn	2, 0x5f31
+  1a:	326d                	.insn	2, 0x326d
+  1c:	3070                	.insn	2, 0x3070
+  1e:	705f 7030 3531      	.insn	6, 0x35317030705f
+  24:	7a5f 6d6d 6c75      	.insn	6, 0x6c756d6d7a5f
+  2a:	7031                	.insn	2, 0x7031
+  2c:	0030                	.insn	2, 0x0030
