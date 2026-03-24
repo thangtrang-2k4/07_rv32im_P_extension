@@ -83,7 +83,9 @@ module Data_Memory #(
 
     // ---------------- WRITE ----------------
     always_ff @(posedge clk) begin
-        if (MemRW && addr >= BASE_ADDR && word_addr < DEPTH_WORDS) begin
+        //if (MemRW && addr >= BASE_ADDR && word_addr < DEPTH_WORDS) begin
+          if (MemRW && word_addr < DEPTH_WORDS) begin
+
             case (MemSize)
     
                 2'b00: begin
