@@ -111,7 +111,7 @@ module ALUP(
                     Result3 = Sum3;
                 end
 
-                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PSUB_B: begin
                 B0 = ~{B[7], B[7:0]};
@@ -230,7 +230,221 @@ module ALUP(
                     Result3 = Sum3;
                 end
 
-                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+            end
+            ALU_PADD_H: begin
+                //CarryIn0 = 1'b0;
+                CarryIn1 = CarryOut0;
+                //CarryIn2 = 1'b0;
+                CarryIn3 = CarryOut2;
+            end
+            // cần quan sát thêm bit dấu khi thực hiện phép cộng tràn số học với phần tử 8 bit (ALU_PADD_H) và phần tử 8 bit có dấu (ALU_PAADD_H)
+            ALU_PAADD_H: begin
+                //A0 = {A[7], A[7:0]};
+                A1 = {A[15], A[15:8]};
+                //A2 = {A[23], A[23:16]};
+                A3 = {A[31], A[31:24]};
+                //B0 = {B[7], B[7:0]};
+                B1 = {B[15], B[15:8]};
+                //B2 = {B[23], B[23:16]};
+                B3 = {B[31], B[31:24]};
+                //CarryIn0 = 1'b0;
+                CarryIn1 = CarryOut0;
+                //CarryIn2 = 1'b0;
+                CarryIn3 = CarryOut2;
+
+                result = {Result3[8:0], Result2[7:1], Result1[8:0], Result0[7:1]};
+            end
+            ALU_PAADDU_H: begin
+                //CarryIn0 = 1'b0;
+                CarryIn1 = CarryOut0;
+                //CarryIn2 = 1'b0;
+                CarryIn3 = CarryOut2;
+                result = {Result3[8:0], Result2[7:1], Result1[8:0], Result0[7:1]};
+            end
+            ALU_PSADD_H: begin
+
+                //A0 = {A[7], A[7:0]};
+                A1 = {A[15], A[15:8]};
+                //A2 = {A[23], A[23:16]};
+                A3 = {A[31], A[31:24]};
+                //B0 = {B[7], B[7:0]};
+                B1 = {B[15], B[15:8]};
+                //B2 = {B[23], B[23:16]};
+                B3 = {B[31], B[31:24]};
+                //CarryIn0 = 1'b0;
+                CarryIn1 = CarryOut0;
+                //CarryIn2 = 1'b0;
+                CarryIn3 = CarryOut2;
+                
+                if(Sum1[8] == 1'b1 && Sum1[7] == 1'b0) begin
+                    Result0 = 9'd0;
+                    Result1= -9'sd128;
+                end else if (Sum1[8] == 1'b0 && Sum1[7] == 1'b1) begin
+                    Result0 = 9'd255;
+                    Result1 = 9'sd127;
+                end else begin
+                    Result0 = Sum0;
+                    Result1 = Sum1;
+                end
+                if(Sum3[8] == 1'b1 && Sum3[7] == 1'b0) begin
+                    Result2 = 9'd0;
+                    Result3= -9'sd128;
+                end else if (Sum3[8] == 1'b0 && Sum3[7] == 1'b1) begin
+                    Result2 = 9'd255;
+                    Result3 = 9'sd127;
+                end else begin
+                    Result2 = Sum2;
+                    Result3 = Sum3;
+                end
+
+                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+            end
+            ALU_PSADDU_H: begin
+
+                //A0 = {A[7], A[7:0]};
+                A1 = {A[15], A[15:8]};
+                //A2 = {A[23], A[23:16]};
+                A3 = {A[31], A[31:24]};
+                //B0 = {B[7], B[7:0]};
+                B1 = {B[15], B[15:8]};
+                //B2 = {B[23], B[23:16]};
+                B3 = {B[31], B[31:24]};
+                //CarryIn0 = 1'b0;
+                CarryIn1 = CarryOut0;
+                //CarryIn2 = 1'b0;
+                CarryIn3 = CarryOut2;
+
+                if(Sum1[8] == 1'b1) begin
+                    Result0 = 9'd255;
+                    Result1 = 9'd255;
+                end else begin
+                    Result0 = Sum0;
+                    Result1 = Sum1;
+                end
+
+                if(Sum3[8] == 1'b1) begin
+                    Result2 = 9'd255;
+                    Result3 = 9'd255;
+                end else begin
+                    Result2 = Sum2;
+                    Result3 = Sum3;
+                end
+                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+            end
+            // Cần xem sét thêm bit dấu khi thực hiện phép trừ tràn số học với phần tử 8 bit (ALU_PSUB_H) và phần tử 8 bit có dấu (ALU_PASUB_H)
+            ALU_PSUB_H: begin
+                B0 = {1'b0, ~B[7:0]};
+                B1 = ~{B[15], B[15:8]};
+                B2 = {1'b0, ~B[23:16]};
+                B3 = ~{B[31], B[31:24]};
+                CarryIn0 = 1'b1;
+                CarryIn1 = CarryOut0;
+                CarryIn2 = 1'b1;
+                CarryIn3 = CarryOut2;
+            end
+            ALU_PASUB_H: begin
+                //A0 = {A[7], A[7:0]};
+                A1 = {A[15], A[15:8]};
+                //A2 = {A[23], A[23:16]};
+                A3 = {A[31], A[31:24]};
+                B0 = {1'b0, ~B[7:0]};
+                B1 = ~{B[15], B[15:8]};
+                B2 = {1'b0, ~B[23:16]};
+                B3 = ~{B[31], B[31:24]};
+                CarryIn0 = 1'b1;
+                CarryIn1 = CarryOut0;
+                CarryIn2 = 1'b1;
+                CarryIn3 = CarryOut2;
+
+                result = {Result3[8:0], Result2[7:1], Result1[8:0], Result0[7:1]};
+            end
+            // Cần xem sét thêm bit dấu khi thực hiện phép trừ tràn số học với phần tử 8 bit có dấu (ALU_PASUBU_H)
+            ALU_PASUBU_H: begin
+                //A0 = {A[7], A[7:0]};
+                //A1 = {A[15], A[15:8]};
+                //A2 = {A[23], A[23:16]};
+                //A3 = {A[31], A[31:24]};
+                B0 = {1'b0, ~B[7:0]};
+                B1 = ~{1'b0, B[15:8]};
+                B2 = {1'b0, ~B[23:16]};
+                B3 = ~{1'b0, B[31:24]};
+                CarryIn0 = 1'b1;
+                CarryIn1 = CarryOut0;
+                CarryIn2 = 1'b1;
+                CarryIn3 = CarryOut2;
+
+                result = {Result3[8:0], Result2[7:1], Result1[8:0], Result0[7:1]};
+
+            end
+            ALU_PSSUB_H: begin
+                //A0 = {A[7], A[7:0]};
+                A1 = {A[15], A[15:8]};
+                //A2 = {A[23], A[23:16]};
+                A3 = {A[31], A[31:24]};
+                B0 = {1'b0, ~B[7:0]};
+                B1 = ~{B[15], B[15:8]};
+                B2 = {1'b0, ~B[23:16]};
+                B3 = ~{B[31], B[31:24]};
+                CarryIn0 = 1'b1;
+                CarryIn1 = CarryOut0;
+                CarryIn2 = 1'b1;
+                CarryIn3 = CarryOut2;
+
+                if(Sum1[8] == 1'b1 && Sum1[7] == 1'b0) begin
+                    Result0 = 9'd0;
+                    Result1= -9'sd128;
+                end else if (Sum1[8] == 1'b0 && Sum1[7] == 1'b1) begin
+                    Result0 = 9'd255;
+                    Result1 = 9'sd127;
+                end else begin
+                    Result0 = Sum0;
+                    Result1 = Sum1;
+                end
+
+                if(Sum3[8] == 1'b1 && Sum3[7] == 1'b0) begin
+                    Result2 = 9'd0;
+                    Result3= -9'sd128;
+                end else if (Sum3[8] == 1'b0 && Sum3[7] == 1'b1) begin
+                    Result2 = 9'd255;
+                    Result3 = 9'sd127;
+                end else begin
+                    Result2 = Sum2;
+                    Result3 = Sum3;
+                end
+
+                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+            end
+            ALU_PSSUBU_H: begin
+                //A0 = {A[7], A[7:0]};
+                //A1 = {A[15], A[15:8]};
+                //A2 = {A[23], A[23:16]};
+                //A3 = {A[31], A[31:24]};
+                B0 = {1'b0, ~B[7:0]};
+                B1 = ~{1'b0, B[15:8]};
+                B2 = {1'b0, ~B[23:16]};
+                B3 = ~{1'b0, B[31:24]};
+                CarryIn0 = 1'b1;
+                CarryIn1 = CarryOut0;
+                CarryIn2 = 1'b1;
+                CarryIn3 = CarryOut2;
+
+                if(Sum1[8] == 1'b1) begin
+                    Result0 = 9'd0;
+                    Result1 = 9'd0;
+                end else begin
+                    Result0 = Sum0;
+                    Result1 = Sum1;
+                end
+                if(Sum3[8] == 1'b1) begin
+                    Result2 = 9'd0;
+                    Result3 = 9'd0;
+                end else begin
+                    Result2 = Sum2;
+                    Result3 = Sum3;
+                end
+
+                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             default: begin
             end
