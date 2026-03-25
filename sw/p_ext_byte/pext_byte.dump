@@ -1,0 +1,104 @@
+
+pext_byte.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+80000000 <.text>:
+80000000:	00000a17          	auipc	s4,0x0
+80000004:	130a0a13          	addi	s4,s4,304 # 80000130 <results>
+80000008:	fe10f537          	lui	a0,0xfe10f
+8000000c:	0f050513          	addi	a0,a0,240 # fe10f0f0 <results+0x7e10efc0>
+80000010:	01ff15b7          	lui	a1,0x1ff1
+80000014:	01158593          	addi	a1,a1,17 # 1ff1011 <results-0x7e00f11f>
+80000018:	84b5063b          	padd.b	a2,a0,a1
+8000001c:	00ca2023          	sw	a2,0(s4)
+80000020:	9b47e537          	lui	a0,0x9b47e
+80000024:	3b250513          	addi	a0,a0,946 # 9b47e3b2 <results+0x1b47e282>
+80000028:	2d98c5b7          	lui	a1,0x2d98c
+8000002c:	4ff58593          	addi	a1,a1,1279 # 2d98c4ff <results-0x52673c31>
+80000030:	84b5063b          	padd.b	a2,a0,a1
+80000034:	00ca2223          	sw	a2,4(s4)
+80000038:	9b47e537          	lui	a0,0x9b47e
+8000003c:	3b250513          	addi	a0,a0,946 # 9b47e3b2 <results+0x1b47e282>
+80000040:	2d98c5b7          	lui	a1,0x2d98c
+80000044:	4ff58593          	addi	a1,a1,1279 # 2d98c4ff <results-0x52673c31>
+80000048:	84b5063b          	padd.b	a2,a0,a1
+8000004c:	00ca2423          	sw	a2,8(s4)
+80000050:	7f804537          	lui	a0,0x7f804
+80000054:	7f8085b7          	lui	a1,0x7f808
+80000058:	9cb5063b          	paadd.b	a2,a0,a1
+8000005c:	00ca2623          	sw	a2,12(s4)
+80000060:	7f804537          	lui	a0,0x7f804
+80000064:	7f8085b7          	lui	a1,0x7f808
+80000068:	bcb5063b          	paaddu.b	a2,a0,a1
+8000006c:	00ca2823          	sw	a2,16(s4)
+80000070:	ffff8537          	lui	a0,0xffff8
+80000074:	04050513          	addi	a0,a0,64 # ffff8040 <results+0x7fff7f10>
+80000078:	020185b7          	lui	a1,0x2018
+8000007c:	08058593          	addi	a1,a1,128 # 2018080 <results-0x7dfe80b0>
+80000080:	b4b5063b          	psaddu.b	a2,a0,a1
+80000084:	00ca2a23          	sw	a2,20(s4)
+80000088:	fff1f537          	lui	a0,0xfff1f
+8000008c:	fdf50513          	addi	a0,a0,-33 # fff1efdf <results+0x7ff1eeaf>
+80000090:	000df5b7          	lui	a1,0xdf
+80000094:	30258593          	addi	a1,a1,770 # df302 <results-0x7ff20e2e>
+80000098:	c4b5063b          	psub.b	a2,a0,a1
+8000009c:	00ca2c23          	sw	a2,24(s4)
+800000a0:	7f808537          	lui	a0,0x7f808
+800000a4:	08050513          	addi	a0,a0,128 # 7f808080 <results-0x7f80b0>
+800000a8:	807f45b7          	lui	a1,0x807f4
+800000ac:	08058593          	addi	a1,a1,128 # 807f4080 <results+0x7f3f50>
+800000b0:	dcb5063b          	pasub.b	a2,a0,a1
+800000b4:	00ca2e23          	sw	a2,28(s4)
+800000b8:	7f808537          	lui	a0,0x7f808
+800000bc:	08150513          	addi	a0,a0,129 # 7f808081 <results-0x7f80af>
+800000c0:	807f45b7          	lui	a1,0x807f4
+800000c4:	00158593          	addi	a1,a1,1 # 807f4001 <results+0x7f3ed1>
+800000c8:	fcb5063b          	pasubu.b	a2,a0,a1
+800000cc:	02ca2023          	sw	a2,32(s4)
+800000d0:	00802537          	lui	a0,0x802
+800000d4:	0ff50513          	addi	a0,a0,255 # 8020ff <results-0x7f7fe031>
+800000d8:	818035b7          	lui	a1,0x81803
+800000dc:	00158593          	addi	a1,a1,1 # 81803001 <results+0x1802ed1>
+800000e0:	d4b5063b          	pssub.b	a2,a0,a1
+800000e4:	02ca2223          	sw	a2,36(s4)
+800000e8:	407f8537          	lui	a0,0x407f8
+800000ec:	18050513          	addi	a0,a0,384 # 407f8180 <results-0x3f807fb0>
+800000f0:	c07f85b7          	lui	a1,0xc07f8
+800000f4:	f0058593          	addi	a1,a1,-256 # c07f7f00 <results+0x407f7dd0>
+800000f8:	d4b5063b          	pssub.b	a2,a0,a1
+800000fc:	02ca2423          	sw	a2,40(s4)
+80000100:	50410537          	lui	a0,0x50410
+80000104:	f1050513          	addi	a0,a0,-240 # 5040ff10 <results-0x2fbf0220>
+80000108:	302005b7          	lui	a1,0x30200
+8000010c:	01058593          	addi	a1,a1,16 # 30200010 <results-0x4fe00120>
+80000110:	f4b5063b          	pssubu.b	a2,a0,a1
+80000114:	02ca2623          	sw	a2,44(s4)
+80000118:	0564a537          	lui	a0,0x564a
+8000011c:	0f050513          	addi	a0,a0,240 # 564a0f0 <results-0x7a9b6040>
+80000120:	1032b5b7          	lui	a1,0x1032b
+80000124:	0ff58593          	addi	a1,a1,255 # 1032b0ff <results-0x6fcd5031>
+80000128:	f4b5063b          	pssubu.b	a2,a0,a1
+8000012c:	02ca2823          	sw	a2,48(s4)
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	2d41                	.insn	2, 0x2d41
+   2:	0000                	.insn	2, 0x0000
+   4:	7200                	.insn	2, 0x7200
+   6:	7369                	.insn	2, 0x7369
+   8:	01007663          	bgeu	zero,a6,14 <results-0x8000011c>
+   c:	00000023          	sb	zero,0(zero) # 0 <results-0x80000130>
+  10:	7205                	.insn	2, 0x7205
+  12:	3376                	.insn	2, 0x3376
+  14:	6932                	.insn	2, 0x6932
+  16:	7032                	.insn	2, 0x7032
+  18:	5f31                	.insn	2, 0x5f31
+  1a:	326d                	.insn	2, 0x326d
+  1c:	3070                	.insn	2, 0x3070
+  1e:	705f 7030 3531      	.insn	6, 0x35317030705f
+  24:	7a5f 6d6d 6c75      	.insn	6, 0x6c756d6d7a5f
+  2a:	7031                	.insn	2, 0x7031
+  2c:	0030                	.insn	2, 0x0030
