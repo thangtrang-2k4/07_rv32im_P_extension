@@ -47,24 +47,24 @@ module ALUP(
 
         unique case(ALUSel)
 
-            ALU_ADD: begin
-                CarryIn0 = 1'b0;
-                CarryIn1 = CarryOut0;
-                CarryIn2 = CarryOut1;
-                CarryIn3 = CarryOut2;
-
-            end
-
-            ALU_SUB: begin // cần xem sét kỹ lại 
-                B0 = ~{1'b0, B[7:0]};
-                B1 = ~{1'b0, B[15:8]};
-                B2 = ~{1'b0, B[23:16]};
-                B3 = ~{1'b0, B[31:24]};
-                CarryIn0 = 1'b1;
-                CarryIn1 = CarryOut0;
-                CarryIn2 = CarryOut1;
-                CarryIn3 = CarryOut2;
-            end
+//            ALU_ADD: begin
+//                CarryIn0 = 1'b0;
+//                CarryIn1 = CarryOut0;
+//                CarryIn2 = CarryOut1;
+//                CarryIn3 = CarryOut2;
+//
+//            end
+//
+//            ALU_SUB: begin // cần xem sét kỹ lại 
+//                B0 = ~{1'b0, B[7:0]};
+//                B1 = ~{1'b0, B[15:8]};
+//                B2 = ~{1'b0, B[23:16]};
+//                B3 = ~{1'b0, B[31:24]};
+//                CarryIn0 = 1'b1;
+//                CarryIn1 = CarryOut0;
+//                CarryIn2 = CarryOut1;
+//                CarryIn3 = CarryOut2;
+//            end
 
             ALU_PADD_B: begin
                 //CarryIn0 = 1'b0;

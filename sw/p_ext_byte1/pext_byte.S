@@ -1,4 +1,4 @@
-la x20, results
+li x20, 0x80001000   # base addr dump
 
 # Test 1
 li x10, 0xFE10F0F0

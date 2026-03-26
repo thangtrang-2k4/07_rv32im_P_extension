@@ -35,7 +35,8 @@ module ALU (
     unique case (ALUSel)
    
 
-      //ALU_SUB : alu = A - B;
+      ALU_ADD : result = A + B;
+      ALU_SUB : result = A - B;
 
       ALU_SLT  : result = {31'b0, $signed(A) <  $signed(B)};   // signed compare
       ALU_SLTU : result = {31'b0, $unsigned(A) < $unsigned(B)}; // unsigned compare
