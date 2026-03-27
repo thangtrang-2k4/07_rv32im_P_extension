@@ -28,8 +28,8 @@ module tb_rv32imp_pipeline;
 
   initial begin
 
-    logic [31:0] golden [13];
-    logic [31:0] result [13];
+    logic [31:0] golden [102];
+    logic [31:0] result [102];
 
     int error;
 
@@ -76,7 +76,7 @@ module tb_rv32imp_pipeline;
   //  int base;
 //    base = 304; // 🔥 mapping address → index
   int base;
-base = 32'h00000130 >> 2;
+base = 32'h000007e0 >> 2;
     fd = $fopen(result_path, "w");
   
     for (int i = 0; i < 102; i++) begin
