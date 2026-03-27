@@ -1,0 +1,153 @@
+# vsim -voptargs="+acc" -debugDB -c tb_rv32imp_pipeline -l logs/rv32imp_pipeline.log -do "log -r /*; run -all; quit" 
+# Start time: 22:50:42 on Mar 27,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vsim-8611) Generating debug db.
+# ** Note: (vopt-4301) Memory core inferred for signal 'mem' width=32, depth=524288, type=RAM at location ../rtl/data_memory.sv:17
+# //  Questa Sim-64
+# //  Version 2021.2_1 linux_x86_64 May 15 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_rv32imp_pipeline(fast)
+# Loading work.rv32_pkg(fast)
+# Loading work.rv32imp_pipeline(fast)
+# Loading work.Program_Counter(fast)
+# Loading work.Adder(fast)
+# Loading work.IMem(fast)
+# Loading work.pipe_reg(fast)
+# Loading work.Decoder(fast)
+# Loading work.Control_Logic(fast)
+# Loading work.ImmGen(fast)
+# Loading work.RegFile(fast)
+# Loading work.pipe_reg(fast__1)
+# Loading work.pipe_reg(fast__2)
+# Loading work.pipe_reg(fast__3)
+# Loading work.pipe_reg(fast__4)
+# Loading work.Forwarding_Unit(fast)
+# Loading work.Branch_Comparator(fast)
+# Loading work.ALU(fast)
+# Loading work.ALUP(fast)
+# Loading work.Adder_9Bit(fast)
+# Loading work.PC_Selection(fast)
+# Loading work.Data_Memory(fast)
+# Loading work.Hazard_Detection(fast)
+# ** Note: (vsim-8900) Creating design debug database vsim.dbg.
+# log -r /*
+#  run -all
+# Match at address 800007e0: expected 00000000, got 00000000
+# Match at address 800007e4: expected 02030405, got 02030405
+# Match at address 800007e8: expected 00000000, got 00000000
+# Match at address 800007ec: expected ff0f0001, got ff0f0001
+# Match at address 800007f0: expected 80808080, got 80808080
+# Match at address 800007f4: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800007f8: expected 00000000, got 00000000
+# Match at address 800007fc: expected 02040608, got 02040608
+# Match at address 80000800: expected e0000000, got e0000000
+# Match at address 80000804: expected 80808080, got 80808080
+# Match at address 80000808: expected 7f80e000, got 7f80e000
+# Match at address 8000080c: expected 00000000, got 00000000
+# Match at address 80000810: expected 02040608, got 02040608
+# Match at address 80000814: expected ffffffff, got ffffffff
+# Match at address 80000818: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 8000081c: expected 7f806000, got 7f806000
+# Match at address 80000820: expected 00000000, got 00000000
+# Match at address 80000824: expected 06080a0c, got 06080a0c
+# Mismatch at address 80000828: expected ffffffff, got 00000000
+# Mismatch at address 8000082c: expected ffc0ffff, got 010000c0
+# Mismatch at address 80000830: expected 0000ffff, got 00000000
+# Mismatch at address 80000834: expected 04040000, got 04040404
+# Mismatch at address 80000838: expected ffff0404, got ffffffff
+# Match at address 8000083c: expected ffffffff, got ffffffff
+# Mismatch at address 80000840: expected fcddffff, got ffe4fcdd
+# Mismatch at address 80000844: expected 0000ffe4, got 00000000
+# Mismatch at address 80000848: expected 03030000, got 03030303
+# Mismatch at address 8000084c: expected 00000303, got 60000000
+# Mismatch at address 80000850: expected ffff6000, got ffffffff
+# Mismatch at address 80000854: expected a000ffff, got 7f80a000
+# Mismatch at address 80000858: expected 00007f80, got 00000000
+# Mismatch at address 8000085c: expected 03030000, got 03030303
+# Mismatch at address 80000860: expected ffff0303, got ffffffff
+# Mismatch at address 80000864: expected ff7fffff, got ff7fff7f
+# Mismatch at address 80000868: expected 2040ff7f, got ff002040
+# Mismatch at address 8000086c: expected 0000ff00, got 00000000
+# Mismatch at address 80000870: expected 0d0c0000, got 0f0e0d0c
+# Mismatch at address 80000874: expected 7f7f0f0e, got 7f7f7f7f
+# Mismatch at address 80000878: expected 80807f7f, got 80808080
+# Mismatch at address 8000087c: expected f0fe8080, got 7f00f0fe
+# Mismatch at address 80000880: expected 80807f00, got 7f008080
+# Mismatch at address 80000884: expected 00007f00, got 00000000
+# Mismatch at address 80000888: expected 40400000, got 40404040
+# Mismatch at address 8000088c: expected ffff4040, got 01010101
+# Mismatch at address 80000890: expected ff00ffff, got 2020ff00
+# Mismatch at address 80000894: expected ffff2020, got f532f0f1
+# Mismatch at address 80000898: expected 0000ff32, got 00000000
+# Mismatch at address 8000089c: expected 789a0000, got 2345789a
+# Mismatch at address 800008a0: expected 00002345, got 00010000
+# Mismatch at address 800008a4: expected 00030001, got 00010003
+# Mismatch at address 800008a8: expected fffe0001, got 0000fffe
+# Match at address 800008ac: expected 00000000, got 00000000
+# Mismatch at address 800008b0: expected 00000000, got xxxxxxxx
+# Mismatch at address 800008b4: expected 00000000, got xxxxxxxx
+# Mismatch at address 800008b8: expected 00000000, got xxxxxxxx
+# Mismatch at address 800008bc: expected 00000000, got xxxxxxxx
+# Mismatch at address 800008c0: expected 00000000, got xxxxxxxx
+# Mismatch at address 800008c4: expected 80000000, got 7fff8000
+# Mismatch at address 800008c8: expected ffff7fff, got e000ffff
+# Mismatch at address 800008cc: expected 2000e000, got 20002000
+# Mismatch at address 800008d0: expected 00002000, got 00000000
+# Match at address 800008d4: expected 00000000, got 00000000
+# Mismatch at address 800008d8: expected 80000000, got 7fff8000
+# Mismatch at address 800008dc: expected 34567fff, got 60003456
+# Mismatch at address 800008e0: expected ffff6000, got ffffffff
+# Mismatch at address 800008e4: expected 0000ffff, got 00000000
+# Match at address 800008e8: expected 00000000, got 00000000
+# Mismatch at address 800008ec: expected 90000000, got 00009000
+# Mismatch at address 800008f0: expected 7fff0000, got 80008000
+# Mismatch at address 800008f4: expected 80007fff, got 7fff8000
+# Mismatch at address 800008f8: expected 80008000, got 80007fff
+# Mismatch at address 800008fc: expected 00007fff, got 00000000
+# Mismatch at address 80000900: expected 70000000, got 30007000
+# Mismatch at address 80000904: expected ffff3000, got 50000000
+# Mismatch at address 80000908: expected ffff5000, got 80001000
+# Mismatch at address 8000090c: expected ffff8000, got 00000000
+# Mismatch at address 80000910: expected 0000ffff, got 00000000
+# Mismatch at address 80000914: expected fff00000, got 0830fff0
+# Mismatch at address 80000918: expected ffff0830, got ffffffff
+# Mismatch at address 8000091c: expected 7fffffff, got 00017fff
+# Mismatch at address 80000920: expected ffff0001, got ffffffff
+# Mismatch at address 80000924: expected 0000ffff, got 00000000
+# Mismatch at address 80000928: expected 80000000, got 7fff8000
+# Mismatch at address 8000092c: expected 2fff7fff, got a0002fff
+# Mismatch at address 80000930: expected 0000a000, got 00000000
+# Mismatch at address 80000934: expected ffff0000, got ffffffff
+# Mismatch at address 80000938: expected 0000ffff, got 00000000
+# Mismatch at address 8000093c: expected 40000000, got 20004000
+# Mismatch at address 80000940: expected ffff2000, got ffffffff
+# Mismatch at address 80000944: expected 0000ffff, got ffff0000
+# Mismatch at address 80000948: expected 7fffffff, got 7fff7fff
+# Mismatch at address 8000094c: expected 00007fff, got 00000000
+# Mismatch at address 80000950: expected 310f0000, got 2513310f
+# Mismatch at address 80000954: expected 7fff2513, got ffffffff
+# Mismatch at address 80000958: expected 80007fff, got 00010001
+# Mismatch at address 8000095c: expected 80008000, got ffff0001
+# Mismatch at address 80000960: expected 80007fff, got 20008000
+# Mismatch at address 80000964: expected 00002000, got 00000000
+# Mismatch at address 80000968: expected 20000000, got 20002000
+# Mismatch at address 8000096c: expected ffff2000, got 0fffeeef
+# Mismatch at address 80000970: expected ffff0fff, got bbbccf13
+# Match at address 80000974: expected 0000fffe, got 0000fffe
+#  FAIL: 79 mismatches
+# ** Note: $finish    : ../tb/tb_rv32imp_pipeline.sv(49)
+#    Time: 1000011 ns  Iteration: 0  Instance: /tb_rv32imp_pipeline
+# End time: 22:50:46 on Mar 27,2026, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0
