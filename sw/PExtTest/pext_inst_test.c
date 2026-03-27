@@ -7,9 +7,36 @@
 #include <string.h>
 #include <time.h>
 
-#include "a-core-utils.h"
-#include "a-core.h"
-#include "acore-gpio.h"
+#include "riscv_p_asm.h"
+
+
+// ================== ADD WRAPPER HERE ==================
+
+static inline uint32_t execute_paddb(uint32_t a, uint32_t b) {
+    uint32_t rd;
+    asm volatile ("paddb %0, %1, %2"
+        : "=r"(rd)
+        : "r"(a), "r"(b));
+    return rd;
+}
+
+static inline uint32_t execute_abs(uint32_t a) {
+    uint32_t rd;
+    asm volatile ("abs %0, %1"
+        : "=r"(rd)
+        : "r"(a));
+    return rd;
+}
+
+static inline uint32_t execute_srli(uint32_t a, int imm) {
+    uint32_t rd;
+    asm volatile ("srli %0, %1, %2"
+        : "=r"(rd)
+        : "r"(a), "i"(imm));
+    return rd;
+}
+
+// =====================================================
 
 
 static int tests_passed = 0;
@@ -19,70 +46,100 @@ void test_p_extension_instructions();
 
 //===============Macros for instruction types=================//
 // Test macro for 3-operand instructions: op rd, rs1, rs2
-#define TEST_INSTRUCTION(name, op, rs1_val, rs2_val, expected_rd) \
+//#define TEST_INSTRUCTION(name, op, rs1_val, rs2_val, expected_rd) \
+//do { \
+//    uint32_t rd; \
+//    asm volatile ( \
+//        op " %0, %1, %2" \
+//        : "=r" (rd) \
+//        : "r" (rs1_val), "r" (rs2_val) \
+//    ); \
+//    if (rd == expected_rd) { \
+//        tests_passed++; \
+//    } else { \
+//        tests_failed++; \
+//        printf("[FAIL] %s: rs1=0x%08x rs2=0x%08x | Expected 0x%08x Got 0x%08x\n", \
+//               name, rs1_val, rs2_val, (unsigned int)expected_rd, (unsigned int)rd); \
+//    } \
+//} while (0)
+#define TEST_INSTRUCTION(name, op, rs1, rs2, expected) \
 do { \
-    uint32_t rd; \
-    asm volatile ( \
-        op " %0, %1, %2" \
-        : "=r" (rd) \
-        : "r" (rs1_val), "r" (rs2_val) \
-    ); \
-    if (rd == expected_rd) { \
+    uint32_t rd = execute_##op(rs1, rs2); \
+    if (rd == expected) { \
         tests_passed++; \
     } else { \
         tests_failed++; \
         printf("[FAIL] %s: rs1=0x%08x rs2=0x%08x | Expected 0x%08x Got 0x%08x\n", \
-               name, rs1_val, rs2_val, (unsigned int)expected_rd, (unsigned int)rd); \
+               name, rs1, rs2, expected, rd); \
     } \
 } while (0)
-
 // Test macro for instructions with 2 operands: op rd, rs
-#define TEST_INSTRUCTION_SINGLE(name, op, rs_val, expected_rd) \
+//#define TEST_INSTRUCTION_SINGLE(name, op, rs_val, expected_rd) \
+//do { \
+//    uint32_t rd; \
+//    asm volatile ( \
+//        op " %0, %1" \
+//        : "=r" (rd) \
+//        : "r" (rs_val) \
+//    ); \
+//    if (rd == (expected_rd)) { \
+//        tests_passed++; \
+//    } else { \
+//        tests_failed++; \
+//        printf("[FAIL] %s: rs=0x%08X | Expected 0x%08X, Got 0x%08X\n", \
+//               name, (unsigned int)rs_val, (unsigned int)expected_rd, (unsigned int)rd); \
+//    } \
+//} while (0)
+#define TEST_INSTRUCTION_SINGLE(name, op, rs, expected) \
 do { \
-    uint32_t rd; \
-    asm volatile ( \
-        op " %0, %1" \
-        : "=r" (rd) \
-        : "r" (rs_val) \
-    ); \
-    if (rd == (expected_rd)) { \
+    uint32_t rd = execute_##op(rs); \
+    if (rd == expected) { \
         tests_passed++; \
     } else { \
         tests_failed++; \
         printf("[FAIL] %s: rs=0x%08X | Expected 0x%08X, Got 0x%08X\n", \
-               name, (unsigned int)rs_val, (unsigned int)expected_rd, (unsigned int)rd); \
+               name, rs, expected, rd); \
     } \
 } while (0)
-
 // Test macro for instructions with a register + immediate: op rd, rs, imm
-#define TEST_INSTRUCTION_IMM(name, op, rs_val, imm_val, expected_rd) \
+//#define TEST_INSTRUCTION_IMM(name, op, rs_val, imm_val, expected_rd) \
+//do { \
+//    uint32_t rd; \
+//    asm volatile ( \
+//        op " %0, %1, %2" \
+//        : "=r" (rd) \
+//        : "r" (rs_val), "i" (imm_val) \
+//    ); \
+//    if (rd == (expected_rd)) { \
+//        tests_passed++; \
+//    } else { \
+//        tests_failed++; \
+//        printf("[FAIL] %s: rs=0x%08X imm=%d | Expected 0x%08X, Got 0x%08X\n", \
+//               name, (unsigned int)rs_val, imm_val, (unsigned int)expected_rd, (unsigned int)rd); \
+//    } \
+//} while (0)
+#define TEST_INSTRUCTION_IMM(name, op, rs, imm, expected) \
 do { \
-    uint32_t rd; \
-    asm volatile ( \
-        op " %0, %1, %2" \
-        : "=r" (rd) \
-        : "r" (rs_val), "i" (imm_val) \
-    ); \
-    if (rd == (expected_rd)) { \
+    uint32_t rd = execute_##op(rs, imm); \
+    if (rd == expected) { \
         tests_passed++; \
     } else { \
         tests_failed++; \
         printf("[FAIL] %s: rs=0x%08X imm=%d | Expected 0x%08X, Got 0x%08X\n", \
-               name, (unsigned int)rs_val, imm_val, (unsigned int)expected_rd, (unsigned int)rd); \
+               name, rs, imm, expected, rd); \
     } \
 } while (0)
 
-
 //===============MAIN FUNCTION=================//
-void main() {
-    printf("Welcome to A-Core!\n");
-// Init UART
-    volatile uint32_t* uart_base_addr = (volatile uint32_t*) A_CORE_AXI4LUART;
-    init_uart(uart_base_addr, BAUDRATE);
+int main() {
+    printf("Start test...\n");
 
     test_p_extension_instructions();
 
-    test_pass();
+    printf("PASSED: %d\n", tests_passed);
+    printf("FAILED: %d\n", tests_failed);
+
+    return 0;
 }
 
 //===================TEST FUNCTIONS==================//
@@ -555,12 +612,10 @@ void test_p_extension_instructions() {
 
     printf("=== RISC-V P-Extension Instruction Tests ===\n");
     printf("\nTest Summary:\n");
-    printf("Passed: %d\n", tests_passed);
-    printf("Failed: %d\n", tests_failed);
     if(tests_failed == 0) {
-      test_pass();
+        printf("ALL TESTS PASSED\n");
     } else {
-      test_fail();
+        printf("SOME TESTS FAILED\n");
     }
 
 }
