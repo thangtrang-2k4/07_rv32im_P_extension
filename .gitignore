@@ -60,3 +60,12 @@ quartus/*.sof
 quartus/*.pof
 quartus/*.jdi
 quartus/*.smsg
+
+# =========================
+# Tài liệu tham khảo
+# =========================
+
+docs/*
+refcodes/*
+
+.agent/*
