@@ -480,17 +480,17 @@ _start:
 # PABS.H
 ##################################################
     li x10, 0x1234FFFD
-    pabs.h x12, x10
+    psabs.h x12, x10
     sw x12, 0(x20)
     addi x20, x20, 4
 
     li x10, 0xFFFFFFED
-    pabs.h x12, x10
+    psabs.h x12, x10
     sw x12, 0(x20)
     addi x20, x20, 4
 
     li x10, 0xFFFD1234
-    pabs.h x12, x10
+    psabs.h x12, x10
     sw x12, 0(x20)
     addi x20, x20, 4
 
