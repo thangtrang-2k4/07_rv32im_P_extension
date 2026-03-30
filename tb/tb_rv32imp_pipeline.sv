@@ -28,18 +28,18 @@ module tb_rv32imp_pipeline;
 
   initial begin
 
-    logic [31:0] golden [102];
-    logic [31:0] result [102];
+    logic [31:0] golden [65];
+    logic [31:0] result [65];
 
     int error;
 
     #10;
-    load_prog("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/pext_test/pext_test.hex");
-    load_golden("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/pext_test/golden.hex", golden);
+    load_prog("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/PExtTest/pext_alup_test.hex");
+    load_golden("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/PExtTest/golden.hex", golden);
 
     #1000000;
-    dump_result("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/pext_test/result.hex");
-    load_result("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/pext_test/result.hex", result);
+    dump_result("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/PExtTest/result.hex");
+    load_result("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/PExtTest/result.hex", result);
     #1;
     compare_result(golden, result, error);
     if (error == 0)
@@ -76,10 +76,10 @@ module tb_rv32imp_pipeline;
   //  int base;
 //    base = 304; // 🔥 mapping address → index
   int base;
-base = 32'h000007e0 >> 2;
+base = 32'h0000068c >> 2;
     fd = $fopen(result_path, "w");
   
-    for (int i = 0; i < 102; i++) begin
+    for (int i = 0; i < 65; i++) begin
       $fdisplay(fd, "%h", dut.u_dmem.mem[base + i]);
     end
   
@@ -93,13 +93,13 @@ base = 32'h000007e0 >> 2;
 
   task compare_result (input logic [31:0] golden [], input logic [31:0] result [], output int num_mismatch);
     num_mismatch = 0;
-    for (int i = 0; i < 102; i++) begin
+    for (int i = 0; i < 65; i++) begin
       if (golden[i] !== result[i]) begin
         num_mismatch++;
-        $display("Mismatch at address %0h: expected %h, got %h", 32'h800007e0 + i*4, golden[i], result[i]);
+        $display("Mismatch at address %0h: expected %h, got %h", 32'h8000068c + i*4, golden[i], result[i]);
       end
       else begin 
-        $display("Match at address %0h: expected %h, got %h", 32'h800007e0 + i*4, golden[i], result[i]);
+        $display("Match at address %0h: expected %h, got %h", 32'h8000068c + i*4, golden[i], result[i]);
       end
     end
   endtask

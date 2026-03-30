@@ -43,7 +43,6 @@ module ALUP(
         Result2 = Sum2;
         Result3 = Sum3;
 
-        result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
 
         unique case(ALUSel)
 
@@ -71,6 +70,8 @@ module ALUP(
                 //CarryIn1 = 1'b0;
                 //CarryIn2 = 1'b0;
                 //CarryIn3 = 1'b0;
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+
             end
             ALU_PAADD_B: begin
                 A0 = {A[7], A[7:0]};
@@ -111,7 +112,7 @@ module ALUP(
                     Result3 = Sum3;
                 end
 
-                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PSUB_B: begin
                 B0 = ~{B[7], B[7:0]};
@@ -122,6 +123,7 @@ module ALUP(
                 CarryIn1 = 1'b1;
                 CarryIn2 = 1'b1;
                 CarryIn3 = 1'b1;
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PASUB_B: begin
                 A0 = {A[7], A[7:0]};
@@ -230,13 +232,14 @@ module ALUP(
                     Result3 = Sum3;
                 end
 
-                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PADD_H: begin
                 //CarryIn0 = 1'b0;
                 CarryIn1 = CarryOut0;
                 //CarryIn2 = 1'b0;
                 CarryIn3 = CarryOut2;
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             // cần quan sát thêm bit dấu khi thực hiện phép cộng tràn số học với phần tử 8 bit (ALU_PADD_H) và phần tử 8 bit có dấu (ALU_PAADD_H)
             ALU_PAADD_H: begin
@@ -298,7 +301,7 @@ module ALUP(
                     Result3 = Sum3;
                 end
 
-                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             // Cần xem xét
             ALU_PSADDU_H: begin
@@ -321,7 +324,7 @@ module ALUP(
                     Result2 = Sum2;
                     Result3 = Sum3;
                 end
-                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             // Cần xem sét thêm bit dấu khi thực hiện phép trừ tràn số học với phần tử 8 bit (ALU_PSUB_H) và phần tử 8 bit có dấu (ALU_PASUB_H)
             ALU_PSUB_H: begin
@@ -333,6 +336,7 @@ module ALUP(
                 CarryIn1 = CarryOut0;
                 CarryIn2 = 1'b1;
                 CarryIn3 = CarryOut2;
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PASUB_H: begin
                 //A0 = {A[7], A[7:0]};
@@ -404,7 +408,7 @@ module ALUP(
                     Result3 = Sum3;
                 end
 
-                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PSSUBU_H: begin
                 //A0 = {A[7], A[7:0]};
@@ -435,7 +439,7 @@ module ALUP(
                     Result3 = Sum3;
                 end
 
-                //result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PAS_HX: begin
                 // rd_lo = a_even - b_odd
@@ -448,6 +452,7 @@ module ALUP(
                 B2 = {1'b0, B[7:0]};
                 B3 = {1'b0, B[15:8]};
                 CarryIn3 = CarryOut2;
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PAAS_HX: begin
                 A1 = {A[15], A[15:8]};
@@ -492,6 +497,7 @@ module ALUP(
                 end else if (Sum3[8] == 1'b0 && Sum3[7] == 1'b1) begin
                     Result2 = 9'd255; Result3 = 9'sd127;
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PSA_HX: begin
                 // rd_lo = a_even + b_odd
@@ -504,6 +510,7 @@ module ALUP(
                 B3 = ~{B[15], B[15:8]};
                 CarryIn2 = 1'b1;
                 CarryIn3 = CarryOut2;
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PASA_HX: begin
                 A1 = {A[15], A[15:8]};
@@ -548,6 +555,7 @@ module ALUP(
                 end else if (Sum3[8] == 1'b0 && Sum3[7] == 1'b1) begin
                     Result2 = 9'd255; Result3 = 9'sd127;
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PMSEQ_H: begin
                 B0 = {1'b0, ~B[7:0]};
@@ -566,6 +574,7 @@ module ALUP(
                 end else begin
                     Result3 = 9'd0; Result2 = 9'd0;
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PMSLT_H: begin
 
@@ -588,6 +597,7 @@ module ALUP(
                 end else begin
                     Result3 = 9'd0; Result2 = 9'd0;
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PMSLTU_H: begin
                 A1 = {A[15], A[15:8]};
@@ -609,6 +619,7 @@ module ALUP(
                 end else begin
                     Result3 = 9'd0; Result2 = 9'd0;
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PMIN_H: begin
                 A1 = {A[15], A[15:8]};
@@ -630,6 +641,7 @@ module ALUP(
                 end else begin
                     Result2 = {1'b0, B[23:16]}; Result3 = {1'b0, B[31:24]};
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PMINU_H: begin
                 A1 = {A[15], A[15:8]};
@@ -651,6 +663,7 @@ module ALUP(
                 end else begin
                     Result2 = {1'b0, B[23:16]}; Result3 = {1'b0, B[31:24]};
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PMAX_H: begin
                 A1 = {A[15], A[15:8]};
@@ -672,6 +685,7 @@ module ALUP(
                 end else begin
                     Result2 = {1'b0, A[23:16]}; Result3 = {1'b0, A[31:24]};
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PMAXU_H: begin
                 A1 = {A[15], A[15:8]};
@@ -693,6 +707,7 @@ module ALUP(
                 end else begin
                     Result2 = {1'b0, A[23:16]}; Result3 = {1'b0, A[31:24]};
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PSABS_H: begin
                 A0 = 9'd0; A1 = 9'd0; A2 = 9'd0; A3 = 9'd0;
@@ -718,6 +733,7 @@ module ALUP(
                 end else begin
                     Result2 = {1'b0, A[23:16]}; Result3 = {1'b0, A[31:24]};
                 end
+                result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             default: begin
             end

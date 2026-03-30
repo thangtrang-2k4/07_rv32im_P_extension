@@ -1,0 +1,116 @@
+# vsim -voptargs="+acc" -debugDB -c tb_rv32imp_pipeline -l logs/rv32imp_pipeline.log -do "log -r /*; run -all; quit" 
+# Start time: 22:29:17 on Mar 30,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vsim-8611) Generating debug db.
+# ** Note: (vopt-4301) Memory core inferred for signal 'mem' width=32, depth=524288, type=RAM at location ../rtl/data_memory.sv:17
+# //  Questa Sim-64
+# //  Version 2021.2_1 linux_x86_64 May 15 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_rv32imp_pipeline(fast)
+# Loading work.rv32_pkg(fast)
+# Loading work.rv32imp_pipeline(fast)
+# Loading work.Program_Counter(fast)
+# Loading work.Adder(fast)
+# Loading work.IMem(fast)
+# Loading work.pipe_reg(fast)
+# Loading work.Decoder(fast)
+# Loading work.Control_Logic(fast)
+# Loading work.ImmGen(fast)
+# Loading work.RegFile(fast)
+# Loading work.pipe_reg(fast__1)
+# Loading work.pipe_reg(fast__2)
+# Loading work.pipe_reg(fast__3)
+# Loading work.pipe_reg(fast__4)
+# Loading work.Forwarding_Unit(fast)
+# Loading work.Branch_Comparator(fast)
+# Loading work.ALU(fast)
+# Loading work.ALUP(fast)
+# Loading work.Adder_9Bit(fast)
+# Loading work.PC_Selection(fast)
+# Loading work.Data_Memory(fast)
+# Loading work.Hazard_Detection(fast)
+# ** Note: (vsim-8900) Creating design debug database vsim.dbg.
+# log -r /*
+#  run -all
+# Match at address 8000068c: expected ff0f0001, got ff0f0001
+# Match at address 80000690: expected c8dfa7b1, got c8dfa7b1
+# Match at address 80000694: expected c8dfa7b1, got c8dfa7b1
+# Match at address 80000698: expected 7f80e000, got 7f80e000
+# Match at address 8000069c: expected 7f806000, got 7f806000
+# Match at address 800006a0: expected ffffffc0, got ffffffc0
+# Match at address 800006a4: expected ffe4fcdd, got ffe4fcdd
+# Match at address 800006a8: expected 7f80a000, got 7f80a000
+# Match at address 800006ac: expected ff002040, got ff002040
+# Match at address 800006b0: expected 7f00f0fe, got 7f00f0fe
+# Match at address 800006b4: expected 7f008080, got 7f008080
+# Match at address 800006b8: expected 2020ff00, got 2020ff00
+# Mismatch at address 800006bc: expected ff32ffff, got 00320000
+# Match at address 800006c0: expected 2345789a, got 2345789a
+# Match at address 800006c4: expected 7fff8000, got 7fff8000
+# Match at address 800006c8: expected e000ffff, got e000ffff
+# Match at address 800006cc: expected 7fff8000, got 7fff8000
+# Match at address 800006d0: expected 60003456, got 60003456
+# Match at address 800006d4: expected 00009000, got 00009000
+# Match at address 800006d8: expected 7fff8000, got 7fff8000
+# Match at address 800006dc: expected 30007000, got 30007000
+# Match at address 800006e0: expected 5000ffff, got 5000ffff
+# Match at address 800006e4: expected 8000ffff, got 8000ffff
+# Match at address 800006e8: expected 0830fff0, got 0830fff0
+# Match at address 800006ec: expected 00017fff, got 00017fff
+# Match at address 800006f0: expected 7fff8000, got 7fff8000
+# Match at address 800006f4: expected a0002fff, got a0002fff
+# Match at address 800006f8: expected 20004000, got 20004000
+# Match at address 800006fc: expected ffff0000, got ffff0000
+# Match at address 80000700: expected 2513310f, got 2513310f
+# Match at address 80000704: expected 7fff8000, got 7fff8000
+# Match at address 80000708: expected 20008000, got 20008000
+# Mismatch at address 8000070c: expected 0fffffff, got 0fff0000
+# Mismatch at address 80000710: expected ffffffff, got 00000000
+# Match at address 80000714: expected 9ec35705, got 9ec35705
+# Match at address 80000718: expected 4f612b82, got 4f612b82
+# Match at address 8000071c: expected 7fff8000, got 7fff8000
+# Match at address 80000720: expected 8000a000, got 8000a000
+# Match at address 80000724: expected 3ec34705, got 3ec34705
+# Match at address 80000728: expected 7fff8000, got 7fff8000
+# Match at address 8000072c: expected 57059ec3, got 57059ec3
+# Match at address 80000730: expected 2b824f61, got 2b824f61
+# Match at address 80000734: expected 80007fff, got 80007fff
+# Match at address 80000738: expected a0008000, got a0008000
+# Match at address 8000073c: expected 47053ec3, got 47053ec3
+# Match at address 80000740: expected 80007fff, got 80007fff
+# Match at address 80000744: expected ffffffff, got ffffffff
+# Match at address 80000748: expected 00000000, got 00000000
+# Match at address 8000074c: expected ffffffff, got ffffffff
+# Match at address 80000750: expected 00000000, got 00000000
+# Mismatch at address 80000754: expected ffffffff, got 0000ffff
+# Mismatch at address 80000758: expected 00000000, got 0000ffff
+# Match at address 8000075c: expected 12348000, got 12348000
+# Match at address 80000760: expected e789ffff, got e789ffff
+# Match at address 80000764: expected 7fff0001, got 7fff0001
+# Mismatch at address 80000768: expected 12340001, got 7fff0001
+# Match at address 8000076c: expected 12340001, got 12340001
+# Match at address 80000770: expected 7fff0001, got 7fff0001
+# Match at address 80000774: expected 7fff0001, got 7fff0001
+# Match at address 80000778: expected 7fff0001, got 7fff0001
+# Mismatch at address 8000077c: expected 7fff8000, got 12348000
+# Match at address 80000780: expected ffffffff, got ffffffff
+# Mismatch at address 80000784: expected 12340003, got 00000000
+# Mismatch at address 80000788: expected 00010013, got 00000000
+# Mismatch at address 8000078c: expected 00031234, got 00000000
+#  FAIL: 10 mismatches
+# ** Note: $finish    : ../tb/tb_rv32imp_pipeline.sv(49)
+#    Time: 1000011 ns  Iteration: 0  Instance: /tb_rv32imp_pipeline
+# End time: 22:29:21 on Mar 30,2026, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0
