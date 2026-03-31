@@ -5,6 +5,8 @@ module Hazard_Detection (
 
   input  rv32_pkg::opcode_t opcode_EX,   // instruction ở EX
   input  logic [11:7]       rd_EX,    // rd của instruction ở EX
+  input  logic              is_mac_ID,   // 1 nếu lệnh ở ID là MAC
+  input  logic [4:0]        rd_ID,       // rd của instruction ở ID (ACC source cho MAC)
   output logic        stall
 );
   import rv32_pkg::*;
@@ -33,6 +35,7 @@ module Hazard_Detection (
   assign stall = (opcode_EX == OC_I_LOAD) &&
                  (rd_EX != 5'd0) &&
                  ( (use_rs1_ID && (rd_EX == rs1_ID)) ||
-                   (use_rs2_ID && (rd_EX == rs2_ID)) );
+                   (use_rs2_ID && (rd_EX == rs2_ID)) ||
+                   (is_mac_ID  && (rd_EX == rd_ID))  );
 
 endmodule

@@ -6,12 +6,14 @@ module RegFile #(
 
   input  logic [4:0]  rsR1,       // Địa chỉ nguồn 1
   input  logic [4:0]  rsR2,       // Địa chỉ nguồn 2
+  input  logic [4:0]  rsR3,       // Địa chỉ nguồn 3 (MAC accumulator)
   input  logic [4:0]  rsW,        // Địa chỉ ghi (write register)
   input  logic [31:0] dataW,      // Dữ liệu ghi
   input  logic        RegWEn,     // Cho phép ghi (Write Enable)
 
   output logic [31:0] dataR1,     // Dữ liệu đọc 1 (R[rsR1])
-  output logic [31:0] dataR2      // Dữ liệu đọc 2 (R[rsR2])
+  output logic [31:0] dataR2,     // Dữ liệu đọc 2 (R[rsR2])
+  output logic [31:0] dataR3      // Dữ liệu đọc 3 (R[rsR3] - MAC ACC)
 );
   
   //import rv32_pkg::*;
@@ -33,9 +35,12 @@ module RegFile #(
   // ----------------------------
   wire hitR1 = (WRITE_THROUGH && RegWEn && (rsW == rsR1) && (rsW != 0));
   wire hitR2 = (WRITE_THROUGH && RegWEn && (rsW == rsR2) && (rsW != 0));
+  wire hitR3 = (WRITE_THROUGH && RegWEn && (rsW == rsR3) && (rsW != 0));
 
   assign dataR1 = (rsR1 == 0) ? 32'b0 : (hitR1) ? dataW : rf[rsR1];
 
   assign dataR2 = (rsR2 == 0) ? 32'b0 : (hitR2) ? dataW : rf[rsR2];
+
+  assign dataR3 = (rsR3 == 0) ? 32'b0 : (hitR3) ? dataW : rf[rsR3];
 
 endmodule

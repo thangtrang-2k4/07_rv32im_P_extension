@@ -40,6 +40,7 @@ module ALUP(
     logic [15:0] clip_lower_limit;
     logic [15:0] mask_val_lo, mask_val_hi;
     logic pos_ov_lo, neg_ov_lo, pos_ov_hi, neg_ov_hi;
+    logic [15:0] Result01, Result23;
 
     always_comb begin
         mac_a0 = '0; mac_a1 = '0; mac_a2 = '0; mac_a3 = '0;
@@ -63,6 +64,9 @@ module ALUP(
         Result2 = Sum2;
         Result3 = Sum3;
 
+        result = 32'h0;
+        Result01 = 16'h0;
+        Result23 = 16'h0;
 
         unique case(ALUSel)
 

@@ -106,6 +106,11 @@ module Control_Logic (
             // ===== MAC =====
             10'b1000100_111: ALUSel = ALU_PMHACC_H;
 
+            // ===== 4x8 MAC =====
+            10'b1000101_101: ALUSel = ALU_PM4ADDA_B;
+            10'b1101101_101: ALUSel = ALU_PM4ADDASU_B;
+            10'b1010101_101: ALUSel = ALU_PM4ADDAU_B;
+
             default: ALUSel = ALU_ADD;
         endcase
        end 
@@ -115,6 +120,7 @@ module Control_Logic (
           RegWEn = 1'b1;
           MemRW  = 1'b0;
           WBSel  = WB_ALU;
+          rdSel  = ALUP_RESULT;
           ImmSel = Imm_P;
 
           unique case (funct7)

@@ -5,10 +5,13 @@ module Forwarding_Unit (
   input  rv32_pkg::WBSel_t WBSel_MEM,    // enum WB_MEM/WB_ALU/WB_PC4...
   input  logic [19:15]     rs1_EX,    // rs1 của instruction ở EX
   input  logic [24:20]     rs2_EX,    // rs2 của instruction
+  input  logic [4:0]       rd_EX,     // rd ở EX (ACC source cho MAC)
+  input  logic             is_mac_EX, // 1 nếu EX là lệnh MAC
   input  logic [11:7]      rd_MEM,
   input  logic [11:7]      rd_WB,
   output logic [1:0]       forwardA,
-  output logic [1:0]       forwardB
+  output logic [1:0]       forwardB,
+  output logic [1:0]       forwardACC
 );
   import rv32_pkg::*;
 
@@ -34,5 +37,14 @@ module Forwarding_Unit (
       forwardB = 2'b01;
     else
       forwardB = 2'b00;
+
+    // ACC (cho lệnh MAC: rd vừa là source vừa là dest)
+    forwardACC = 2'b00;
+    if (is_mac_EX) begin
+      if (allow_exmem_fwd && (rd_MEM!=5'd0) && (rd_MEM==rd_EX))
+        forwardACC = 2'b10;          // ALU result @EX/MEM
+      else if (RegWEn_WB && (rd_WB!=5'd0) && (rd_WB==rd_EX))
+        forwardACC = 2'b01;          // WBdata @MEM/WB
+    end
   end
 endmodule

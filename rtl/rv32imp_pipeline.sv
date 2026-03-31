@@ -94,6 +94,14 @@ module rv32imp_pipeline #(
   // ALU
   logic [31:0] ResultALU, ResultALUP, alu;
 
+  // MAC Accumulator
+  logic [31:0] dataR3;          // 3rd read port (rd as ACC source)
+  logic [31:0] rd_data_EX;      // piped rd value to EX stage
+  logic [1:0]  forwardACC;      // ACC forwarding control
+  logic [31:0] acc_fwd;         // ACC forwarded value
+  logic        is_mac_ID;       // MAC instruction at ID stage
+  logic        is_mac_EX;       // MAC instruction at EX stage
+
   /////////////////////////////
   // EX
   /////////////////////////////
@@ -246,11 +254,13 @@ module rv32imp_pipeline #(
     .rst_n (rst_n),
     .rsR1  (rs1_ID),
     .rsR2  (rs2_ID),
+    .rsR3  (rd_ID),       // đọc rd làm ACC source cho MAC
     .rsW   (rd_WB),
     .dataW (WBdata),
     .RegWEn(ctrl_WB.RegWEn),
     .dataR1(dataR1),
-    .dataR2(dataR2)
+    .dataR2(dataR2),
+    .dataR3(dataR3)
   );
 
   // ---------- ID/EX pipeline registers ----------
@@ -270,6 +280,8 @@ module rv32imp_pipeline #(
 
   // control -> EX
   pipe_reg #(.W($bits(ctrl_t))) u_ctrl_EX   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall | PCSel), .d(ctrl),      .bubble(CTRL_NOP),  .q(ctrl_EX));
+  // rd_data -> EX (MAC accumulator)
+  pipe_reg #(.W(32)) u_rddata_EX (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall), .d(dataR3), .bubble(32'b0), .q(rd_data_EX));
   // EX
 
   // ------------------------------
@@ -282,10 +294,13 @@ module rv32imp_pipeline #(
     .WBSel_MEM(ctrl_MEM.WBSel),
     .rs1_EX(rs1_EX),
     .rs2_EX(rs2_EX),
+    .rd_EX(rd_EX),
+    .is_mac_EX(is_mac_EX),
     .rd_MEM(rd_MEM),
     .rd_WB(rd_WB),
     .forwardA(forwardA),
-    .forwardB(forwardB)
+    .forwardB(forwardB),
+    .forwardACC(forwardACC)
   );
   // ------------------------------
   // Branch Comparator
@@ -334,12 +349,31 @@ module rv32imp_pipeline #(
   );
 
   // ------------------------------
+  // MAC Detection & ACC Forwarding
+  // ------------------------------
+  assign is_mac_EX = (ctrl_EX.ALUSel == ALU_PM4ADDA_B)  ||
+                     (ctrl_EX.ALUSel == ALU_PM4ADDASU_B) ||
+                     (ctrl_EX.ALUSel == ALU_PM4ADDAU_B);
+
+  assign is_mac_ID = (ctrl.ALUSel == ALU_PM4ADDA_B)  ||
+                     (ctrl.ALUSel == ALU_PM4ADDASU_B) ||
+                     (ctrl.ALUSel == ALU_PM4ADDAU_B);
+
+  always_comb begin
+    unique case (forwardACC)
+      2'b10:   acc_fwd = alu_MEM;      // forward từ EX/MEM
+      2'b01:   acc_fwd = WBdata;       // forward từ MEM/WB
+      default: acc_fwd = rd_data_EX;   // từ RegFile (pipe qua ID/EX)
+    endcase
+  end
+
+  // ------------------------------
   // ALUP
   // ------------------------------
   ALUP u_alup (
     .A      (A),
     .B      (B),
-    .ACC    (32'd0), // TODO: Cần nối rd_data từ Forwarding/Register File vào đây cho lệnh MAC
+    .ACC    (acc_fwd),
     .ALUSel (ctrl_EX.ALUSel),
     .result (ResultALUP)
   );
@@ -435,6 +469,8 @@ module rv32imp_pipeline #(
     .rs2_ID(rs2_ID),
     .opcode_EX(opcode_t'(opcode_EX)),
     .rd_EX(rd_EX),
+    .is_mac_ID(is_mac_ID),
+    .rd_ID(rd_ID),
     .stall(stall)
   );
 
