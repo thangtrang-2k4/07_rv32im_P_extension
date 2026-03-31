@@ -1,6 +1,7 @@
 module ALUP(
     input logic [31:0] A,
     input logic [31:0] B,
+    input logic [31:0] ACC, // 3rd operand for Multiply-Accumulate cases (rd_data)
     input rv32_pkg::ALUSel_t ALUSel,
     output logic [31:0] result
 );
@@ -23,7 +24,26 @@ module ALUP(
         .CarryOut0(CarryOut0), .CarryOut1(CarryOut1), .CarryOut2(CarryOut2), .CarryOut3(CarryOut3)
     );
 
+    logic signed [8:0] mac_a0, mac_a1, mac_a2, mac_a3;
+    logic signed [8:0] mac_b0, mac_b1, mac_b2, mac_b3;
+    logic [31:0] mac_out;
+
+    Mac8_Unit alupext_mac8 (
+        .A0(mac_a0), .A1(mac_a1), .A2(mac_a2), .A3(mac_a3),
+        .B0(mac_b0), .B1(mac_b1), .B2(mac_b2), .B3(mac_b3),
+        .ACC(ACC),
+        .MacOut(mac_out)
+    );
+
+    // P-Extension Clip operation variables
+    logic [15:0] clip_upper_limit;
+    logic [15:0] clip_lower_limit;
+    logic [15:0] mask_val_lo, mask_val_hi;
+    logic pos_ov_lo, neg_ov_lo, pos_ov_hi, neg_ov_hi;
+
     always_comb begin
+        mac_a0 = '0; mac_a1 = '0; mac_a2 = '0; mac_a3 = '0;
+        mac_b0 = '0; mac_b1 = '0; mac_b2 = '0; mac_b3 = '0;
         A0 = {1'b0, A[7:0]};
         A1 = {1'b0, A[15:8]};
         A2 = {1'b0, A[23:16]};
@@ -735,10 +755,94 @@ module ALUP(
                 end
                 result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
+            ALU_PSATI_H: begin
+                // Compute limits
+                clip_upper_limit = (16'd1 << B[3:0]) - 16'd1;
+                clip_lower_limit = ~(clip_upper_limit);
+
+                // Mask values (in & ~upperLimit)
+                mask_val_lo = A[15:0]  & clip_lower_limit; // clip_lower_limit == ~upperLimit
+                mask_val_hi = A[31:16] & clip_lower_limit;
+
+                // Detect overflow using SimdClip mask logic
+                pos_ov_lo = (mask_val_lo != 16'd0) && (A[15] == 1'b0);
+                neg_ov_lo = (mask_val_lo != clip_lower_limit) && (A[15] == 1'b1);
+                
+                pos_ov_hi = (mask_val_hi != 16'd0) && (A[31] == 1'b0);
+                neg_ov_hi = (mask_val_hi != clip_lower_limit) && (A[31] == 1'b1);
+
+                // Mux out the clamped value
+                Result01 = pos_ov_lo ? clip_upper_limit : (neg_ov_lo ? clip_lower_limit : A[15:0]);
+                Result23 = pos_ov_hi ? clip_upper_limit : (neg_ov_hi ? clip_lower_limit : A[31:16]);
+                
+                // vxsat update is ignored for now per user option 2
+                result = {Result23, Result01};
+            end
+            ALU_PUSATI_H: begin
+                // Compute limits
+                clip_upper_limit = (16'd1 << B[3:0]) - 16'd1;
+                clip_lower_limit = 16'd0;
+
+                // Mask values (in & ~upperLimit)
+                mask_val_lo = A[15:0]  & (~clip_upper_limit);
+                mask_val_hi = A[31:16] & (~clip_upper_limit);
+
+                // Detect overflow
+                // In unsigned clipping, any negative number (sign bit == 1) causes neg_ov!
+                pos_ov_lo = (mask_val_lo != 16'd0) && (A[15] == 1'b0);
+                neg_ov_lo = (A[15] == 1'b1);
+                
+                pos_ov_hi = (mask_val_hi != 16'd0) && (A[31] == 1'b0);
+                neg_ov_hi = (A[31] == 1'b1);
+
+                // Mux out
+                Result01 = pos_ov_lo ? clip_upper_limit : (neg_ov_lo ? clip_lower_limit : A[15:0]);
+                Result23 = pos_ov_hi ? clip_upper_limit : (neg_ov_hi ? clip_lower_limit : A[31:16]);
+                
+                result = {Result23, Result01};
+            end
+            ALU_PM4ADDA_B: begin
+                mac_a0 = $signed({A[7], A[7:0]}); mac_b0 = $signed({B[7], B[7:0]});
+                mac_a1 = $signed({A[15], A[15:8]}); mac_b1 = $signed({B[15], B[15:8]});
+                mac_a2 = $signed({A[23], A[23:16]}); mac_b2 = $signed({B[23], B[23:16]});
+                mac_a3 = $signed({A[31], A[31:24]}); mac_b3 = $signed({B[31], B[31:24]});
+                result = mac_out;
+            end
+            ALU_PM4ADDASU_B: begin
+                mac_a0 = $signed({A[7], A[7:0]}); mac_b0 = $signed({1'b0, B[7:0]});
+                mac_a1 = $signed({A[15], A[15:8]}); mac_b1 = $signed({1'b0, B[15:8]});
+                mac_a2 = $signed({A[23], A[23:16]}); mac_b2 = $signed({1'b0, B[23:16]});
+                mac_a3 = $signed({A[31], A[31:24]}); mac_b3 = $signed({1'b0, B[31:24]});
+                result = mac_out;
+            end
+            ALU_PM4ADDAU_B: begin
+                mac_a0 = $signed({1'b0, A[7:0]}); mac_b0 = $signed({1'b0, B[7:0]});
+                mac_a1 = $signed({1'b0, A[15:8]}); mac_b1 = $signed({1'b0, B[15:8]});
+                mac_a2 = $signed({1'b0, A[23:16]}); mac_b2 = $signed({1'b0, B[23:16]});
+                mac_a3 = $signed({1'b0, A[31:24]}); mac_b3 = $signed({1'b0, B[31:24]});
+                result = mac_out;
+            end
             default: begin
             end
 
         endcase
     end 
 
+endmodule
+
+module Mac8_Unit(
+    input  logic signed [8:0] A0, A1, A2, A3,
+    input  logic signed [8:0] B0, B1, B2, B3,
+    input  logic [31:0]       ACC,
+    output logic [31:0]       MacOut
+);
+    logic signed [31:0] sum0, sum1, sum2, sum3;
+    
+    always_comb begin
+        sum0 = 32'(A0 * B0);
+        sum1 = 32'(A1 * B1);
+        sum2 = 32'(A2 * B2);
+        sum3 = 32'(A3 * B3);
+        MacOut = ACC + sum0 + sum1 + sum2 + sum3;
+    end
 endmodule

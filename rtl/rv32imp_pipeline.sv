@@ -339,8 +339,9 @@ module rv32imp_pipeline #(
   ALUP u_alup (
     .A      (A),
     .B      (B),
+    .ACC    (32'd0), // TODO: Cần nối rd_data từ Forwarding/Register File vào đây cho lệnh MAC
     .ALUSel (ctrl_EX.ALUSel),
-    .result    (ResultALUP)
+    .result (ResultALUP)
   );
   
   always_comb begin

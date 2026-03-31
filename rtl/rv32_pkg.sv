@@ -71,7 +71,10 @@ package rv32_pkg;
     ALU_PSABS_H    = 7'b0111010,
     ALU_PSATI_H    = 7'b0111011,
     ALU_PUSATI_H   = 7'b0111100,
-    ALU_PMHACC_H   = 7'b0111101
+    ALU_PMHACC_H   = 7'b0111101,
+    ALU_PM4ADDA_B  = 7'b0111110,
+    ALU_PM4ADDASU_B= 7'b0111111,
+    ALU_PM4ADDAU_B = 7'b1000000
   } ALUSel_t;
 
   //PCSel 
