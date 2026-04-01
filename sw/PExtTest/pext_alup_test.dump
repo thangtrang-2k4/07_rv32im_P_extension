@@ -6,23 +6,23 @@ Disassembly of section .text:
 
 80000000 <_start>:
 80000000:	00000a17          	auipc	s4,0x0
-80000004:	68ca0a13          	addi	s4,s4,1676 # 8000068c <result_buffer>
+80000004:	788a0a13          	addi	s4,s4,1928 # 80000788 <result_buffer>
 80000008:	fe10f537          	lui	a0,0xfe10f
-8000000c:	0f050513          	addi	a0,a0,240 # fe10f0f0 <result_buffer+0x7e10ea64>
+8000000c:	0f050513          	addi	a0,a0,240 # fe10f0f0 <result_buffer+0x7e10e968>
 80000010:	01ff15b7          	lui	a1,0x1ff1
 80000014:	01158593          	addi	a1,a1,17 # 1ff1011 <_start-0x7e00efef>
 80000018:	84b5063b          	padd.b	a2,a0,a1
 8000001c:	00ca2023          	sw	a2,0(s4)
 80000020:	004a0a13          	addi	s4,s4,4
 80000024:	9b47e537          	lui	a0,0x9b47e
-80000028:	3b250513          	addi	a0,a0,946 # 9b47e3b2 <result_buffer+0x1b47dd26>
+80000028:	3b250513          	addi	a0,a0,946 # 9b47e3b2 <result_buffer+0x1b47dc2a>
 8000002c:	2d98c5b7          	lui	a1,0x2d98c
 80000030:	4ff58593          	addi	a1,a1,1279 # 2d98c4ff <_start-0x52673b01>
 80000034:	84b5063b          	padd.b	a2,a0,a1
 80000038:	00ca2023          	sw	a2,0(s4)
 8000003c:	004a0a13          	addi	s4,s4,4
 80000040:	9b47e537          	lui	a0,0x9b47e
-80000044:	3b250513          	addi	a0,a0,946 # 9b47e3b2 <result_buffer+0x1b47dd26>
+80000044:	3b250513          	addi	a0,a0,946 # 9b47e3b2 <result_buffer+0x1b47dc2a>
 80000048:	2d98c5b7          	lui	a1,0x2d98c
 8000004c:	4ff58593          	addi	a1,a1,1279 # 2d98c4ff <_start-0x52673b01>
 80000050:	84b5063b          	padd.b	a2,a0,a1
@@ -39,14 +39,14 @@ Disassembly of section .text:
 8000007c:	00ca2023          	sw	a2,0(s4)
 80000080:	004a0a13          	addi	s4,s4,4
 80000084:	ffff8537          	lui	a0,0xffff8
-80000088:	04050513          	addi	a0,a0,64 # ffff8040 <result_buffer+0x7fff79b4>
+80000088:	04050513          	addi	a0,a0,64 # ffff8040 <result_buffer+0x7fff78b8>
 8000008c:	020185b7          	lui	a1,0x2018
 80000090:	08058593          	addi	a1,a1,128 # 2018080 <_start-0x7dfe7f80>
 80000094:	b4b5063b          	psaddu.b	a2,a0,a1
 80000098:	00ca2023          	sw	a2,0(s4)
 8000009c:	004a0a13          	addi	s4,s4,4
 800000a0:	fff1f537          	lui	a0,0xfff1f
-800000a4:	fdf50513          	addi	a0,a0,-33 # fff1efdf <result_buffer+0x7ff1e953>
+800000a4:	fdf50513          	addi	a0,a0,-33 # fff1efdf <result_buffer+0x7ff1e857>
 800000a8:	000df5b7          	lui	a1,0xdf
 800000ac:	30258593          	addi	a1,a1,770 # df302 <_start-0x7ff20cfe>
 800000b0:	c4b5063b          	psub.b	a2,a0,a1
@@ -55,28 +55,28 @@ Disassembly of section .text:
 800000bc:	7f808537          	lui	a0,0x7f808
 800000c0:	08050513          	addi	a0,a0,128 # 7f808080 <_start-0x7f7f80>
 800000c4:	807f45b7          	lui	a1,0x807f4
-800000c8:	08058593          	addi	a1,a1,128 # 807f4080 <result_buffer+0x7f39f4>
+800000c8:	08058593          	addi	a1,a1,128 # 807f4080 <result_buffer+0x7f38f8>
 800000cc:	dcb5063b          	pasub.b	a2,a0,a1
 800000d0:	00ca2023          	sw	a2,0(s4)
 800000d4:	004a0a13          	addi	s4,s4,4
 800000d8:	7f808537          	lui	a0,0x7f808
 800000dc:	08150513          	addi	a0,a0,129 # 7f808081 <_start-0x7f7f7f>
 800000e0:	807f45b7          	lui	a1,0x807f4
-800000e4:	00158593          	addi	a1,a1,1 # 807f4001 <result_buffer+0x7f3975>
+800000e4:	00158593          	addi	a1,a1,1 # 807f4001 <result_buffer+0x7f3879>
 800000e8:	fcb5063b          	pasubu.b	a2,a0,a1
 800000ec:	00ca2023          	sw	a2,0(s4)
 800000f0:	004a0a13          	addi	s4,s4,4
 800000f4:	00802537          	lui	a0,0x802
 800000f8:	0ff50513          	addi	a0,a0,255 # 8020ff <_start-0x7f7fdf01>
 800000fc:	818035b7          	lui	a1,0x81803
-80000100:	00158593          	addi	a1,a1,1 # 81803001 <result_buffer+0x1802975>
+80000100:	00158593          	addi	a1,a1,1 # 81803001 <result_buffer+0x1802879>
 80000104:	d4b5063b          	pssub.b	a2,a0,a1
 80000108:	00ca2023          	sw	a2,0(s4)
 8000010c:	004a0a13          	addi	s4,s4,4
 80000110:	407f8537          	lui	a0,0x407f8
 80000114:	18050513          	addi	a0,a0,384 # 407f8180 <_start-0x3f807e80>
 80000118:	c07f85b7          	lui	a1,0xc07f8
-8000011c:	f0058593          	addi	a1,a1,-256 # c07f7f00 <result_buffer+0x407f7874>
+8000011c:	f0058593          	addi	a1,a1,-256 # c07f7f00 <result_buffer+0x407f7778>
 80000120:	d4b5063b          	pssub.b	a2,a0,a1
 80000124:	00ca2023          	sw	a2,0(s4)
 80000128:	004a0a13          	addi	s4,s4,4
@@ -121,7 +121,7 @@ Disassembly of section .text:
 800001c4:	40001537          	lui	a0,0x40001
 800001c8:	23450513          	addi	a0,a0,564 # 40001234 <_start-0x3fffedcc>
 800001cc:	800055b7          	lui	a1,0x80005
-800001d0:	67858593          	addi	a1,a1,1656 # 80005678 <result_buffer+0x4fec>
+800001d0:	67858593          	addi	a1,a1,1656 # 80005678 <result_buffer+0x4ef0>
 800001d4:	b8b5063b          	paaddu.h	a2,a0,a1
 800001d8:	00ca2023          	sw	a2,0(s4)
 800001dc:	004a0a13          	addi	s4,s4,4
@@ -168,18 +168,18 @@ Disassembly of section .text:
 80000280:	004a0a13          	addi	s4,s4,4
 80000284:	7fff8537          	lui	a0,0x7fff8
 80000288:	800085b7          	lui	a1,0x80008
-8000028c:	fff58593          	addi	a1,a1,-1 # 80007fff <result_buffer+0x7973>
+8000028c:	fff58593          	addi	a1,a1,-1 # 80007fff <result_buffer+0x7877>
 80000290:	d8b5063b          	pasub.h	a2,a0,a1
 80000294:	00ca2023          	sw	a2,0(s4)
 80000298:	004a0a13          	addi	s4,s4,4
 8000029c:	80008537          	lui	a0,0x80008
-800002a0:	fff50513          	addi	a0,a0,-1 # 80007fff <result_buffer+0x7973>
+800002a0:	fff50513          	addi	a0,a0,-1 # 80007fff <result_buffer+0x7877>
 800002a4:	400025b7          	lui	a1,0x40002
 800002a8:	d8b5063b          	pasub.h	a2,a0,a1
 800002ac:	00ca2023          	sw	a2,0(s4)
 800002b0:	004a0a13          	addi	s4,s4,4
 800002b4:	80008537          	lui	a0,0x80008
-800002b8:	00150513          	addi	a0,a0,1 # 80008001 <result_buffer+0x7975>
+800002b8:	00150513          	addi	a0,a0,1 # 80008001 <result_buffer+0x7879>
 800002bc:	400005b7          	lui	a1,0x40000
 800002c0:	00158593          	addi	a1,a1,1 # 40000001 <_start-0x3fffffff>
 800002c4:	f8b5063b          	pasubu.h	a2,a0,a1
@@ -187,7 +187,7 @@ Disassembly of section .text:
 800002cc:	004a0a13          	addi	s4,s4,4
 800002d0:	7fff8537          	lui	a0,0x7fff8
 800002d4:	800085b7          	lui	a1,0x80008
-800002d8:	fff58593          	addi	a1,a1,-1 # 80007fff <result_buffer+0x7973>
+800002d8:	fff58593          	addi	a1,a1,-1 # 80007fff <result_buffer+0x7877>
 800002dc:	f8b5063b          	pasubu.h	a2,a0,a1
 800002e0:	00ca2023          	sw	a2,0(s4)
 800002e4:	004a0a13          	addi	s4,s4,4
@@ -200,7 +200,7 @@ Disassembly of section .text:
 80000300:	004a0a13          	addi	s4,s4,4
 80000304:	7fff8537          	lui	a0,0x7fff8
 80000308:	800085b7          	lui	a1,0x80008
-8000030c:	fff58593          	addi	a1,a1,-1 # 80007fff <result_buffer+0x7973>
+8000030c:	fff58593          	addi	a1,a1,-1 # 80007fff <result_buffer+0x7877>
 80000310:	d0b5063b          	pssub.h	a2,a0,a1
 80000314:	00ca2023          	sw	a2,0(s4)
 80000318:	004a0a13          	addi	s4,s4,4
@@ -278,7 +278,7 @@ Disassembly of section .text:
 80000438:	00ca2023          	sw	a2,0(s4)
 8000043c:	004a0a13          	addi	s4,s4,4
 80000440:	80008537          	lui	a0,0x80008
-80000444:	fff50513          	addi	a0,a0,-1 # 80007fff <result_buffer+0x7973>
+80000444:	fff50513          	addi	a0,a0,-1 # 80007fff <result_buffer+0x7877>
 80000448:	7fff85b7          	lui	a1,0x7fff8
 8000044c:	fff58593          	addi	a1,a1,-1 # 7fff7fff <_start-0x8001>
 80000450:	9cb5663b          	pasa.hx	a2,a0,a1
@@ -297,7 +297,7 @@ Disassembly of section .text:
 80000484:	00ca2023          	sw	a2,0(s4)
 80000488:	004a0a13          	addi	s4,s4,4
 8000048c:	80008537          	lui	a0,0x80008
-80000490:	fff50513          	addi	a0,a0,-1 # 80007fff <result_buffer+0x7973>
+80000490:	fff50513          	addi	a0,a0,-1 # 80007fff <result_buffer+0x7877>
 80000494:	7fff05b7          	lui	a1,0x7fff0
 80000498:	00158593          	addi	a1,a1,1 # 7fff0001 <_start-0xffff>
 8000049c:	94b5663b          	pssa.hx	a2,a0,a1
@@ -313,7 +313,7 @@ Disassembly of section .text:
 800004c4:	12348537          	lui	a0,0x12348
 800004c8:	07f50513          	addi	a0,a0,127 # 1234807f <_start-0x6dcb7f81>
 800004cc:	807f15b7          	lui	a1,0x807f1
-800004d0:	23458593          	addi	a1,a1,564 # 807f1234 <result_buffer+0x7f0ba8>
+800004d0:	23458593          	addi	a1,a1,564 # 807f1234 <result_buffer+0x7f0aac>
 800004d4:	c0b5663b          	pmseq.h	a2,a0,a1
 800004d8:	00ca2023          	sw	a2,0(s4)
 800004dc:	004a0a13          	addi	s4,s4,4
@@ -337,7 +337,7 @@ Disassembly of section .text:
 80000524:	00ca2023          	sw	a2,0(s4)
 80000528:	004a0a13          	addi	s4,s4,4
 8000052c:	80015537          	lui	a0,0x80015
-80000530:	67850513          	addi	a0,a0,1656 # 80015678 <result_buffer+0x14fec>
+80000530:	67850513          	addi	a0,a0,1656 # 80015678 <result_buffer+0x14ef0>
 80000534:	432115b7          	lui	a1,0x43211
 80000538:	23458593          	addi	a1,a1,564 # 43211234 <_start-0x3cdeedcc>
 8000053c:	d8b5663b          	pmsltu.h	a2,a0,a1
@@ -352,7 +352,7 @@ Disassembly of section .text:
 80000560:	7fff0537          	lui	a0,0x7fff0
 80000564:	00150513          	addi	a0,a0,1 # 7fff0001 <_start-0xffff>
 80000568:	e78a05b7          	lui	a1,0xe78a0
-8000056c:	fff58593          	addi	a1,a1,-1 # e789ffff <result_buffer+0x6789f973>
+8000056c:	fff58593          	addi	a1,a1,-1 # e789ffff <result_buffer+0x6789f877>
 80000570:	e0b5663b          	pmin.h	a2,a0,a1
 80000574:	00ca2023          	sw	a2,0(s4)
 80000578:	004a0a13          	addi	s4,s4,4
@@ -370,7 +370,7 @@ Disassembly of section .text:
 800005a8:	00ca2023          	sw	a2,0(s4)
 800005ac:	004a0a13          	addi	s4,s4,4
 800005b0:	ffff0537          	lui	a0,0xffff0
-800005b4:	00150513          	addi	a0,a0,1 # ffff0001 <result_buffer+0x7ffef975>
+800005b4:	00150513          	addi	a0,a0,1 # ffff0001 <result_buffer+0x7ffef879>
 800005b8:	123505b7          	lui	a1,0x12350
 800005bc:	fff58593          	addi	a1,a1,-1 # 1234ffff <_start-0x6dcb0001>
 800005c0:	e8b5663b          	pminu.h	a2,a0,a1
@@ -385,7 +385,7 @@ Disassembly of section .text:
 800005e4:	7fff0537          	lui	a0,0x7fff0
 800005e8:	00150513          	addi	a0,a0,1 # 7fff0001 <_start-0xffff>
 800005ec:	e78a05b7          	lui	a1,0xe78a0
-800005f0:	fff58593          	addi	a1,a1,-1 # e789ffff <result_buffer+0x6789f973>
+800005f0:	fff58593          	addi	a1,a1,-1 # e789ffff <result_buffer+0x6789f877>
 800005f4:	f0b5663b          	pmax.h	a2,a0,a1
 800005f8:	00ca2023          	sw	a2,0(s4)
 800005fc:	004a0a13          	addi	s4,s4,4
@@ -403,7 +403,7 @@ Disassembly of section .text:
 8000062c:	00ca2023          	sw	a2,0(s4)
 80000630:	004a0a13          	addi	s4,s4,4
 80000634:	ffff0537          	lui	a0,0xffff0
-80000638:	00150513          	addi	a0,a0,1 # ffff0001 <result_buffer+0x7ffef975>
+80000638:	00150513          	addi	a0,a0,1 # ffff0001 <result_buffer+0x7ffef879>
 8000063c:	123505b7          	lui	a1,0x12350
 80000640:	fff58593          	addi	a1,a1,-1 # 1234ffff <_start-0x6dcb0001>
 80000644:	f8b5663b          	pmaxu.h	a2,a0,a1
@@ -419,17 +419,80 @@ Disassembly of section .text:
 8000066c:	00ca2023          	sw	a2,0(s4)
 80000670:	004a0a13          	addi	s4,s4,4
 80000674:	fffd1537          	lui	a0,0xfffd1
-80000678:	23450513          	addi	a0,a0,564 # fffd1234 <result_buffer+0x7ffd0ba8>
+80000678:	23450513          	addi	a0,a0,564 # fffd1234 <result_buffer+0x7ffd0aac>
 8000067c:	e075261b          	psabs.h	a2,a0
 80000680:	00ca2023          	sw	a2,0(s4)
 80000684:	004a0a13          	addi	s4,s4,4
+80000688:	12348537          	lui	a0,0x12348
+8000068c:	e135461b          	psati.h	a2,a0,0x3
+80000690:	00ca2023          	sw	a2,0(s4)
+80000694:	004a0a13          	addi	s4,s4,4
+80000698:	80001537          	lui	a0,0x80001
+8000069c:	23450513          	addi	a0,a0,564 # 80001234 <result_buffer+0xaac>
+800006a0:	e135461b          	psati.h	a2,a0,0x3
+800006a4:	00ca2023          	sw	a2,0(s4)
+800006a8:	004a0a13          	addi	s4,s4,4
+800006ac:	00050537          	lui	a0,0x50
+800006b0:	fff50513          	addi	a0,a0,-1 # 4ffff <_start-0x7ffb0001>
+800006b4:	e135461b          	psati.h	a2,a0,0x3
+800006b8:	00ca2023          	sw	a2,0(s4)
+800006bc:	004a0a13          	addi	s4,s4,4
+800006c0:	12348537          	lui	a0,0x12348
+800006c4:	a135461b          	pusati.h	a2,a0,0x3
+800006c8:	00ca2023          	sw	a2,0(s4)
+800006cc:	004a0a13          	addi	s4,s4,4
+800006d0:	8000f537          	lui	a0,0x8000f
+800006d4:	23450513          	addi	a0,a0,564 # 8000f234 <result_buffer+0xeaac>
+800006d8:	a135461b          	pusati.h	a2,a0,0x3
+800006dc:	00ca2023          	sw	a2,0(s4)
+800006e0:	004a0a13          	addi	s4,s4,4
+800006e4:	7fff0537          	lui	a0,0x7fff0
+800006e8:	00550513          	addi	a0,a0,5 # 7fff0005 <_start-0xfffb>
+800006ec:	a135461b          	pusati.h	a2,a0,0x3
+800006f0:	00ca2023          	sw	a2,0(s4)
+800006f4:	004a0a13          	addi	s4,s4,4
+800006f8:	00000613          	li	a2,0
+800006fc:	01010537          	lui	a0,0x1010
+80000700:	10150513          	addi	a0,a0,257 # 1010101 <_start-0x7efefeff>
+80000704:	010105b7          	lui	a1,0x1010
+80000708:	10158593          	addi	a1,a1,257 # 1010101 <_start-0x7efefeff>
+8000070c:	8cb5563b          	pm4adda.b	a2,a0,a1
+80000710:	00ca2023          	sw	a2,0(s4)
+80000714:	004a0a13          	addi	s4,s4,4
+80000718:	fff00513          	li	a0,-1
+8000071c:	010105b7          	lui	a1,0x1010
+80000720:	10158593          	addi	a1,a1,257 # 1010101 <_start-0x7efefeff>
+80000724:	8cb5563b          	pm4adda.b	a2,a0,a1
+80000728:	00ca2023          	sw	a2,0(s4)
+8000072c:	004a0a13          	addi	s4,s4,4
+80000730:	00000613          	li	a2,0
+80000734:	01010537          	lui	a0,0x1010
+80000738:	10150513          	addi	a0,a0,257 # 1010101 <_start-0x7efefeff>
+8000073c:	010105b7          	lui	a1,0x1010
+80000740:	10158593          	addi	a1,a1,257 # 1010101 <_start-0x7efefeff>
+80000744:	acb5563b          	pm4addau.b	a2,a0,a1
+80000748:	00ca2023          	sw	a2,0(s4)
+8000074c:	004a0a13          	addi	s4,s4,4
+80000750:	fff00513          	li	a0,-1
+80000754:	010105b7          	lui	a1,0x1010
+80000758:	10158593          	addi	a1,a1,257 # 1010101 <_start-0x7efefeff>
+8000075c:	acb5563b          	pm4addau.b	a2,a0,a1
+80000760:	00ca2023          	sw	a2,0(s4)
+80000764:	004a0a13          	addi	s4,s4,4
+80000768:	00a00613          	li	a2,10
+8000076c:	fff00513          	li	a0,-1
+80000770:	010105b7          	lui	a1,0x1010
+80000774:	10158593          	addi	a1,a1,257 # 1010101 <_start-0x7efefeff>
+80000778:	ecb5563b          	pm4addasu.b	a2,a0,a1
+8000077c:	00ca2023          	sw	a2,0(s4)
+80000780:	004a0a13          	addi	s4,s4,4
 
-80000688 <end>:
-80000688:	0000006f          	j	80000688 <end>
+80000784 <end>:
+80000784:	0000006f          	j	80000784 <end>
 
 Disassembly of section .data:
 
-8000068c <result_buffer>:
+80000788 <result_buffer>:
 	...
 
 Disassembly of section .riscv.attributes:
