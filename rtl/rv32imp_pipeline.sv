@@ -96,7 +96,7 @@ module rv32imp_pipeline #(
 
   // MAC Accumulator
   logic [31:0] dataR3;          // 3rd read port (rd as ACC source)
-  logic [31:0] rd_data_EX;      // piped rd value to EX stage
+  logic [31:0] dataR3_EX;      // piped rd value to EX stage
   logic [1:0]  forwardACC;      // ACC forwarding control
   logic [31:0] acc_fwd;         // ACC forwarded value
   logic        is_mac_ID;       // MAC instruction at ID stage
@@ -281,7 +281,7 @@ module rv32imp_pipeline #(
   // control -> EX
   pipe_reg #(.W($bits(ctrl_t))) u_ctrl_EX   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall | PCSel), .d(ctrl),      .bubble(CTRL_NOP),  .q(ctrl_EX));
   // rd_data -> EX (MAC accumulator)
-  pipe_reg #(.W(32)) u_rddata_EX (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall), .d(dataR3), .bubble(32'b0), .q(rd_data_EX));
+  pipe_reg #(.W(32)) u_rddata_EX (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall), .d(dataR3), .bubble(32'b0), .q(dataR3_EX));
   // EX
 
   // ------------------------------
@@ -363,7 +363,7 @@ module rv32imp_pipeline #(
     unique case (forwardACC)
       2'b10:   acc_fwd = alu_MEM;      // forward từ EX/MEM
       2'b01:   acc_fwd = WBdata;       // forward từ MEM/WB
-      default: acc_fwd = rd_data_EX;   // từ RegFile (pipe qua ID/EX)
+      default: acc_fwd = dataR3_EX;   // từ RegFile (pipe qua ID/EX)
     endcase
   end
 

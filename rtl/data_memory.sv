@@ -109,6 +109,9 @@ module Data_Memory #(
             endcase
         end
     end
+    initial begin
+         $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/dmem2.hex", mem);
+    end
 //    always_ff @(posedge clk) begin
 //        if (MemRW && (word_addr < DEPTH_WORDS)) begin
 //        //if (MemRW && addr >= BASE_ADDR && word_addr < DEPTH_WORDS) begin

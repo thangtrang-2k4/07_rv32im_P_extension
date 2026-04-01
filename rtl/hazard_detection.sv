@@ -2,6 +2,7 @@ module Hazard_Detection (
   input  rv32_pkg::opcode_t opcode_ID,   // instruction ở ID
   input  logic [19:15]      rs1_ID,    // rs1 của instruction ở ID
   input  logic [24:20]      rs2_ID,    // rs2 của
+  input  logic [11:7]       rd_ID,
 
   input  rv32_pkg::opcode_t opcode_EX,   // instruction ở EX
   input  logic [11:7]       rd_EX,    // rd của instruction ở EX

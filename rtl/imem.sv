@@ -28,9 +28,9 @@ module IMem #(
     end
 
     // Load program
-    //initial begin
-    //    $readmemh("/home/thang/Workspace/02_Verify/dut-core/06_rv32im_P_extension/sw/hazards_test/hazards_program_all.mem", inst_mem);
-    //end
+    initial begin
+        $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/fir2.hex", inst_mem);
+    end
 //    initial begin
 //        string program_path;
 //    
