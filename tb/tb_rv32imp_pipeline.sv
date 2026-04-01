@@ -28,8 +28,8 @@ module tb_rv32imp_pipeline;
 
   initial begin
 
-    logic [31:0] golden [65];
-    logic [31:0] result [65];
+    logic [31:0] golden [76];
+    logic [31:0] result [76];
 
     int error;
 
@@ -76,10 +76,10 @@ module tb_rv32imp_pipeline;
   //  int base;
 //    base = 304; // 🔥 mapping address → index
   int base;
-base = 32'h0000068c >> 2;
+base = 32'h00000788 >> 2;
     fd = $fopen(result_path, "w");
   
-    for (int i = 0; i < 65; i++) begin
+    for (int i = 0; i < 76; i++) begin
       $fdisplay(fd, "%h", dut.u_dmem.mem[base + i]);
     end
   
@@ -93,7 +93,7 @@ base = 32'h0000068c >> 2;
 
   task compare_result (input logic [31:0] golden [], input logic [31:0] result [], output int num_mismatch);
     num_mismatch = 0;
-    for (int i = 0; i < 65; i++) begin
+    for (int i = 0; i < 76; i++) begin
       if (golden[i] !== result[i]) begin
         num_mismatch++;
         $display("Mismatch at address %0h: expected %h, got %h", 32'h8000068c + i*4, golden[i], result[i]);

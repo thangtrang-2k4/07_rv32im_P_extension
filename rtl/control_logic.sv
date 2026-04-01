@@ -107,9 +107,9 @@ module Control_Logic (
             10'b1000100_111: ALUSel = ALU_PMHACC_H;
 
             // ===== 4x8 MAC =====
-            10'b1000101_101: ALUSel = ALU_PM4ADDA_B;
-            10'b1101101_101: ALUSel = ALU_PM4ADDASU_B;
-            10'b1010101_101: ALUSel = ALU_PM4ADDAU_B;
+            10'b1000110_101: ALUSel = ALU_PM4ADDA_B;
+            10'b1110110_101: ALUSel = ALU_PM4ADDASU_B;
+            10'b1010110_101: ALUSel = ALU_PM4ADDAU_B;
 
             default: ALUSel = ALU_ADD;
         endcase

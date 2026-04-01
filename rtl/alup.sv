@@ -64,7 +64,7 @@ module ALUP(
         Result2 = Sum2;
         Result3 = Sum3;
 
-        result = 32'h0;
+        result = 32'h00000013;
         Result01 = 16'h0;
         Result23 = 16'h0;
 
