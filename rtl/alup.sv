@@ -799,10 +799,10 @@ module ALUP(
             end
             ALU_PSABS_H: begin
                 A0 = 9'd0; A1 = 9'd0; A2 = 9'd0; A3 = 9'd0;
-                B0 = {1'b0, ~B[7:0]};
-                B1 = ~{B[15], B[15:8]};
-                B2 = {1'b0, ~B[23:16]};
-                B3 = ~{B[31], B[31:24]};
+                B0 = {1'b0, ~A[7:0]};
+                B1 = ~{A[15], A[15:8]};
+                B2 = {1'b0, ~A[23:16]};
+                B3 = ~{A[31], A[31:24]};
                 CarryIn0 = 1'b1; CarryIn1 = CarryOut0;
                 CarryIn2 = 1'b1; CarryIn3 = CarryOut2;
 
