@@ -638,7 +638,7 @@ module ALUP(
                 if((A[15] === B[15]) && (Sum1[7] === 1'b1)) begin
                     Result0 = 9'd255;
                     Result1 = 9'd255;
-                end if ( !(A[15]) && B[15]) begin
+                end else if ( !(A[15]) && B[15]) begin
                     Result0 = 9'd255;
                     Result1 = 9'd255;
                 end else begin
@@ -648,7 +648,7 @@ module ALUP(
                 if((A[31] === B[31]) && (Sum3[7] === 1'b1)) begin
                     Result2 = 9'd255;
                     Result3 = 9'd255;
-                end if ( !(A[31]) && B[31]) begin
+                end else if ( !(A[31]) && B[31]) begin
                     Result2 = 9'd255;
                     Result3 = 9'd255;
                 end else begin
@@ -699,16 +699,37 @@ module ALUP(
                 B3 = ~{B[31], B[31:24]};
                 CarryIn0 = 1'b1; CarryIn1 = CarryOut0;
                 CarryIn2 = 1'b1; CarryIn3 = CarryOut2;
-                if (~Sum1[8]) begin
-                    Result0 = {1'b0, A[7:0]}; Result1 = {1'b0, A[15:8]};
+
+                if((A[15] === B[15]) && (Sum1[7] === 1'b1)) begin
+                    Result0 = A[7:0];
+                    Result1 = A[15:8];
+                end else if ( !(A[15]) && B[15]) begin
+                    Result0 = A[7:0];
+                    Result1 = A[15:8];
                 end else begin
-                    Result0 = {1'b0, B[7:0]}; Result1 = {1'b0, B[15:8]};
+                    Result0 = B[7:0];
+                    Result1 = B[15:8];
                 end
-                if (~Sum3[8]) begin
-                    Result2 = {1'b0, A[23:16]}; Result3 = {1'b0, A[31:24]};
+                if((A[31] === B[31]) && (Sum3[7] === 1'b1)) begin
+                    Result2 = A[23:16];
+                    Result3 = A[31:24];
+                end else if ( !(A[31]) && B[31]) begin
+                    Result2 = A[23:16];
+                    Result3 = A[31:24];
                 end else begin
-                    Result2 = {1'b0, B[23:16]}; Result3 = {1'b0, B[31:24]};
+                    Result2 = B[23:16];
+                    Result3 = B[31:24];
                 end
+                //if (~Sum1[8]) begin
+                //    Result0 = {1'b0, A[7:0]}; Result1 = {1'b0, A[15:8]};
+                //end else begin
+                //    Result0 = {1'b0, B[7:0]}; Result1 = {1'b0, B[15:8]};
+                //end
+                //if (~Sum3[8]) begin
+                //    Result2 = {1'b0, A[23:16]}; Result3 = {1'b0, A[31:24]};
+                //end else begin
+                //    Result2 = {1'b0, B[23:16]}; Result3 = {1'b0, B[31:24]};
+                //end
                 result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PMAX_H: begin
@@ -721,6 +742,7 @@ module ALUP(
                 B3 = ~{B[31], B[31:24]};
                 CarryIn0 = 1'b1; CarryIn1 = CarryOut0;
                 CarryIn2 = 1'b1; CarryIn3 = CarryOut2;
+
                 if (Sum1[7] ^ ((A[15] ^ B[15]) & (A[15] ^ Sum1[7]))) begin // A < B
                     Result0 = {1'b0, B[7:0]}; Result1 = {1'b0, B[15:8]};
                 end else begin
@@ -743,16 +765,36 @@ module ALUP(
                 B3 = ~{B[31], B[31:24]};
                 CarryIn0 = 1'b1; CarryIn1 = CarryOut0;
                 CarryIn2 = 1'b1; CarryIn3 = CarryOut2;
-                if (~Sum1[8]) begin
-                    Result0 = {1'b0, B[7:0]}; Result1 = {1'b0, B[15:8]};
+                if((A[15] === B[15]) && (Sum1[7] === 1'b1)) begin
+                    Result0 = B[7:0];
+                    Result1 = B[15:8];
+                end else if ( !(A[15]) && B[15]) begin
+                    Result0 = B[7:0];
+                    Result1 = B[15:8];
                 end else begin
-                    Result0 = {1'b0, A[7:0]}; Result1 = {1'b0, A[15:8]};
+                    Result0 = A[7:0];
+                    Result1 = A[15:8];
                 end
-                if (~Sum3[8]) begin
-                    Result2 = {1'b0, B[23:16]}; Result3 = {1'b0, B[31:24]};
+                if((A[31] === B[31]) && (Sum3[7] === 1'b1)) begin
+                    Result2 = B[23:16];
+                    Result3 = B[31:24];
+                end else if ( !(A[31]) && B[31]) begin
+                    Result2 = B[23:16];
+                    Result3 = B[31:24];
                 end else begin
-                    Result2 = {1'b0, A[23:16]}; Result3 = {1'b0, A[31:24]};
+                    Result2 = A[23:16];
+                    Result3 = A[31:24];
                 end
+                //if (~Sum1[8]) begin
+                //    Result0 = {1'b0, B[7:0]}; Result1 = {1'b0, B[15:8]};
+                //end else begin
+                //    Result0 = {1'b0, A[7:0]}; Result1 = {1'b0, A[15:8]};
+                //end
+                //if (~Sum3[8]) begin
+                //    Result2 = {1'b0, B[23:16]}; Result3 = {1'b0, B[31:24]};
+                //end else begin
+                //    Result2 = {1'b0, A[23:16]}; Result3 = {1'b0, A[31:24]};
+                //end
                 result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PSABS_H: begin
@@ -764,21 +806,45 @@ module ALUP(
                 CarryIn0 = 1'b1; CarryIn1 = CarryOut0;
                 CarryIn2 = 1'b1; CarryIn3 = CarryOut2;
 
-                if (A[15:0] == 16'h8000) begin
-                    Result1 = 9'h07F; Result0 = 9'h0FF;
-                end else if (A[15] == 1'b1) begin
-                    Result1 = Sum1; Result0 = Sum0;
+                if(A[15] === 1'b0) begin
+                    Result0 = A[7:0];
+                    Result1 = A[15:8];
                 end else begin
-                    Result0 = {1'b0, A[7:0]}; Result1 = {1'b0, A[15:8]};
+                    if( A[15:0] === -16'sd32768) begin
+                        Result0 = 9'd255;
+                        Result1 = 9'd127;
+                    end else begin
+                        Result0 = Sum0;
+                        Result1 = Sum1;
+                    end
                 end
+                if(A[31] === 1'b0) begin
+                    Result2 = A[23:16];
+                    Result3 = A[31:24];
+                end else begin
+                    if( A[31:16] === -16'sd32768) begin
+                        Result2 = 9'd255;
+                        Result3 = 9'd127;
+                    end else begin
+                        Result2 = Sum2;
+                        Result3 = Sum3;
+                    end
+                end
+                //if (A[15:0] == 16'h8000) begin
+                //    Result1 = 9'h07F; Result0 = 9'h0FF;
+                //end else if (A[15] == 1'b1) begin
+                //    Result1 = Sum1; Result0 = Sum0;
+                //end else begin
+                //    Result0 = {1'b0, A[7:0]}; Result1 = {1'b0, A[15:8]};
+                //end
 
-                if (A[31:16] == 16'h8000) begin
-                    Result3 = 9'h07F; Result2 = 9'h0FF;
-                end else if (A[31] == 1'b1) begin
-                    Result3 = Sum3; Result2 = Sum2;
-                end else begin
-                    Result2 = {1'b0, A[23:16]}; Result3 = {1'b0, A[31:24]};
-                end
+                //if (A[31:16] == 16'h8000) begin
+                //    Result3 = 9'h07F; Result2 = 9'h0FF;
+                //end else if (A[31] == 1'b1) begin
+                //    Result3 = Sum3; Result2 = Sum2;
+                //end else begin
+                //    Result2 = {1'b0, A[23:16]}; Result3 = {1'b0, A[31:24]};
+                //end
                 result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PSATI_H: begin
