@@ -42,6 +42,7 @@ module ALUP(
     logic pos_ov_lo, neg_ov_lo, pos_ov_hi, neg_ov_hi;
     logic [15:0] Result01, Result23;
 
+
     always_comb begin
         mac_a0 = '0; mac_a1 = '0; mac_a2 = '0; mac_a3 = '0;
         mac_b0 = '0; mac_b1 = '0; mac_b2 = '0; mac_b3 = '0;
@@ -633,16 +634,37 @@ module ALUP(
                 B3 = ~{B[31], B[31:24]};
                 CarryIn0 = 1'b1; CarryIn1 = CarryOut0;
                 CarryIn2 = 1'b1; CarryIn3 = CarryOut2;
-                if (~Sum1[8]) begin
-                    Result1 = 9'h0FF; Result0 = 9'h0FF;
+
+                if((A[15] === B[15]) && (Sum1[7] === 1'b1)) begin
+                    Result0 = 9'd255;
+                    Result1 = 9'd255;
+                end if ( !(A[15]) && B[15]) begin
+                    Result0 = 9'd255;
+                    Result1 = 9'd255;
                 end else begin
-                    Result1 = 9'd0; Result0 = 9'd0;
+                    Result0 = 9'd0;
+                    Result1 = 9'd0;
                 end
-                if (~Sum3[8]) begin
-                    Result3 = 9'h0FF; Result2 = 9'h0FF;
+                if((A[31] === B[31]) && (Sum3[7] === 1'b1)) begin
+                    Result2 = 9'd255;
+                    Result3 = 9'd255;
+                end if ( !(A[31]) && B[31]) begin
+                    Result2 = 9'd255;
+                    Result3 = 9'd255;
                 end else begin
-                    Result3 = 9'd0; Result2 = 9'd0;
+                    Result2 = 9'd0;
+                    Result3 = 9'd0;
                 end
+                //if (~Sum1[8]) begin
+                //    Result1 = 9'h0FF; Result0 = 9'h0FF;
+                //end else begin
+                //    Result1 = 9'd0; Result0 = 9'd0;
+                //end
+                //if (~Sum3[8]) begin
+                //    Result3 = 9'h0FF; Result2 = 9'h0FF;
+                //end else begin
+                //    Result3 = 9'd0; Result2 = 9'd0;
+                //end
                 result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
             end
             ALU_PMIN_H: begin

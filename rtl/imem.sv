@@ -27,10 +27,10 @@ module IMem #(
             inst = 32'h00000013; // NOP
     end
 
-    // Load program
-    initial begin
-        $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/fir2.hex", inst_mem);
-    end
+//    // Load program
+//    initial begin
+//        $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/fir2.hex", inst_mem);
+//    end
 //    initial begin
 //        string program_path;
 //    
