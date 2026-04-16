@@ -6,7 +6,7 @@ Disassembly of section .text:
 
 80000000 <_start>:
 80000000:	00000a17          	auipc	s4,0x0
-80000004:	178a0a13          	addi	s4,s4,376 # 80000178 <result_buffer>
+80000004:	178a0a13          	addi	s4,s4,376 #  <result_buffer>
 80000008:	00000613          	li	a2,0
 8000000c:	01010537          	lui	a0,0x1010
 80000010:	10150513          	addi	a0,a0,257 # 1010101 <_start-0x7efefeff>
