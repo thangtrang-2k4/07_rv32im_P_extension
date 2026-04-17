@@ -1,6 +1,6 @@
 module IMem #(
     parameter int DEPTH_WORDS = 16384
-    //parameter logic [31:0] BASE_ADDR = 32'h8000_0000
+    parameter logic [31:0] BASE_ADDR = 32'h8000_0000
 )(
     input  logic        rst_n,
     input  logic [31:0] addr,
@@ -13,8 +13,8 @@ module IMem #(
 
     logic [31:0] word_addr;
 
-    assign word_addr = addr[31:2];   // word aligned
-    //assign word_addr = (addr - BASE_ADDR) >> 2;
+    //assign word_addr = addr[31:2];   // word aligned
+    assign word_addr = (addr - BASE_ADDR) >> 2;
     //assign word_addr = addr >> 2;
 
     always_comb begin
