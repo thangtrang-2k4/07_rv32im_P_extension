@@ -45,17 +45,17 @@ module tb_rv32imp_pipeline;
     int error;
 
     #10;
-    load_imem("../sw/Filter-Sobel/imem.hex");
-    load_dmem("../sw/Filter-Sobel/dmem.hex");
+    load_imem("../sw/Filter-Sobel/pext_imem.hex");
+    load_dmem("../sw/Filter-Sobel/pext_dmem.hex");
 
-    load_golden("../sw/Filter-Sobel/golden1.hex", golden);
+    load_golden("../sw/Filter-Sobel/scala_golden1.hex", golden);
 
     // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
     wait (done == 1'b1);
     #20;
 
-    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/signature.hex");
-    load_result("../sw/Filter-Sobel/signature.hex", result);
+    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/pext_signature.hex");
+    load_result("../sw/Filter-Sobel/pext_signature.hex", result);
     #1;
     compare_result(depth, OAddr, golden, result, error);
     if (error == 0)
