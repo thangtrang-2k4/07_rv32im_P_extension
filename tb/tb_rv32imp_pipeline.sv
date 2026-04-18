@@ -26,17 +26,13 @@ module tb_rv32imp_pipeline;
     #10 rst_n = 1;
   end
 
+  localparam int depth = 8;
+  localparam int BaseAddr = 32'h80010000;
+  localparam int OAddr = 32'h8001001C;
+
   initial begin
-    int depth;
-    depth = 8;
     logic [31:0] golden [depth];
     logic [31:0] result [depth];
-
-    int BaseAddr;
-    int OAddr;
-    BaseAddr = 32'h80010000;
-    OAddr = 32'h8001001C;
-
     int error;
 
     #10;
@@ -115,7 +111,7 @@ module tb_rv32imp_pipeline;
         $display("Mismatch at address %0h: expected %08x, got %08x", OAddr + i*4, golden[i], result[i]);
       end
       else begin 
-        $display("Match at address %0h: expected %08x, got %08x", 32'h8001001C + i*4, golden[i], result[i]);
+        $display("Match at address %0h: expected %08x, got %08x", OAddr + i*4, golden[i], result[i]);
       end
     end
   endtask
