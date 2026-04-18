@@ -27,9 +27,15 @@ module tb_rv32imp_pipeline;
   end
 
   initial begin
+    int depth;
+    depth = 8;
+    logic [31:0] golden [depth];
+    logic [31:0] result [depth];
 
-    logic [31:0] golden [8];
-    logic [31:0] result [8];
+    int BaseAddr;
+    int OAddr;
+    BaseAddr = 32'h80010000;
+    OAddr = 32'h8001001C;
 
     int error;
 
@@ -40,10 +46,10 @@ module tb_rv32imp_pipeline;
     load_golden("../sw/Filter-Sobel/golden1.hex", golden);
 
     #1000000;
-    dump_result("../sw/Filter-Sobel/signature.hex");
+    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/signature.hex");
     load_result("../sw/Filter-Sobel/signature.hex", result);
     #1;
-    compare_result(golden, result, error);
+    compare_result(depth, OAddr, golden, result, error);
     if (error == 0)
       $display(" PASS");
     else
@@ -76,7 +82,7 @@ module tb_rv32imp_pipeline;
 //      $fclose(fd);
 //    
 //  endtask
-  task dump_result (input string result_path);
+  task dump_result (int depth, int BaseAddr, int OAddr, input string result_path);
   
     int fd;
     int base;
@@ -84,12 +90,12 @@ module tb_rv32imp_pipeline;
     // Ánh xạ địa chỉ (addr) sang chỉ số mảng (word_addr) dựa quy tắc trong data_memory.sv:
     // word_addr = (addr - BASE_ADDR) >> 2
     // Với addr = 32'h8001_001C, BASE_ADDR = 32'h8001_0000
-    base = (32'h8001001C - 32'h80010000) >> 2;
+    base = (OAddr - BaseAddr) >> 2;
     
     fd = $fopen(result_path, "w");
   
     // Khối output có kích thước là 0x19 byte (25 bytes), tương đương 7 words (7 * 4 = 28 bytes)
-    for (int i = 0; i < 8; i++) begin
+    for (int i = 0; i < depth; i++) begin
       $fdisplay(fd, "%08x", dut.u_dmem.ram_array[base + i]);
     end
   
@@ -101,12 +107,12 @@ module tb_rv32imp_pipeline;
     $readmemh(result_path, result_o);
   endtask
 
-  task compare_result (input logic [31:0] golden [], input logic [31:0] result [], output int num_mismatch);
+  task compare_result (int depth, int OAddr, input logic [31:0] golden [], input logic [31:0] result [], output int num_mismatch);
     num_mismatch = 0;
-    for (int i = 0; i < 8; i++) begin
+    for (int i = 0; i < depth; i++) begin
       if (golden[i] !== result[i]) begin
         num_mismatch++;
-        $display("Mismatch at address %0h: expected %08x, got %08x", 32'h8001001C + i*4, golden[i], result[i]);
+        $display("Mismatch at address %0h: expected %08x, got %08x", OAddr + i*4, golden[i], result[i]);
       end
       else begin 
         $display("Match at address %0h: expected %08x, got %08x", 32'h8001001C + i*4, golden[i], result[i]);
