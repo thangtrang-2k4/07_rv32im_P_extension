@@ -28,8 +28,8 @@ module tb_rv32imp_pipeline;
 
   initial begin
 
-    logic [31:0] golden [7];
-    logic [31:0] result [7];
+    logic [31:0] golden [8];
+    logic [31:0] result [8];
 
     int error;
 
@@ -89,7 +89,7 @@ module tb_rv32imp_pipeline;
     fd = $fopen(result_path, "w");
   
     // Khối output có kích thước là 0x19 byte (25 bytes), tương đương 7 words (7 * 4 = 28 bytes)
-    for (int i = 0; i < 7; i++) begin
+    for (int i = 0; i < 8; i++) begin
       $fdisplay(fd, "%08x", dut.u_dmem.ram_array[base + i]);
     end
   
@@ -103,7 +103,7 @@ module tb_rv32imp_pipeline;
 
   task compare_result (input logic [31:0] golden [], input logic [31:0] result [], output int num_mismatch);
     num_mismatch = 0;
-    for (int i = 0; i < 7; i++) begin
+    for (int i = 0; i < 8; i++) begin
       if (golden[i] !== result[i]) begin
         num_mismatch++;
         $display("Mismatch at address %0h: expected %08x, got %08x", 32'h8001001C + i*4, golden[i], result[i]);
