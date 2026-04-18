@@ -34,12 +34,14 @@ module tb_rv32imp_pipeline;
     int error;
 
     #10;
-    load_prog("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/PExtTest/pext_alup_test.hex");
-    load_golden("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/PExtTest/golden.hex", golden);
+    load_imem("../sw/PExtTest/pext_alup_test.hex");
+    load_dmem("../sw/PExtTest/pext_alup_test.hex");
+
+    load_golden("../sw/PExtTest/golden.hex", golden);
 
     #1000000;
-    dump_result("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/PExtTest/result.hex");
-    load_result("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/PExtTest/result.hex", result);
+    dump_result("../sw/PExtTest/signature.hex");
+    load_result("../sw/PExtTest/signature.hex", result);
     #1;
     compare_result(golden, result, error);
     if (error == 0)
@@ -49,11 +51,11 @@ module tb_rv32imp_pipeline;
     $finish;
   end
   task load_imem (input string prog_path);
-    $readmemh(prog_path, dut.u_imem.inst_mem);
+    $readmemh(prog_path, dut.u_imem.rom_array);
   endtask
 
   task load_dmem (input string prog_path);
-    $readmemh(prog_path, dut.u_dmem.inst_mem);
+    $readmemh(prog_path, dut.u_dmem.ram_array);
   endtask
 
   task load_golden (input string golden_path, output logic [31:0] golden_o []);
@@ -84,7 +86,7 @@ base = 32'h00000788 >> 2;
     fd = $fopen(result_path, "w");
   
     for (int i = 0; i < 76; i++) begin
-      $fdisplay(fd, "%h", dut.u_dmem.mem[base + i]);
+      $fdisplay(fd, "%h", dut.u_dmem.ram_array[base + i]);
     end
   
     $fclose(fd);
@@ -100,10 +102,10 @@ base = 32'h00000788 >> 2;
     for (int i = 0; i < 76; i++) begin
       if (golden[i] !== result[i]) begin
         num_mismatch++;
-        $display("Mismatch at address %0h: expected %h, got %h", 32'h80000788 + i*4, golden[i], result[i]);
+        $display("Mismatch at address %0h: expected %h, got %h", 32'h80010788 + i*4, golden[i], result[i]);
       end
       else begin 
-        $display("Match at address %0h: expected %h, got %h", 32'h80000788 + i*4, golden[i], result[i]);
+        $display("Match at address %0h: expected %h, got %h", 32'h80010788 + i*4, golden[i], result[i]);
       end
     end
   endtask
