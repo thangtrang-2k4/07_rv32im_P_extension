@@ -71,6 +71,11 @@ for (int i = 0; i < HEIGHT; i++) {
 
 sobel();
 
+// Báo hiệu hoàn tất bằng cách ghi giá trị 1 vào bộ nhớ (địa chỉ vượt ngoài không gian biến output)
+// Data Memory BaseAddr là 0x80010000
+volatile uint32_t* done_flag = (volatile uint32_t*)0x80011000;
+*done_flag = 1;
+
 return 0;
 
 }
