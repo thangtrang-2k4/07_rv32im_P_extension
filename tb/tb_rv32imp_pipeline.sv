@@ -18,6 +18,15 @@ module tb_rv32imp_pipeline;
     //output logic [31:0] debug_pc
   );
 
+
+
+
+
+  int cycle_count;
+  bit running;
+  bit done;
+  bit done_d;
+
   initial clk = 0;
   always #5 clk = ~clk;
   
@@ -119,10 +128,10 @@ module tb_rv32imp_pipeline;
     end
   endtask
 
-  int cycle_count;
-  bit running;
-  bit done;
-  bit done_d;
+
+
+
+
 
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
