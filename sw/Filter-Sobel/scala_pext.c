@@ -1,0 +1,176 @@
+/*
+ * Sobel Filter — RV32IMP (P-Extension Optimized)
+ *
+ * Sử dụng các lệnh P-Extension:
+ *   1. PM4ADDASU.B  — Signed×Unsigned 4×8-bit MAC (kernel × pixel)
+ *   2. PSABS.H      — SIMD 2×16-bit Absolute Value (|gx|, |gy|)
+ *   3. PADD.H       — SIMD 2×16-bit Addition (|gx| + |gy|)
+ *   4. PUSATI.H     — SIMD 2×16-bit Unsigned Saturate (clip [0, 255])
+ *
+ * Input/Output giống hệt scala.c (RV32IM) để so sánh kết quả.
+ */
+
+#include <stdint.h>
+
+#define WIDTH  5
+#define HEIGHT 5
+
+// ===== INPUT: 8-bit (chuẩn image) =====
+uint8_t input[HEIGHT][WIDTH] = {
+    {10, 10, 10, 10, 10},
+    {10, 50, 50, 50, 10},
+    {10, 50,100, 50, 10},
+    {10, 50, 50, 50, 10},
+    {10, 10, 10, 10, 10}
+};
+
+// ===== OUTPUT: 8-bit =====
+volatile uint8_t output[HEIGHT][WIDTH];
+
+// ===========================================================
+// Inline Assembly Wrappers cho P-Extension Instructions
+// ===========================================================
+
+// PM4ADDASU.B: rd = rd + Σ(rs1[i]_signed × rs2[i]_unsigned), i=0..3
+// rs1 = kernel coefficients (signed 8-bit)
+// rs2 = pixel values (unsigned 8-bit)
+// rd  = accumulator (read-modify-write)
+static inline int32_t pm4addasu_b(int32_t acc, uint32_t rs1, uint32_t rs2) {
+    int32_t rd = acc;
+    asm volatile ("pm4addasu.b %0, %1, %2"
+        : "+r"(rd)
+        : "r"(rs1), "r"(rs2));
+    return rd;
+}
+
+// PSABS.H: rd[15:0] = |rs1[15:0]|, rd[31:16] = |rs1[31:16]|
+// Saturating: abs(-32768) = 32767
+static inline uint32_t psabs_h(uint32_t rs1) {
+    uint32_t rd;
+    asm volatile ("psabs.h %0, %1"
+        : "=r"(rd)
+        : "r"(rs1));
+    return rd;
+}
+
+// PADD.H: rd[15:0] = rs1[15:0] + rs2[15:0], rd[31:16] = rs1[31:16] + rs2[31:16]
+static inline uint32_t padd_h(uint32_t rs1, uint32_t rs2) {
+    uint32_t rd;
+    asm volatile ("padd.h %0, %1, %2"
+        : "=r"(rd)
+        : "r"(rs1), "r"(rs2));
+    return rd;
+}
+
+// PUSATI.H: Unsigned clip mỗi nửa 16-bit vào [0, 2^imm - 1]
+// Với imm=8 → clip vào [0, 255]
+static inline uint32_t pusati_h(uint32_t rs1, const int imm) {
+    uint32_t rd;
+    asm volatile ("pusati.h %0, %1, %2"
+        : "=r"(rd)
+        : "r"(rs1), "i"(imm));
+    return rd;
+}
+
+// ===========================================================
+// Helper: Pack 3 pixel + 1 byte padding vào 1 thanh ghi 32-bit
+// Layout: [byte3=0] [byte2=p2] [byte1=p1] [byte0=p0]
+// ===========================================================
+static inline uint32_t pack_pixels(uint8_t p0, uint8_t p1, uint8_t p2) {
+    return (uint32_t)p0 | ((uint32_t)p1 << 8) | ((uint32_t)p2 << 16);
+}
+
+// ===========================================================
+// Sobel Filter — P-Extension
+// ===========================================================
+void sobel_pext() {
+    // ===== Kernel Coefficients (signed 8-bit, packed) =====
+    //
+    // Sobel Gx:            Sobel Gy:
+    // [-1  0 +1]           [-1 -2 -1]
+    // [-2  0 +2]           [ 0  0  0]
+    // [-1  0 +1]           [+1 +2 +1]
+    //
+    // Pack thứ tự: [byte0=coeff_left, byte1=coeff_center, byte2=coeff_right, byte3=0]
+    //
+    // Gx top row: [-1, 0, +1, 0] → 0xFF=(-1), 0x00=(0), 0x01=(+1), 0x00=(0)
+    const uint32_t kx_top = 0x000100FF;  // {0, +1, 0, -1}
+    const uint32_t kx_mid = 0x000200FE;  // {0, +2, 0, -2}
+    const uint32_t kx_bot = 0x000100FF;  // {0, +1, 0, -1}  (giống top)
+
+    // Gy top row: [-1, -2, -1, 0] → 0xFF=(-1), 0xFE=(-2), 0xFF=(-1), 0x00=(0)
+    const uint32_t ky_top = 0x00FFFEFF;  // {0, -1, -2, -1}
+    // Gy mid = all zeros → bỏ qua (skip)
+    // Gy bot row: [+1, +2, +1, 0] → 0x01=(+1), 0x02=(+2), 0x01=(+1), 0x00=(0)
+    const uint32_t ky_bot = 0x00010201;  // {0, +1, +2, +1}
+
+    for (int i = 1; i < HEIGHT - 1; i++) {
+        for (int j = 1; j < WIDTH - 1; j++) {
+
+            // ===== Bước 1: Pack 3 pixel mỗi hàng vào 1 word 32-bit =====
+            uint32_t row_top = pack_pixels(input[i-1][j-1], input[i-1][j], input[i-1][j+1]);
+            uint32_t row_mid = pack_pixels(input[i  ][j-1], input[i  ][j], input[i  ][j+1]);
+            uint32_t row_bot = pack_pixels(input[i+1][j-1], input[i+1][j], input[i+1][j+1]);
+
+            // ===== Bước 2: Tính Gx bằng PM4ADDASU.B (MAC) =====
+            // gx = Σ(kernel_row × pixel_row) cho 3 hàng
+            int32_t gx = 0;
+            gx = pm4addasu_b(gx, kx_top, row_top);  // gx += (-1)*p[0] + 0*p[1] + 1*p[2] + 0*0
+            gx = pm4addasu_b(gx, kx_mid, row_mid);  // gx += (-2)*p[3] + 0*p[4] + 2*p[5] + 0*0
+            gx = pm4addasu_b(gx, kx_bot, row_bot);  // gx += (-1)*p[6] + 0*p[7] + 1*p[8] + 0*0
+
+            // ===== Bước 3: Tính Gy bằng PM4ADDASU.B (MAC) =====
+            // gy_mid = 0 nên bỏ qua, chỉ cần 2 lệnh
+            int32_t gy = 0;
+            gy = pm4addasu_b(gy, ky_top, row_top);  // gy += (-1)*p[0] + (-2)*p[1] + (-1)*p[2]
+            gy = pm4addasu_b(gy, ky_bot, row_bot);  // gy += (+1)*p[6] + (+2)*p[7] + (+1)*p[8]
+
+            // ===== Bước 4: PSABS.H — Lấy |gx| và |gy| cùng lúc =====
+            // Pack gx (16-bit lo) và gy (16-bit hi) vào 1 word 32-bit
+            // Lưu ý: gx, gy nằm trong khoảng [-1020, +1020] nên vừa 16-bit signed
+            uint32_t gxgy_packed = ((uint32_t)(uint16_t)gx) | ((uint32_t)(uint16_t)gy << 16);
+
+            // PSABS.H: abs cả hai nửa 16-bit song song
+            //   abs_gxgy[15:0]  = |gx|
+            //   abs_gxgy[31:16] = |gy|
+            uint32_t abs_gxgy = psabs_h(gxgy_packed);
+
+            // ===== Bước 5: PADD.H — Tính mag = |gx| + |gy| =====
+            // Trick: shift abs_gxgy >> 16 để lấy |gy| xuống nửa dưới
+            //   reg_a = {|gy|, |gx|}
+            //   reg_b = {  0 , |gy|}
+            // PADD.H: lo = |gx| + |gy|, hi = |gy| + 0
+            // → kết quả nửa dưới (bits 15:0) chính là mag
+            uint32_t shifted = abs_gxgy >> 16;     // {0, |gy|}
+            uint32_t mag_packed = padd_h(abs_gxgy, shifted);
+            // mag_packed[15:0] = |gx| + |gy| = mag
+
+            // ===== Bước 6: PUSATI.H — Clip vào [0, 255] =====
+            // PUSATI.H với imm=8: clip mỗi nửa 16-bit vào [0, 2^8 - 1] = [0, 255]
+            uint32_t clipped = pusati_h(mag_packed, 8);
+
+            // ===== Bước 7: NARROW — Ghi kết quả 8-bit =====
+            output[i][j] = (uint8_t)(clipped & 0xFF);
+        }
+    }
+}
+
+int main() {
+
+    // INIT: Clear output
+    for (int i = 0; i < HEIGHT; i++) {
+        for (int j = 0; j < WIDTH; j++) {
+            output[i][j] = 0;
+        }
+    }
+
+    // Run Sobel filter với P-Extension
+    sobel_pext();
+
+    // Báo hiệu hoàn tất bằng cách ghi giá trị 1 vào bộ nhớ
+    // Data Memory BaseAddr là 0x80010000
+    volatile uint32_t* done_flag = (volatile uint32_t*)0x80011000;
+    *done_flag = 1;
+
+    return 0;
+}

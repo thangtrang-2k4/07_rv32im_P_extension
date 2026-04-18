@@ -69,3 +69,5 @@ docs/*
 refcodes/*
 
 .agent/*
+
+instrinsic/*
