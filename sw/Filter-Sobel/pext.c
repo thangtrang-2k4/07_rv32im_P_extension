@@ -64,13 +64,20 @@ static inline uint32_t padd_h(uint32_t rs1, uint32_t rs2) {
 
 // PUSATI.H: Unsigned clip mỗi nửa 16-bit vào [0, 2^imm - 1]
 // Với imm=8 → clip vào [0, 255]
-static inline uint32_t pusati_h(uint32_t rs1, const int imm) {
-    uint32_t rd;
-    asm volatile ("pusati.h %0, %1, %2"
-        : "=r"(rd)
-        : "r"(rs1), "i"(imm));
-    return rd;
-}
+#define pusati_h(rs1, imm) ({ \
+    uint32_t _rd; \
+    asm volatile ("pusati.h %0, %1, %2" \
+        : "=r"(_rd) \
+        : "r"(rs1), "i"(imm)); \
+    _rd; \
+})
+//static inline uint32_t pusati_h(uint32_t rs1, const int imm) {
+//    uint32_t rd;
+//    asm volatile ("pusati.h %0, %1, %2"
+//        : "=r"(rd)
+//        : "r"(rs1), "i"(imm));
+//    return rd;
+//}
 
 // ===========================================================
 // Helper: Pack 3 pixel + 1 byte padding vào 1 thanh ghi 32-bit
