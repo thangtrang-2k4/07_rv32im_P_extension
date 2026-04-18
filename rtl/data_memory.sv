@@ -14,7 +14,7 @@ module Data_Memory #(
 
     // Force Block RAM inference
     (* ramstyle = "M10K" *)
-    logic [31:0] mem [0:DEPTH_WORDS-1];
+    logic [31:0] ram_array [0:DEPTH_WORDS-1];
 
     logic [31:0] word;
     logic [31:0] word_addr;
@@ -34,7 +34,7 @@ module Data_Memory #(
     always_comb begin
         //if (addr >= BASE_ADDR && word_addr < DEPTH_WORDS)
         if (word_addr < DEPTH_WORDS)
-            word = mem[word_addr];
+            word = ram_array[word_addr];
         else
             word = 32'b0;
 
@@ -90,27 +90,27 @@ module Data_Memory #(
     
                 2'b00: begin
                     case (byte_offset)
-                        2'b00: mem[word_addr][7:0]   <= dataW[7:0];
-                        2'b01: mem[word_addr][15:8]  <= dataW[7:0];
-                        2'b10: mem[word_addr][23:16] <= dataW[7:0];
-                        2'b11: mem[word_addr][31:24] <= dataW[7:0];
+                        2'b00: ram_array[word_addr][7:0]   <= dataW[7:0];
+                        2'b01: ram_array[word_addr][15:8]  <= dataW[7:0];
+                        2'b10: ram_array[word_addr][23:16] <= dataW[7:0];
+                        2'b11: ram_array[word_addr][31:24] <= dataW[7:0];
                     endcase
                 end
     
                 2'b01: begin
                     if (byte_offset[1] == 1'b0)
-                        mem[word_addr][15:0]  <= dataW[15:0];
+                        ram_array[word_addr][15:0]  <= dataW[15:0];
                     else
-                        mem[word_addr][31:16] <= dataW[15:0];
+                        ram_array[word_addr][31:16] <= dataW[15:0];
                 end
     
-                2'b10: mem[word_addr] <= dataW;
+                2'b10: ram_array[word_addr] <= dataW;
     
             endcase
         end
     end
 //    initial begin
-//         $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/dmem2.hex", mem);
+//         $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/dmem2.hex", ram_array);
 //    end
 //    always_ff @(posedge clk) begin
 //        if (MemRW && (word_addr < DEPTH_WORDS)) begin
@@ -120,24 +120,24 @@ module Data_Memory #(
 //                // -------- SB --------
 //                2'b00: begin
 //                    case (byte_offset)
-//                        2'b00: mem[word_addr][7:0]   <= dataW[7:0];
-//                        2'b01: mem[word_addr][15:8]  <= dataW[7:0];
-//                        2'b10: mem[word_addr][23:16] <= dataW[7:0];
-//                        2'b11: mem[word_addr][31:24] <= dataW[7:0];
+//                        2'b00: ram_array[word_addr][7:0]   <= dataW[7:0];
+//                        2'b01: ram_array[word_addr][15:8]  <= dataW[7:0];
+//                        2'b10: ram_array[word_addr][23:16] <= dataW[7:0];
+//                        2'b11: ram_array[word_addr][31:24] <= dataW[7:0];
 //                    endcase
 //                end
 //
 //                // -------- SH --------
 //                2'b01: begin
 //                    if (byte_offset[1] == 1'b0)
-//                        mem[word_addr][15:0]  <= dataW[15:0];
+//                        ram_array[word_addr][15:0]  <= dataW[15:0];
 //                    else
-//                        mem[word_addr][31:16] <= dataW[15:0];
+//                        ram_array[word_addr][31:16] <= dataW[15:0];
 //                end
 //
 //                // -------- SW --------
 //                2'b10: begin
-//                    mem[word_addr] <= dataW;
+//                    ram_array[word_addr] <= dataW;
 //                end
 //
 //            endcase
@@ -148,13 +148,13 @@ module Data_Memory #(
 //    fd = $fopen("DUT-rv32im_core.signature", "w");
 //
 //    for (int i = 0; i < 256; i++) begin
-//        $fdisplay(fd, "%08x", mem[i]);
+//        $fdisplay(fd, "%08x", ram_array[i]);
 //    end
 //
 //    $fclose(fd);
 //end
 //    initial begin
 //        for (int i = 0; i < DEPTH_WORDS; i++)
-//            mem[i] = 32'hDEADBEEF;;
+//            ram_array[i] = 32'hDEADBEEF;;
 //    end
 endmodule

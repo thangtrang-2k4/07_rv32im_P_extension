@@ -9,7 +9,7 @@ module IMem #(
 
     // Force Quartus infer block RAM
     (* ramstyle = "M10K" *)
-    logic [31:0] inst_mem [0:DEPTH_WORDS - 1];
+    logic [31:0] rom_array [0:DEPTH_WORDS - 1];
 
     logic [31:0] word_addr;
 
@@ -22,14 +22,14 @@ module IMem #(
             inst = 32'h00000013; // NOP
         else if (word_addr < DEPTH_WORDS)
 //        else if (addr >= BASE_ADDR && word_addr < DEPTH_WORDS)
-            inst = inst_mem[word_addr];
+            inst = rom_array[word_addr];
         else
             inst = 32'h00000013; // NOP
     end
 
 //    // Load program
 //    initial begin
-//        $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/fir2.hex", inst_mem);
+//        $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/fir2.hex", rom_array);
 //    end
 //    initial begin
 //        string program_path;
@@ -40,7 +40,7 @@ module IMem #(
 //        end
 //    
 //        $display("Loading program: %s", program_path);
-//        $readmemh(program_path, inst_mem);
+//        $readmemh(program_path, rom_array);
 //    end
 ////initial begin
 ////    string path;
@@ -66,7 +66,7 @@ module IMem #(
 ////
 ////    $display("Loading instruction memory from: '%s'", path);
 ////
-////    $readmemh(path, inst_mem);
+////    $readmemh(path, rom_array);
 ////
 ////    $display("Instruction memory loaded.");
 ////end
