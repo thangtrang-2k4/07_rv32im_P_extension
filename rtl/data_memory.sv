@@ -1,6 +1,6 @@
 module Data_Memory #(
     parameter int DEPTH_WORDS = 16384,
-    parameter logic [31:0] BASE_ADDR = 32'h8000_0000
+    parameter logic [31:0] BASE_ADDR = 32'h8001_0000
 )(
     input  logic        clk,
     input  logic        rst_n,

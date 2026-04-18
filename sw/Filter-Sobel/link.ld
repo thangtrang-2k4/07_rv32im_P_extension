@@ -1,30 +1,31 @@
 ENTRY(_start)
 
+MEMORY
+{
+  IMEM (rx)  : ORIGIN = 0x80000000, LENGTH = 64K
+  DMEM (rw)  : ORIGIN = 0x80010000, LENGTH = 64K
+}
+
 SECTIONS
 {
-/* ===== CODE ===== */
-. = 0x80000000;
-.text : {
-*(.text)
-}
+  .text : {
+    *(.text*)
+  } > IMEM
 
-/* ===== READ-ONLY DATA ===== */
-. = 0x80010000;
-.rodata : {
-    *(.rodata)
-}
+  .rodata : {
+    *(.rodata*)
+  } > IMEM
 
-/* ===== DATA (input image) ===== */
-. = 0x80020000;
-.data : {
-    *(.data)
-}
+  .data : {
+    *(.data*)
+  } > DMEM
 
-/* ===== BSS (output image) ===== */
-. = 0x80030000;
-.bss : {
-    *(.bss)
+  .bss : {
+    _bss_start = .;
+    *(.bss*)
     *(COMMON)
-}
+    _bss_end = .;
+  } > DMEM
 
+  _stack_top = ORIGIN(DMEM) + LENGTH(DMEM);
 }

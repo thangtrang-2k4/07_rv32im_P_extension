@@ -176,8 +176,8 @@ module rv32imp_pipeline #(
   // Instruction memory 
   // ------------------------------
   IMem #(
-    .DEPTH_WORDS(DEPTH_WORDS)
-    //.BASE_ADDR(32'h8000_0000)
+    .DEPTH_WORDS(DEPTH_WORDS),
+    .BASE_ADDR(32'h8000_0000)
   )u_imem (
     .rst_n (rst_n),
     .addr  (pc),
@@ -412,8 +412,8 @@ module rv32imp_pipeline #(
   // Data Memory (LW/SW 32-bit)
   // ------------------------------
   Data_Memory #(
-    .DEPTH_WORDS(DEPTH_WORDS)
-    //.BASE_ADDR(32'h8000_0000)
+    .DEPTH_WORDS(DEPTH_WORDS),
+    .BASE_ADDR(32'h8001_0000)
   ) u_dmem (
     .clk   (clk),
     .rst_n (rst_n),

@@ -48,8 +48,12 @@ module tb_rv32imp_pipeline;
       $display(" FAIL: %0d mismatches", error);
     $finish;
   end
-  task load_prog (input string prog_path);
+  task load_imem (input string prog_path);
     $readmemh(prog_path, dut.u_imem.inst_mem);
+  endtask
+
+  task load_dmem (input string prog_path);
+    $readmemh(prog_path, dut.u_dmem.inst_mem);
   endtask
 
   task load_golden (input string golden_path, output logic [31:0] golden_o []);

@@ -6,7 +6,8 @@ module Program_Counter(
  
 
   always_ff @(posedge clk or negedge rst_n) begin
-    if(!rst_n) pc <= 32'h0000_0000;
+    //if(!rst_n) pc <= 32'h0000_0000;
+    if(!rst_n) pc <= 32'h8000_0000;
     else       pc <= pc_next;
   end
 endmodule
