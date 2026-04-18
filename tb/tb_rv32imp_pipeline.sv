@@ -26,7 +26,7 @@ module tb_rv32imp_pipeline;
     #10 rst_n = 1;
   end
 
-  localparam int depth = 8;
+  localparam int depth = 7;
   localparam int BaseAddr = 32'h80010000;
   localparam int OAddr = 32'h8001001C;
 
