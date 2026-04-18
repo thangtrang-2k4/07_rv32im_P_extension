@@ -34,14 +34,14 @@ module tb_rv32imp_pipeline;
     int error;
 
     #10;
-    load_imem("../sw/PExtTest/pext_alup_test.hex");
-    load_dmem("../sw/PExtTest/pext_alup_test.hex");
+    load_imem("../sw/Filter-Sobel/imem.hex");
+    load_dmem("../sw/Filter-Sobel/dmem.hex");
 
-    load_golden("../sw/PExtTest/golden.hex", golden);
+    load_golden("../sw/Filter-Sobel/golden1.hex", golden);
 
     #1000000;
-    dump_result("../sw/PExtTest/signature.hex");
-    load_result("../sw/PExtTest/signature.hex", result);
+    dump_result("../sw/Filter-Sobel/signature.hex");
+    load_result("../sw/Filter-Sobel/signature.hex", result);
     #1;
     compare_result(golden, result, error);
     if (error == 0)
