@@ -28,8 +28,8 @@ module tb_rv32imp_pipeline;
 
   initial begin
 
-    logic [31:0] golden [76];
-    logic [31:0] result [76];
+    logic [31:0] golden [7];
+    logic [31:0] result [7];
 
     int error;
 
@@ -79,14 +79,18 @@ module tb_rv32imp_pipeline;
   task dump_result (input string result_path);
   
     int fd;
-  //  int base;
-//    base = 304; // 🔥 mapping address → index
-  int base;
-base = 32'h00000788 >> 2;
+    int base;
+    
+    // Ánh xạ địa chỉ (addr) sang chỉ số mảng (word_addr) dựa quy tắc trong data_memory.sv:
+    // word_addr = (addr - BASE_ADDR) >> 2
+    // Với addr = 32'h8001_001C, BASE_ADDR = 32'h8001_0000
+    base = (32'h8001001C - 32'h80010000) >> 2;
+    
     fd = $fopen(result_path, "w");
   
-    for (int i = 0; i < 76; i++) begin
-      $fdisplay(fd, "%h", dut.u_dmem.ram_array[base + i]);
+    // Khối output có kích thước là 0x19 byte (25 bytes), tương đương 7 words (7 * 4 = 28 bytes)
+    for (int i = 0; i < 7; i++) begin
+      $fdisplay(fd, "%08x", dut.u_dmem.ram_array[base + i]);
     end
   
     $fclose(fd);
@@ -99,13 +103,13 @@ base = 32'h00000788 >> 2;
 
   task compare_result (input logic [31:0] golden [], input logic [31:0] result [], output int num_mismatch);
     num_mismatch = 0;
-    for (int i = 0; i < 76; i++) begin
+    for (int i = 0; i < 7; i++) begin
       if (golden[i] !== result[i]) begin
         num_mismatch++;
-        $display("Mismatch at address %0h: expected %h, got %h", 32'h80010788 + i*4, golden[i], result[i]);
+        $display("Mismatch at address %0h: expected %08x, got %08x", 32'h8001001C + i*4, golden[i], result[i]);
       end
       else begin 
-        $display("Match at address %0h: expected %h, got %h", 32'h80010788 + i*4, golden[i], result[i]);
+        $display("Match at address %0h: expected %08x, got %08x", 32'h8001001C + i*4, golden[i], result[i]);
       end
     end
   endtask
