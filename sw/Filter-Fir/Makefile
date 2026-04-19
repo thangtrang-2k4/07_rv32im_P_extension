@@ -63,6 +63,6 @@ pext_dmem.hex: pext.elf
 all: scala pext
 
 clean:
-	rm -f *.elf *.s *.hex
+	rm -f *.elf *.hex
 
 .PHONY: all scala pext clean
