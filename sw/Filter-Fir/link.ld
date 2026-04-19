@@ -2,25 +2,30 @@ ENTRY(_start)
 
 MEMORY
 {
-  RAM (rwx) : ORIGIN = 0x80000000, LENGTH = 64K
+  IMEM (rx)  : ORIGIN = 0x80000000, LENGTH = 64K
+  DMEM (rw)  : ORIGIN = 0x80010000, LENGTH = 64K
 }
 
 SECTIONS
 {
   .text : {
     *(.text*)
-  } > RAM
+  } > IMEM
 
   .rodata : {
     *(.rodata*)
-  } > RAM
+  } > IMEM
 
   .data : {
     *(.data*)
-  } > RAM
+  } > DMEM
 
   .bss : {
+    _bss_start = .;
     *(.bss*)
     *(COMMON)
-  } > RAM
+    _bss_end = .;
+  } > DMEM
+
+  _stack_top = ORIGIN(DMEM) + LENGTH(DMEM);
 }
