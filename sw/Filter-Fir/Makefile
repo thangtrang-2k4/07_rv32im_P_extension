@@ -17,14 +17,15 @@ OBJDUMP := $(CROSS)-objdump
 IMEM_ORIGIN := 0x80000000
 DMEM_ORIGIN := 0x80010000
 
-CFLAGS  := -O2 -nostdlib -march=rv32im -mabi=ilp32
-LDFLAGS := -T link.ld
+SCALA_CFLAGS  := -O2 -nostdlib -march=rv32im -mabi=ilp32
+PEXT_CFLAGS   := -O2 -nostdlib -march=rv32imp -mabi=ilp32
+LDFLAGS       := -T link.ld
 
 # ── Scala (RV32IM) ──────────────────────────────────────────────────
 scala: scala_imem.hex scala_dmem.hex
 
 scala.elf: start.s scala.c link.ld
-	$(CC) $(CFLAGS) $(LDFLAGS) start.s scala.c -o $@
+	$(CC) $(SCALA_CFLAGS) $(LDFLAGS) start.s scala.c -o $@
 
 scala.s: scala.elf
 	$(OBJDUMP) -d $< > $@
@@ -43,7 +44,7 @@ scala_dmem.hex: scala.elf
 pext: pext_imem.hex pext_dmem.hex
 
 pext.elf: start.s pext.c link.ld
-	$(CC) $(CFLAGS) $(LDFLAGS) start.s pext.c -o $@
+	$(CC) $(PEXT_CFLAGS) $(LDFLAGS) start.s pext.c -o $@
 
 pext.s: pext.elf
 	$(OBJDUMP) -d $< > $@
