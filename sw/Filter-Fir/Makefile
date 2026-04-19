@@ -32,12 +32,12 @@ scala.s: scala.elf
 
 scala_imem.hex: scala.elf
 	$(OBJCOPY) -O verilog \
-	    --only-section=.text --only-section=.rodata \
+	    --only-section=.text --only-section=.rodata --verilog-data-width=4 \
 	    $< $@
 
 scala_dmem.hex: scala.elf
 	$(OBJCOPY) -O verilog \
-	    --only-section=.data --only-section=.bss \
+	    --only-section=.data --only-section=.bss --verilog-data-width=4 \
 	    $< $@
 
 # ── P-Extension (RV32IMP) ───────────────────────────────────────────
@@ -51,12 +51,12 @@ pext.s: pext.elf
 
 pext_imem.hex: pext.elf
 	$(OBJCOPY) -O verilog \
-	    --only-section=.text --only-section=.rodata \
+	    --only-section=.text --only-section=.rodata --verilog-data-width=4 \
 	    $< $@
 
 pext_dmem.hex: pext.elf
 	$(OBJCOPY) -O verilog \
-	    --only-section=.data --only-section=.bss \
+	    --only-section=.data --only-section=.bss --verilog-data-width=4 \
 	    $< $@
 
 # ── All & Clean ─────────────────────────────────────────────────────
