@@ -45,8 +45,8 @@ module tb_rv32imp_pipeline;
     int error;
 
     #10;
-    load_imem("../sw/Filter-Sobel/scala_imem.hex");
-    load_dmem("../sw/Filter-Sobel/scala_dmem.hex");
+    load_imem("../sw/Filter-Sobel/pext_imem.hex");
+    load_dmem("../sw/Filter-Sobel/pext_dmem.hex");
 
     load_golden("../sw/Filter-Sobel/scala_goldenw.hex", golden);
 
@@ -54,8 +54,8 @@ module tb_rv32imp_pipeline;
     wait (done == 1'b1);
     #20;
 
-    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/scala_signature.hex");
-    load_result("../sw/Filter-Sobel/scala_signature.hex", result);
+    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/pext_signature.hex");
+    load_result("../sw/Filter-Sobel/pext_signature.hex", result);
     #1;
     compare_result(depth, OAddr, golden, result, error);
     if (error == 0)
