@@ -12,8 +12,8 @@
 
 #include <stdint.h>
 
-#define WIDTH  5
-#define HEIGHT 5
+#define WIDTH  48
+#define HEIGHT 48
 
 // ===== INPUT: 8-bit (chuẩn image) =====
 uint8_t input[HEIGHT][WIDTH] = {
