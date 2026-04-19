@@ -14,7 +14,7 @@ SECTIONS
 
   .rodata : {
     *(.rodata*)
-  } > IMEM
+  } > DMEM
 
   .data : {
     *(.data*)
