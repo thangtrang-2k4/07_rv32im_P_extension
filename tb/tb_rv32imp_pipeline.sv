@@ -35,9 +35,9 @@ module tb_rv32imp_pipeline;
     #10 rst_n = 1;
   end
 
-  localparam int depth = 7;
+  localparam int depth = 576;
   localparam int BaseAddr = 32'h80010000;
-  localparam int OAddr = 32'h8001001C;
+  localparam int OAddr = 32'h80010900;
 
   initial begin
     logic [31:0] golden [depth];
@@ -48,7 +48,7 @@ module tb_rv32imp_pipeline;
     load_imem("../sw/Filter-Sobel/scala_imem.hex");
     load_dmem("../sw/Filter-Sobel/scala_dmem.hex");
 
-    load_golden("../sw/Filter-Sobel/scala_golden1.hex", golden);
+    load_golden("../sw/Filter-Sobel/scala_goldenw.hex", golden);
 
     // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
     wait (done == 1'b1);
