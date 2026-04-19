@@ -17,8 +17,8 @@ OBJDUMP := $(CROSS)-objdump
 IMEM_ORIGIN := 0x80000000
 DMEM_ORIGIN := 0x80010000
 
-SCALA_CFLAGS  := -O3 -nostdlib -march=rv32im -mabi=ilp32
-PEXT_CFLAGS   := -O3 -nostdlib -march=rv32imp -mabi=ilp32
+SCALA_CFLAGS  := -O2 -nostdlib -march=rv32im -mabi=ilp32
+PEXT_CFLAGS   := -O2 -nostdlib -march=rv32imp -mabi=ilp32
 LDFLAGS       := -T link.ld
 
 # ── Scala (RV32IM) ──────────────────────────────────────────────────
