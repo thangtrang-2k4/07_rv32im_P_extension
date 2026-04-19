@@ -48,7 +48,7 @@ module tb_rv32imp_pipeline;
     load_imem("../sw/Filter-Sobel/pext_imem.hex");
     load_dmem("../sw/Filter-Sobel/pext_dmem.hex");
 
-    load_golden("../sw/Filter-Sobel/scala_goldenw.hex", golden);
+    load_golden("../sw/Filter-Sobel/pext_goldenw.hex", golden);
 
     // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
     wait (done == 1'b1);
