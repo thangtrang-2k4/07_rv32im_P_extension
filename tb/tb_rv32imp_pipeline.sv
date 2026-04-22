@@ -35,9 +35,11 @@ module tb_rv32imp_pipeline;
     #10 rst_n = 1;
   end
 
-  localparam int depth = 50;
-  localparam int BaseAddr = 32'h80010000;
-  localparam int OAddr = 32'h800100e8;
+  localparam int depth      = 1024;
+  localparam int BaseAddr   = 32'h80010000;
+  localparam int OAddr      = 32'h80011000;
+  localparam int DoneAddr   = 32'h8001fffc;
+  localparam int DONE_INDEX = (DoneAddr - BaseAddr) >> 2;
 
   initial begin
     logic [31:0] golden [depth];
@@ -146,7 +148,7 @@ module tb_rv32imp_pipeline;
       // Detect done flag memory write 
       // Địa chỉ done_flag = 0x80011000, Data Memory BASE_ADDR = 0x80010000
       // => word index = (0x80011000 - 0x80010000) >> 2 = 1024
-      if (dut.u_dmem.ram_array[1024] == 32'h1) begin
+      if (dut.u_dmem.ram_array[DONE_INDEX] == 32'h1) begin
          done <= 1;
       end
 
