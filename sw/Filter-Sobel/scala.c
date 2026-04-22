@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <stdio.h>
 
 #define WIDTH  64
 #define HEIGHT 64
@@ -75,6 +74,7 @@ uint8_t input[HEIGHT][WIDTH] = {
 
 // ===== OUTPUT: 8-bit =====
 volatile uint8_t output[HEIGHT][WIDTH];
+extern volatile uint32_t _done_flag;
 
 // Sobel filter
 void sobel() {
@@ -133,8 +133,7 @@ sobel();
 
 // Báo hiệu hoàn tất bằng cách ghi giá trị 1 vào bộ nhớ (địa chỉ vượt ngoài không gian biến output)
 // Data Memory BaseAddr là 0x80010000
-volatile uint32_t* done_flag = (volatile uint32_t*)0x80011000;
-*done_flag = 1;
+_done_flag = 1;
 
 return 0;
 

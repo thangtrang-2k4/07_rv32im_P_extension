@@ -89,6 +89,7 @@ uint8_t input[HEIGHT][WIDTH] = {
 
 // ===== OUTPUT: 8-bit =====
 volatile uint8_t output[HEIGHT][WIDTH];
+volatile uint32_t _done_flag;
 
 // ===========================================================
 // Inline Assembly Wrappers cho P-Extension Instructions
@@ -198,9 +199,9 @@ void sobel_pext() {
             d[j] = (uint8_t)(clipped & 0xFF);
 
             // Slide window phai 1 byte, load byte moi vao MSB
-            W0 = (W0 >> 8) | ((uint32_t)r0[j+2] << 24);
-            W1 = (W1 >> 8) | ((uint32_t)r1[j+2] << 24);
-            W2 = (W2 >> 8) | ((uint32_t)r2[j+2] << 24);
+            W0 = (W0 >> 8) | ((uint32_t)r0[j+3] << 24);
+            W1 = (W1 >> 8) | ((uint32_t)r1[j+3] << 24);
+            W2 = (W2 >> 8) | ((uint32_t)r2[j+3] << 24);
         }
     }
 }
@@ -217,9 +218,7 @@ int main() {
     // Run Sobel filter voi P-Extension (Sliding Window)
     sobel_pext();
 
-    // Bao hieu hoan tat bang cach ghi gia tri 1 vao bo nho
-    volatile uint32_t* done_flag = (volatile uint32_t*)0x80011000;
-    *done_flag = 1;
+    _done_flag = 1;
 
     return 0;
 }
