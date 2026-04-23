@@ -73,7 +73,7 @@ static inline int32_t load32_i8(const int8_t *p)
 /*    for i = 0..7 (mỗi block 4 hệ số):                               */
 /*      sample_word = pack4(input[n-4i], input[n-4i-1], ..., [n-4i-3])*/
 /*      acc = PM4ADDA.B(acc, sample_word, coeff_blocks[i])             */
-/*    output[n] = clip8((acc + 512) >> 10)                             */
+/*    output[n] = clip8((acc + ROUND) >> SCALE_SHIFT)                */
 /*                                                                     */
 /*  Giảm từ 32 MUL + 32 ADD (scalar) xuống còn 8 × PM4ADDA.B         */
 /* ──────────────────────────────────────────────────────────────────── */
@@ -119,8 +119,8 @@ static void fir_pext(void)
             acc += (int32_t)fir_coeffs[k] * (int32_t)input_data[n - k];
         }
 
-        /* Round & scale: chia 2^10 */
-        acc = (acc + (1 << 9)) >> 10;
+        /* Round & scale: chia 2^SCALE_SHIFT */
+        acc = (acc + (1 << (SCALE_SHIFT - 1))) >> SCALE_SHIFT;
 
         /* Clip vào [-128, 127] */
         if      (acc >  127) acc =  127;
