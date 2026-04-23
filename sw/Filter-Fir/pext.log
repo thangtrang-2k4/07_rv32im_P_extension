@@ -1,0 +1,66 @@
+# vsim -voptargs="+acc" -debugDB -c tb_rv32imp_pipeline -l logs/rv32imp_pipeline.log -do "log -r /*; run -all; quit" 
+# Start time: 22:40:13 on Apr 23,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vsim-8611) Generating debug db.
+# ** Note: (vopt-4301) Memory core inferred for signal 'ram_array' width=32, depth=524288, type=RAM at location ../rtl/data_memory.sv:17
+# //  Questa Sim-64
+# //  Version 2021.2_1 linux_x86_64 May 15 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_rv32imp_pipeline(fast)
+# Loading work.rv32_pkg(fast)
+# Loading work.rv32imp_pipeline(fast)
+# Loading work.Program_Counter(fast)
+# Loading work.Adder(fast)
+# Loading work.IMem(fast)
+# Loading work.pipe_reg(fast)
+# Loading work.Decoder(fast)
+# Loading work.Control_Logic(fast)
+# Loading work.ImmGen(fast)
+# Loading work.RegFile(fast)
+# Loading work.pipe_reg(fast__1)
+# Loading work.pipe_reg(fast__2)
+# Loading work.pipe_reg(fast__3)
+# Loading work.pipe_reg(fast__4)
+# Loading work.Forwarding_Unit(fast)
+# Loading work.Branch_Comparator(fast)
+# Loading work.ALU(fast)
+# Loading work.ALUP(fast)
+# Loading work.Adder_9Bit(fast)
+# Loading work.Mac8_Unit(fast)
+# Loading work.PC_Selection(fast)
+# Loading work.Data_Memory(fast)
+# Loading work.Hazard_Detection(fast)
+# ** Note: (vsim-8900) Creating design debug database vsim.dbg.
+# log -r /*
+#  run -all
+# =================================
+# SOBEL FILTER COMPLETE!
+# Total simulation cycles = 1727
+# =================================
+# Match at address 80010048: expected 00000000, got 00000000
+# Match at address 8001004c: expected 00000000, got 00000000
+# Match at address 80010050: expected 00000000, got 00000000
+# Match at address 80010054: expected 00000000, got 00000000
+# Match at address 80010058: expected 00000000, got 00000000
+# Match at address 8001005c: expected 00000000, got 00000000
+# Match at address 80010060: expected 00000000, got 00000000
+# Match at address 80010064: expected 07000000, got 07000000
+# Match at address 80010068: expected fa000001, got fa000001
+# Match at address 8001006c: expected 01010000, got 01010000
+#  PASS
+# ** Note: $finish    : ../tb/tb_rv32imp_pipeline.sv(82)
+#    Time: 17306 ns  Iteration: 0  Instance: /tb_rv32imp_pipeline
+# End time: 22:40:14 on Apr 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
