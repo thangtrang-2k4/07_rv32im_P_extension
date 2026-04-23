@@ -17,24 +17,60 @@
  *       -T link.ld start.s pext.c -o pext.elf
  *
  * Lưu ý: PM4ADDA.B trong thiết kế của bạn là lệnh signed×signed.
+ *   input_data là int8_t (signed) — khớp hoàn toàn.
  */
 
 #include <stdint.h>
-#include "fir_data.h"
 
 /* ──────────────────────────────────────────────────────────────────── */
-/*  Cấu hình tự động từ fir_data.h                                     */
+/*  Cấu hình                                                           */
 /* ──────────────────────────────────────────────────────────────────── */
-#define NUM_BLOCKS    (FIR_TAPS / 4)
-#define VALID_START   (FIR_TAPS - 1)
+#define FIR_TAPS     32
+#define INPUT_LEN   200
+#define VALID_START  31   /* FIR_TAPS - 1 */
+#define NUM_BLOCKS    8   /* FIR_TAPS / 4 */
 
-/* Linker symbols */
-extern volatile uint32_t _done_flag;
+/* ──────────────────────────────────────────────────────────────────── */
+/*  Hệ số FIR (giống scala.c để so sánh công bằng)                    */
+/* ──────────────────────────────────────────────────────────────────── */
+static const int8_t fir_coeffs[FIR_TAPS] = {
+    -2, -2, -3, -3, -3, -1,  2,  8,
+    18, 30, 44, 60, 75, 88, 98,103,
+   103, 98, 88, 75, 60, 44, 30, 18,
+     8,  2, -1, -3, -3, -3, -2, -2
+};
+
+/* ──────────────────────────────────────────────────────────────────── */
+/*  Dữ liệu vào (giống scala.c)                                       */
+/* ──────────────────────────────────────────────────────────────────── */
+static const int8_t input_data[INPUT_LEN] = {
+     39,  67,  32,   7,  54,  79,  84,  36,  74, 106,
+    102,  54,  62, 111,  74,  21,  78,  98,  55,  28,
+      7,  46,  23, -22, -19, -24, -34, -53, -14,  11,
+    -43, -43, -53,   7, -28, -78,  -4,   9,  19,  -5,
+    -12,  51,  59,   6,  43, 107,  48,  52,  59, 127,
+     96,  50,  50,  85,  67,  62,  30,  72,  49,   6,
+     37,  35,  27, -27, -12,  -4, -25, -66, -35, -30,
+    -61, -84, -32,  -2, -32, -73,  -2,  37,  25,   5,
+     42,  77,  39,  15,  66,  71,  85,  68,  99, 107,
+    105,  58,  72, 105,  96,  61,  71,  44,  43,   3,
+     26,  53, -16, -19, -40, -17, -13, -70, -20, -41,
+    -63, -53, -66,  -7,  -6, -46,  -6, -14,   8,  -9,
+     23,  45,  29,  50,  25,  56,  94,  29,  52,  84,
+     96,  79,  46,  91,  43,  22,  37,  78,  28, -16,
+     18,   5, -24,  -4, -35,  -9, -17, -39, -14, -37,
+    -32, -37, -66,  -1, -10, -58, -32,  21,  -4, -35,
+     16,  46,  41,  22,  42,  76,  87,  33,  79,  72,
+     92,  43,  48,  82,  51,  64,  44,  57,  28,  30,
+     26,  40,  12, -40, -22,   9, -60, -78, -49, -33,
+    -34, -73, -17,  -7, -36, -54,  -5,  10,   9, -43
+};
 
 /* ──────────────────────────────────────────────────────────────────── */
 /*  Output buffer                                                      */
 /* ──────────────────────────────────────────────────────────────────── */
 volatile int8_t output[INPUT_LEN];
+
 
 /* ──────────────────────────────────────────────────────────────────── */
 /*  PM4ADDA.B wrapper                                                  */
@@ -101,8 +137,21 @@ static void fir_pext(void)
     for (int n = VALID_START; n < INPUT_LEN; n++) {
         int32_t acc = 0;
 
-        /* 1. Xử lý phần chẵn (mỗi lần 4 taps) dùng SIMD */
         for (int i = 0; i < NUM_BLOCKS; i++) {
+            /*
+             * Lấy 4 mẫu đầu vào ứng với block i:
+             *   input[n - 4i - 0], input[n - 4i - 1],
+             *   input[n - 4i - 2], input[n - 4i - 3]
+             *
+             * Pack: byte0(LSB)=in[n-4i], byte1=in[n-4i-1], ...
+             * → pointer bắt đầu tại &input[n - 4i - 3], đọc ngược
+             *   hoặc pack thủ công để correct với coeff order.
+             *
+             * PM4ADDA.B: acc += (a[7:0]*b[7:0]) + (a[15:8]*b[15:8]) + ...
+             * Ta cần: c[4i+0]*in[n-4i-0] + c[4i+1]*in[n-4i-1] + ...
+             * coeff_blocks[i].byte0 = c[4i+0], .byte1 = c[4i+1], ...
+             * sample_block.byte0 = in[n-4i], .byte1 = in[n-4i-1], ...
+             */
             int idx = n - i * 4;
             const int8_t *p = &input_data[idx];
             int32_t sample_block =
@@ -112,11 +161,6 @@ static void fir_pext(void)
                 ((int32_t)(uint8_t)p[-3] << 24);
 
             acc = pm4adda_b(acc, sample_block, coeff_blocks[i]);
-        }
-
-        /* 2. Xử lý phần dư (nếu FIR_TAPS không chia hết cho 4) */
-        for (int k = NUM_BLOCKS * 4; k < FIR_TAPS; k++) {
-            acc += (int32_t)fir_coeffs[k] * (int32_t)input_data[n - k];
         }
 
         /* Round & scale: chia 2^10 */
@@ -135,7 +179,8 @@ int main(void)
     fir_pext();
 
     /* Báo hiệu hoàn tất */
-    _done_flag = 1;
+    volatile uint32_t *done_flag = (volatile uint32_t *)0x80011000;
+    *done_flag = 1;
 
     return 0;
 }
