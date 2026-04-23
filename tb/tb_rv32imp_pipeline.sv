@@ -35,10 +35,12 @@ module tb_rv32imp_pipeline;
     #10 rst_n = 1;
   end
 
-  localparam int depth      = 1024;
+//  localparam int depth      = 1024; // Sobel
+  localparam int depth      = 10; // Fir
   localparam int BaseAddr   = 32'h80010000;
   localparam int OAddr      = 32'h80011000;
-  localparam int DoneAddr   = 32'h8001fffc;
+//  localparam int DoneAddr   = 32'h8001fffc; // Sobel
+  localparam int DoneAddr   = 32'h8001fffc; // Fir
   localparam int DONE_INDEX = (DoneAddr - BaseAddr) >> 2;
 
   initial begin
@@ -47,17 +49,29 @@ module tb_rv32imp_pipeline;
     int error;
 
     #10;
-    load_imem("../sw/Filter-Sobel/scala_imem.hex");
-    load_dmem("../sw/Filter-Sobel/scala_dmem.hex");
+//    load_imem("../sw/Filter-Sobel/scala_imem.hex");
+//    load_dmem("../sw/Filter-Sobel/scala_dmem.hex");
+//
+//    load_golden("../sw/Filter-Sobel/scala_goldenw.hex", golden);
+//
+//    // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
+//    wait (done == 1'b1);
+//    #20;
+//
+//    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/scala_signature.hex");
+//    load_result("../sw/Filter-Sobel/scala_signature.hex", result);
 
-    load_golden("../sw/Filter-Sobel/scala_goldenw.hex", golden);
+    load_imem("../sw/Filter-Fir/scala_imem.hex");
+    load_dmem("../sw/Filter-Fir/scala_dmem.hex");
+
+    load_golden("../sw/Filter-Fir/scala_goldenw.hex", golden);
 
     // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
     wait (done == 1'b1);
     #20;
 
-    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/scala_signature.hex");
-    load_result("../sw/Filter-Sobel/scala_signature.hex", result);
+    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Fir/scala_signature.hex");
+    load_result("../sw/Filter-Fir/scala_signature.hex", result);
     #1;
     compare_result(depth, OAddr, golden, result, error);
     if (error == 0)
