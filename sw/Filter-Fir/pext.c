@@ -77,7 +77,7 @@ static inline int32_t load32_i8(const int8_t *p)
 /*                                                                     */
 /*  Giảm từ 32 MUL + 32 ADD (scalar) xuống còn 8 × PM4ADDA.B         */
 /* ──────────────────────────────────────────────────────────────────── */
-static void fir_pext(void)
+static __attribute__((noinline)) void fir_pext(void)
 {
     /* Prepack 32 hệ số thành 8 word 32-bit — chỉ tính 1 lần          */
     /*                                                                   */
