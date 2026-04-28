@@ -62,17 +62,17 @@ module tb_rv32imp_pipeline;
 //    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/scala_signature.hex");
 //    load_result("../sw/Filter-Sobel/scala_signature.hex", result);
 
-    load_imem("../sw/Filter-Fir/pext_imem.hex");
-    load_dmem("../sw/Filter-Fir/pext_dmem.hex");
+    load_imem("../sw/Filter-Fir/scala_imem.hex");
+    load_dmem("../sw/Filter-Fir/scala_dmem.hex");
 
-    load_golden("../sw/Filter-Fir/pext_goldenw.hex", golden);
+    load_golden("../sw/Filter-Fir/scala_goldenw.hex", golden);
 
     // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
     wait (done == 1'b1);
     #20;
 
-    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Fir/pext_signature.hex");
-    load_result("../sw/Filter-Fir/pext_signature.hex", result);
+    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Fir/scala_signature.hex");
+    load_result("../sw/Filter-Fir/scala_signature.hex", result);
     #1;
     compare_result(depth, OAddr, golden, result, error);
     if (error == 0)
