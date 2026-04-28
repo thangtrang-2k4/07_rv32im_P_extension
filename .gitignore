@@ -75,3 +75,7 @@ instrinsic/*
 py-ref-model/*
 
 AGENT.md
+
+quat_code/*
+
+report/*

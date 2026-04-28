@@ -115,9 +115,9 @@ static __attribute__((noinline)) void fir_pext(void)
         }
 
         /* 2. Xử lý phần dư (nếu FIR_TAPS không chia hết cho 4) */
-        for (int k = NUM_BLOCKS * 4; k < FIR_TAPS; k++) {
-            acc += (int32_t)fir_coeffs[k] * (int32_t)input_data[n - k];
-        }
+//        for (int k = NUM_BLOCKS * 4; k < FIR_TAPS; k++) {
+//            acc += (int32_t)fir_coeffs[k] * (int32_t)input_data[n - k];
+//        }
 
         /* Round & scale: chia 2^SCALE_SHIFT */
         acc = (acc + (1 << (SCALE_SHIFT - 1))) >> SCALE_SHIFT;
