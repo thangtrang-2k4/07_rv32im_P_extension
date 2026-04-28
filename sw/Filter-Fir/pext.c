@@ -95,6 +95,14 @@ static __attribute__((noinline)) void fir_pext(void)
             ((int32_t)(uint8_t)c[1] <<  8)  |
             ((int32_t)(uint8_t)c[2] << 16)  |
             ((int32_t)(uint8_t)c[3] << 24);
+
+        /* Đảo ngược thứ tự byte và dùng uint32_t để tránh Undefined Behavior do dịch bit có dấu */
+//        coeff_blocks[i] = (int32_t)(
+//            ((uint32_t)(uint8_t)c[3])        |
+//            ((uint32_t)(uint8_t)c[2] <<  8)  |
+//            ((uint32_t)(uint8_t)c[1] << 16)  |
+//            ((uint32_t)(uint8_t)c[0] << 24)
+//        );
     }
 
     /* Vòng lặp xử lý từng mẫu đầu ra hợp lệ */
@@ -110,6 +118,9 @@ static __attribute__((noinline)) void fir_pext(void)
                 ((int32_t)(uint8_t)p[-1] <<  8)  |
                 ((int32_t)(uint8_t)p[-2] << 16)  |
                 ((int32_t)(uint8_t)p[-3] << 24);
+
+            /* Tối ưu: Dùng load32_i8 để nạp 4 mẫu liên tiếp từ RAM thay vì pack thủ công tốn lệnh */
+//            int32_t sample_block = load32_i8(&input_data[idx - 3]);
 
             acc = pm4adda_b(acc, sample_block, coeff_blocks[i]);
         }
