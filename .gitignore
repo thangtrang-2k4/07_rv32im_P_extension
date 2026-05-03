@@ -75,7 +75,15 @@ instrinsic/*
 py-ref-model/*
 
 AGENT.md
+GEMINI.md
+CLAUDE.md
 
 quat_code/*
 
 report/*
+
+.env
+MEMORY.md
+
+.claude/*
+user_reports/*
