@@ -51,15 +51,7 @@ Thumbs.db
 # Quartus (nếu có dùng)
 # =========================
 
-quartus/db/
-quartus/incremental_db/
-quartus/output_files/
-quartus/*.rpt
-quartus/*.qws
-quartus/*.sof
-quartus/*.pof
-quartus/*.jdi
-quartus/*.smsg
+quartus/*
 
 # =========================
 # Tài liệu tham khảo

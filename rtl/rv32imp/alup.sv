@@ -69,6 +69,16 @@ module ALUP(
         Result01 = 16'h0;
         Result23 = 16'h0;
 
+        // Initialize clip variables to avoid latches
+        clip_upper_limit = 16'h0;
+        clip_lower_limit = 16'h0;
+        mask_val_lo      = 16'h0;
+        mask_val_hi      = 16'h0;
+        pos_ov_lo        = 1'b0;
+        neg_ov_lo        = 1'b0;
+        pos_ov_hi        = 1'b0;
+        neg_ov_hi        = 1'b0;
+
         unique case(ALUSel)
 
 //            ALU_ADD: begin

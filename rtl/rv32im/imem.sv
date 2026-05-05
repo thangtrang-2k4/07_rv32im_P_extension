@@ -17,20 +17,20 @@ module IMem #(
     assign word_addr = (addr - BASE_ADDR) >> 2;
     //assign word_addr = addr >> 2;
 
+    // Use continuous assignment for the RAM read
+    wire [31:0] rom_data = (word_addr < DEPTH_WORDS) ? rom_array[word_addr] : 32'h00000013; // NOP if out of bounds
+
     always_comb begin
         if (!rst_n)
             inst = 32'h00000013; // NOP
-        else if (word_addr < DEPTH_WORDS)
-//        else if (addr >= BASE_ADDR && word_addr < DEPTH_WORDS)
-            inst = rom_array[word_addr];
         else
-            inst = 32'h00000013; // NOP
+            inst = rom_data;
     end
 
-//    // Load program
-//    initial begin
-//        $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/fir2.hex", rom_array);
-//    end
+    // Load program
+    initial begin
+        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
+    end
 //    initial begin
 //        string program_path;
 //    

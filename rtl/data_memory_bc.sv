@@ -31,12 +31,16 @@ module Data_Memory #(
     assign byte_offset = addr[1:0];
 
     // ---------------- READ ----------------
+    // Use continuous assignment for the RAM read to avoid always_comb strict checks
+    // and potentially allow Quartus to infer BRAM if it's willing to do combinational read 
+    // (though registered read is better for performance).
+    assign word = (word_addr < DEPTH_WORDS) ? ram_array[word_addr] : 32'b0;
+
     always_comb begin
-        //if (addr >= BASE_ADDR && word_addr < DEPTH_WORDS)
-        if (word_addr < DEPTH_WORDS)
-            word = ram_array[word_addr];
-        else
-            word = 32'b0;
+        // Initialize variables to avoid latches
+        selected_byte = 8'b0;
+        selected_half = 16'b0;
+        dataR         = 32'b0;
 
         if (!MemRW) begin
             case (MemSize)
@@ -76,9 +80,6 @@ module Data_Memory #(
                 default: dataR = 32'b0;
             endcase
         end
-        else begin
-            dataR = 32'b0;
-        end
     end
 
     // ---------------- WRITE ----------------
@@ -108,6 +109,9 @@ module Data_Memory #(
     
             endcase
         end
+    end
+    initial begin
+        $readmemh("../../sw/Filter-Fir/pext_dmem.hex", ram_array);
     end
 //    initial begin
 //         $readmemh("/home/trangthang/Workspace/02_Project/01_GitHub/07_rv32im_P_extension/sw/fir_filter/dmem2.hex", ram_array);

@@ -10,14 +10,8 @@ module rv32imp_pipeline #(
     parameter int DEPTH_WORDS = 524288  // 1MB
 )(
   input  logic clk,
-  input  logic rst_n
-  
-  //input  logic [7:0] sw,
-  //output logic [7:0] led
-
-  // single_cycle.sv: khai báo port
-  //output logic [31:0] a0_out
-  //output logic [31:0] debug_pc
+  input  logic rst_n,
+  output logic [31:0] o_obs_data
 );
 
   import rv32_pkg::*;
@@ -474,29 +468,6 @@ module rv32imp_pipeline #(
     .stall(stall)
   );
 
+  assign o_obs_data = pc ^ alu_MEM ^ mem ^ WBdata;
 
-//  // Mirror a0 (x10) mỗi khi ghi WB vào x10
-//  always_ff @(posedge clk or negedge rst_n) begin
-//    if (!rst_n) a0_out <= 32'd0;
-//    else if (RegWEn && (inst[11:7] == 5'd10))  // rd == x10
-//      a0_out <= WBdata;
-//  end
-
-// ================================================================
-// FULL PIPELINE DEBUG
-// ================================================================
-//always_ff @(posedge clk) begin
-//  if (rst_n) begin
-//    $display("--------------------------------------------------");
-//    $display("PC_IF  = %h  INST_IF = %h", pc, inst);
-//    $display("PC_ID  = %h  OPCODE_ID = %h", pc_ID, opcode_ID);
-//    $display("PC_EX  = %h  ALU = %h  BrEq=%b BrLT=%b PCSel=%b",
-//              pc_EX, alu, BrEq, BrLT, PCSel);
-//    $display("PC_MEM = %h  MemRW=%b  ADDR=%h  DATAW=%h",
-//              pc_MEM, ctrl_MEM.MemRW, alu_MEM, dataR2_MEM);
-//    $display("PC_WB  = %h  RD=%0d  WBdata=%h  RegWEn=%b",
-//              pc_plus4_mem_WB, rd_WB, WBdata, ctrl_WB.RegWEn);
-//    $display("STALL=%b", stall);
-//  end
-//end
 endmodule
