@@ -33,6 +33,8 @@ module ALU (
   always_comb begin
     result = 32'd0;                     // giá trị mặc định an toàn
     unique case (ALUSel)
+   
+
       ALU_ADD : result = A + B;
       ALU_SUB : result = A - B;
 

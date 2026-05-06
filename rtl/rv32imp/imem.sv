@@ -29,7 +29,7 @@ module IMem #(
 
     // Load program
     initial begin
-        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
+        $readmemh("../../sw/Filter-Fir/pext_imem.hex", rom_array);
     end
 //    initial begin
 //        string program_path;
