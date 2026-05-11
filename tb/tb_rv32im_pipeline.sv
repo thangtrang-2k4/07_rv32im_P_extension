@@ -27,7 +27,7 @@ module tb_rv32im_pipeline;
     #10 rst_n = 1;
   end
 
-  localparam int depth      = 50;   // (200byte) Fir
+  localparam int depth      = 1024;   // (200byte) Fir
   localparam int BaseAddr   = 32'h80010000;
   localparam int OAddr      = 32'h80010804;
   localparam int DoneAddr   = 32'h8001fffc; // Fir
