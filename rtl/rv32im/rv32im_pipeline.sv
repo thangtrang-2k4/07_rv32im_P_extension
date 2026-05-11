@@ -170,7 +170,7 @@ module rv32im_pipeline #(
   // ------------------------------
   IMem #(
     .DEPTH_WORDS(DEPTH_WORDS),
-    .BASE_ADDR(32'h8000_0000)   // 🔥 thêm dòng này
+    .BASE_ADDR(32'h8000_0000)
   )u_imem (
     .rst_n (rst_n),
     .addr  (pc),
@@ -223,8 +223,8 @@ module rv32im_pipeline #(
       .BSel        (ctrl.BSel),
       .ALUSel      (ctrl.ALUSel),
       .MemRW       (ctrl.MemRW),
-      .MemUnsigned (ctrl.MemUnsigned),   // THÊM
-      .MemSize     (ctrl.MemSize),       // THÊM
+      .MemUnsigned (ctrl.MemUnsigned),
+      .MemSize     (ctrl.MemSize),
       .RegWEn      (ctrl.RegWEn),
       .WBSel       (ctrl.WBSel)
   );
@@ -361,7 +361,7 @@ module rv32im_pipeline #(
   // ------------------------------
   Data_Memory #(
     .DEPTH_WORDS(DEPTH_WORDS),
-    .BASE_ADDR(32'h8000_0000)   // 🔥 thêm dòng này
+    .BASE_ADDR(32'h8000_0000)
   ) u_dmem (
     .clk   (clk),
     .rst_n (rst_n),

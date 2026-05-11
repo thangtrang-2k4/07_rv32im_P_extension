@@ -6,7 +6,7 @@ module ALU (
 );
   import rv32_pkg::*;
   
-`ifdef ENABLE_M_EXT
+//`ifdef ENABLE_M_EXT
   logic signed [63:0] prod_ss;
   logic signed [63:0] prod_su;
   logic        [63:0] prod_uu;
@@ -25,7 +25,7 @@ module ALU (
       prod_su = A_ext_s * B_ext_u;
       prod_uu = A_ext_u * B_ext_u;
   end
-`endif
+//`endif
 
   logic [4:0] shamt;
   assign shamt = B[4:0];
@@ -51,7 +51,7 @@ module ALU (
 
       ALU_JALR : alu = (A + B) & 32'hFFFF_FFFE;
       
-`ifdef ENABLE_M_EXT
+//`ifdef ENABLE_M_EXT
       ALU_MUL:    alu = A * B;
       ALU_MULH:   alu = prod_ss[63:32];
       ALU_MULHSU: alu = prod_su[63:32];
@@ -78,7 +78,7 @@ module ALU (
           if (B == 0) alu = A;
           else        alu = A % B;
       end
-`endif // ENABLE_M_EXT
+//`endif // ENABLE_M_EXT
       default :  alu = 32'd0;
 
     endcase

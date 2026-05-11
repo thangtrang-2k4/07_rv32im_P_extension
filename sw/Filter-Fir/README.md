@@ -11,10 +11,11 @@
 
 ## Thuật toán FIR
 
-- **32-tap** low-pass filter, hệ số int8_t (scaled ×1024)
+- **32-tap** low-pass filter, hệ số int8_t
 - **200 mẫu** đầu vào int8_t
 - **169 mẫu** output hợp lệ (index 31..199)
-- Scale: `out[n] = clip8((acc + 512) >> 10)`
+- Scale hiện tại lấy từ `fir_data.h`: `SCALE_SHIFT = 7`
+- Công thức: `out[n] = clip8((acc + (1 << (SCALE_SHIFT - 1))) >> SCALE_SHIFT)`
 
 ## Lệnh P-Extension dùng
 

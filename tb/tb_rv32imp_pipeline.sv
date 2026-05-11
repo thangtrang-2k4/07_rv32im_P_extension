@@ -23,6 +23,7 @@ module tb_rv32imp_pipeline;
 
 
   int cycle_count;
+  int retired_inst_count;
   bit running;
   bit done;
   bit done_d;
@@ -153,12 +154,19 @@ module tb_rv32imp_pipeline;
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       cycle_count <= 0;
+      retired_inst_count <= 0;
       running <= 0;
       done <= 0;
       done_d <= 0;
     end
     else begin
       running <= 1;
+      
+      // Instruction Retired Counter (Method 1)
+      // Increments when a non-NOP instruction reaches the WB stage
+      if (dut.ctrl_WB != dut.CTRL_NOP) begin
+        retired_inst_count <= retired_inst_count + 1;
+      end
 
       // Detect done flag memory write 
       // Địa chỉ done_flag = 0x80011000, Data Memory BASE_ADDR = 0x80010000
@@ -178,8 +186,11 @@ module tb_rv32imp_pipeline;
       // Báo cáo chu kỳ khi hoàn thành
       if (done && !done_d) begin
         $display("=================================");
-        $display("SOBEL FILTER COMPLETE!");
+        $display("CORE RV32IMP EXECUTION COMPLETE!");
         $display("Total simulation cycles = %0d", cycle_count);
+        $display("Total instructions retired = %0d", retired_inst_count);
+        if (retired_inst_count > 0)
+          $display("Final CPI = %0.3f", real'(cycle_count) / retired_inst_count);
         $display("=================================");
       end
     end

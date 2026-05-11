@@ -224,8 +224,8 @@ module rv32imp_pipeline #(
       .BSel        (ctrl.BSel),
       .ALUSel      (ctrl.ALUSel),
       .MemRW       (ctrl.MemRW),
-      .MemUnsigned (ctrl.MemUnsigned),   // THÊM
-      .MemSize     (ctrl.MemSize),       // THÊM
+      .MemUnsigned (ctrl.MemUnsigned),
+      .MemSize     (ctrl.MemSize),
       .RegWEn      (ctrl.RegWEn),
       .WBSel       (ctrl.WBSel),
       .rdSel       (ctrl.rdSel)
