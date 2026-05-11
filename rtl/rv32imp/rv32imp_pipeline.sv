@@ -125,8 +125,10 @@ module rv32imp_pipeline #(
   // rd_WB
   logic [4:0] rd_WB;
 
-  // PC4_WB, alu_WB, mem_WB + control tới WB
-  logic [31:0] pc_plus4_mem_WB, alu_WB, mem_WB;
+  // PC4_WB, alu_WB + control tới WB
+  // NOTE: mem_WB removed — synchronous-read DMEM output (mem) is already
+  //       1-cycle delayed and naturally aligns with WB stage timing.
+  logic [31:0] pc_plus4_mem_WB, alu_WB;
 
   // Control sang WB
   ctrl_t ctrl_WB;
@@ -391,15 +393,16 @@ module rv32imp_pipeline #(
   );
 
   // ---------- EX/MEM pipeline registers ----------
+  // NOTE: en=1'b1 — EX/MEM must always advance so LOAD instruction
+  //       can move to MEM stage during stall, enabling sync-read to complete.
 
-
-  pipe_reg #(.W(32)) u_pc_MEM     (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(pc_EX),      .bubble(32'b0), .q(pc_MEM));
-  pipe_reg #(.W(32)) u_alu_MEM    (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(alu),        .bubble(32'b0), .q(alu_MEM));
-  pipe_reg #(.W(32)) u_dataR2_MEM (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(dataR2_fwd), .bubble(32'b0), .q(dataR2_MEM));
-  pipe_reg #(.W(5))  u_rd_MEM     (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(rd_EX),      .bubble(5'd0),  .q(rd_MEM));
+  pipe_reg #(.W(32)) u_pc_MEM     (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(pc_EX),      .bubble(32'b0), .q(pc_MEM));
+  pipe_reg #(.W(32)) u_alu_MEM    (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(alu),        .bubble(32'b0), .q(alu_MEM));
+  pipe_reg #(.W(32)) u_dataR2_MEM (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(dataR2_fwd), .bubble(32'b0), .q(dataR2_MEM));
+  pipe_reg #(.W(5))  u_rd_MEM     (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(rd_EX),      .bubble(5'd0),  .q(rd_MEM));
 
   // Control
-  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_MEM   (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(ctrl_EX),      .bubble(CTRL_NOP),  .q(ctrl_MEM));
+  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_MEM   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(ctrl_EX),      .bubble(CTRL_NOP),  .q(ctrl_MEM));
   // MEM
 
   // ------------------------------
@@ -433,13 +436,16 @@ module rv32imp_pipeline #(
   );
 
   // ---------- MEM/WB pipeline registers ----------
+  // NOTE: en=1'b1 — MEM/WB must always advance so LOAD data (from sync read)
+  //       becomes available at WB stage. u_mem_WB removed since DMEM's
+  //       registered read already provides 1-cycle delay (mem aligns with WB).
 
-
-  pipe_reg #(.W(32)) u_pc4_WB  (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(pc_plus4_mem), .bubble(32'b0), .q(pc_plus4_mem_WB));
-  pipe_reg #(.W(32)) u_alu_WB  (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(alu_MEM),      .bubble(32'b0), .q(alu_WB));
-  pipe_reg #(.W(5))  u_rd_WB   (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(rd_MEM),       .bubble(5'd0),  .q(rd_WB));
+  pipe_reg #(.W(32)) u_pc4_WB  (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(pc_plus4_mem), .bubble(32'b0), .q(pc_plus4_mem_WB));
+  pipe_reg #(.W(32)) u_alu_WB  (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(alu_MEM),      .bubble(32'b0), .q(alu_WB));
+  // u_mem_WB removed: mem is already 1-cycle delayed from synchronous DMEM read
+  pipe_reg #(.W(5))  u_rd_WB   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(rd_MEM),       .bubble(5'd0),  .q(rd_WB));
   // Control
-  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_WB   (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(ctrl_MEM),      .bubble(CTRL_NOP),  .q(ctrl_WB));
+  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_WB   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(ctrl_MEM),      .bubble(CTRL_NOP),  .q(ctrl_WB));
   // ------------------------------
   // Write-Back MUX
   // WBSel: 00->MEM, 01->ALU, 10->PC+4
