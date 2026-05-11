@@ -72,20 +72,16 @@ module Data_Memory #(
 
     // ---- READ: registered (required for M10K inference) ----
     logic [31:0] rdata;
-    logic [1:0]  MemSize_q;
-    logic        MemUnsigned_q;
 
     always_ff @(posedge clk) begin
         rdata         <= ram_array[word_addr];
         byte_offset_q <= byte_offset;   // latch offset alongside data
-        MemSize_q     <= MemSize;       // latch size to match data latency
-        MemUnsigned_q <= MemUnsigned;   // latch sign extension flag
     end
 
     // ---- Output decode (combinational from registered data) ----
     always_comb begin
         dataR = 32'b0;
-        case (MemSize_q)
+        case (MemSize)
             2'b00: begin
                 logic [7:0] b;
                 case (byte_offset_q)
@@ -95,14 +91,14 @@ module Data_Memory #(
                     2'b11:   b = rdata[31:24];
                     default: b = 8'b0;
                 endcase
-                dataR = MemUnsigned_q ? {24'b0, b} : {{24{b[7]}}, b};
+                dataR = MemUnsigned ? {24'b0, b} : {{24{b[7]}}, b};
             end
             2'b01: begin
                 logic [15:0] h;
                 h = byte_offset_q[1]
                     ? rdata[31:16]
                     : rdata[15:0];
-                dataR = MemUnsigned_q ? {16'b0, h} : {{16{h[15]}}, h};
+                dataR = MemUnsigned ? {16'b0, h} : {{16{h[15]}}, h};
             end
             2'b10: dataR = rdata;
             default: dataR = 32'b0;
