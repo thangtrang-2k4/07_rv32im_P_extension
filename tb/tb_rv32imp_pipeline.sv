@@ -66,10 +66,10 @@ module tb_rv32imp_pipeline;
 //    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/scala_signature.hex");
 //    load_result("../sw/Filter-Sobel/scala_signature.hex", result);
 
-    load_imem("../sw/Matrix-Multiplication/pext_imem.hex");
-    load_dmem("../sw/Matrix-Multiplication/pext_dmem.hex");
+    load_imem("../sw/Filter-Fir/pext_imem.hex");
+    load_dmem("../sw/Filter-Fir/pext_dmem.hex");
 
-    load_golden("../sw/Matrix-Multiplication/pext_goldenw.hex", golden);
+    load_golden("../sw/Filter-Fir/pext_goldenw.hex", golden);
 
 //    load_imem("../sw/Matrix-Multiplication/pext_imem.hex");
 //    load_dmem("../sw/Matrix-Multiplication/pext_dmem.hex");
@@ -84,6 +84,7 @@ module tb_rv32imp_pipeline;
     wait (done == 1'b1);
     #20;
 
+<<<<<<< HEAD
     dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/pext_signature.hex");
     load_result("../sw/Matrix-Multiplication/pext_signature.hex", result);
 
@@ -92,6 +93,10 @@ module tb_rv32imp_pipeline;
 
 //    dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/pext_signature.hex");
 //    load_result("../sw/Matrix-Multiplication/pext_signature.hex", result);
+=======
+    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Fir/pext_signature.hex");
+    load_result("../sw/Filter-Fir/pext_signature.hex", result);
+>>>>>>> a620477b1ebc7cb865269c7202c5c581a64926ee
     #1;
     compare_result(depth, OAddr, golden, result, error);
     if (error == 0)
