@@ -166,7 +166,7 @@ module tb_rv32imp_pipeline;
       
       // Instruction Retired Counter (Method 1)
       // Increments when a non-NOP instruction reaches the WB stage
-      if (dut.ctrl_WB != dut.CTRL_NOP) begin
+      if (dut.ctrl_WB != CTRL_NOP) begin
         retired_inst_count <= retired_inst_count + 1;
       end
 
