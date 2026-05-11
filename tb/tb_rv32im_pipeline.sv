@@ -27,7 +27,7 @@ module tb_rv32im_pipeline;
 
   localparam int depth      = 50;   // (200byte) Fir
   localparam int BaseAddr   = 32'h80010000;
-  localparam int OAddr      = 32'h800100e8;
+  localparam int OAddr      = 32'h80010804;
   localparam int DoneAddr   = 32'h8001fffc; // Fir
   localparam int DONE_INDEX = (DoneAddr - BaseAddr) >> 2;
 
@@ -37,15 +37,15 @@ module tb_rv32im_pipeline;
     int error;
 
     #10;
-    load_imem("../sw/Filter-Fir/scala_imem.hex");
-    load_dmem("../sw/Filter-Fir/scala_dmem.hex");
-    load_golden("../sw/Filter-Fir/scala_goldenw.hex", golden);
+    load_imem("../sw/Matrix-Multiplication/scala_imem.hex");
+    load_dmem("../sw/Matrix-Multiplication/scala_dmem.hex");
+    load_golden("../sw/Matrix-Multiplication/scala_goldenw.hex", golden);
 
     wait (done == 1'b1);
     #20;
 
-    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Fir/scala_signature.hex");
-    load_result("../sw/Filter-Fir/scala_signature.hex", result);
+    dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/scala_signature.hex");
+    load_result("../sw/Matrix-Multiplication/scala_signature.hex", result);
     #1;
     compare_result(depth, OAddr, golden, result, error);
     

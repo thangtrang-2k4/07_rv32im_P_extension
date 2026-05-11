@@ -1,0 +1,996 @@
+
+pext.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+80000000 <_start>:
+80000000:	00020117          	auipc	sp,0x20
+80000004:	00010113          	mv	sp,sp
+80000008:	00010297          	auipc	t0,0x10
+8000000c:	7fc28293          	addi	t0,t0,2044 # 80010804 <mat_Bt>
+80000010:	00012317          	auipc	t1,0x12
+80000014:	bf430313          	addi	t1,t1,-1036 # 80011c04 <_bss_end>
+
+80000018 <clear_bss>:
+80000018:	0062d863          	bge	t0,t1,80000028 <done_bss>
+8000001c:	0002a023          	sw	zero,0(t0)
+80000020:	00428293          	addi	t0,t0,4
+80000024:	ff5ff06f          	j	80000018 <clear_bss>
+
+80000028 <done_bss>:
+80000028:	008000ef          	jal	80000030 <main>
+8000002c:	0000006f          	j	8000002c <done_bss+0x4>
+
+80000030 <main>:
+80000030:	800108b7          	lui	a7,0x80010
+80000034:	800117b7          	lui	a5,0x80011
+80000038:	fb010113          	addi	sp,sp,-80 # 8001ffb0 <_bss_end+0xe3ac>
+8000003c:	80478793          	addi	a5,a5,-2044 # 80010804 <mat_Bt>
+80000040:	00088893          	mv	a7,a7
+80000044:	04812623          	sw	s0,76(sp)
+80000048:	04912423          	sw	s1,72(sp)
+8000004c:	05212223          	sw	s2,68(sp)
+80000050:	05312023          	sw	s3,64(sp)
+80000054:	03412e23          	sw	s4,60(sp)
+80000058:	03512c23          	sw	s5,56(sp)
+8000005c:	03612a23          	sw	s6,52(sp)
+80000060:	03712823          	sw	s7,48(sp)
+80000064:	03812623          	sw	s8,44(sp)
+80000068:	03912423          	sw	s9,40(sp)
+8000006c:	03a12223          	sw	s10,36(sp)
+80000070:	03b12023          	sw	s11,32(sp)
+80000074:	00f12e23          	sw	a5,28(sp)
+80000078:	00088513          	mv	a0,a7
+8000007c:	40078613          	addi	a2,a5,1024
+80000080:	00000593          	li	a1,0
+80000084:	02000813          	li	a6,32
+80000088:	c0060793          	addi	a5,a2,-1024
+8000008c:	00050713          	mv	a4,a0
+80000090:	00074683          	lbu	a3,0(a4)
+80000094:	02078793          	addi	a5,a5,32
+80000098:	00170713          	addi	a4,a4,1
+8000009c:	fed78023          	sb	a3,-32(a5)
+800000a0:	fef618e3          	bne	a2,a5,80000090 <main+0x60>
+800000a4:	00158593          	addi	a1,a1,1
+800000a8:	02050513          	addi	a0,a0,32
+800000ac:	00160613          	addi	a2,a2,1
+800000b0:	fd059ce3          	bne	a1,a6,80000088 <main+0x58>
+800000b4:	800117b7          	lui	a5,0x80011
+800000b8:	c0478793          	addi	a5,a5,-1020 # 80010c04 <output_C>
+800000bc:	40088813          	addi	a6,a7,1024 # 80010400 <mat_A>
+800000c0:	42088d93          	addi	s11,a7,1056
+800000c4:	00800713          	li	a4,8
+800000c8:	01c12503          	lw	a0,28(sp)
+800000cc:	00078613          	mv	a2,a5
+800000d0:	00800593          	li	a1,8
+800000d4:	00f12a23          	sw	a5,20(sp)
+800000d8:	01b12623          	sw	s11,12(sp)
+800000dc:	00e12c23          	sw	a4,24(sp)
+800000e0:	01012823          	sw	a6,16(sp)
+800000e4:	01012783          	lw	a5,16(sp)
+800000e8:	00c12e83          	lw	t4,12(sp)
+800000ec:	00050713          	mv	a4,a0
+800000f0:	00000d13          	li	s10,0
+800000f4:	00000c93          	li	s9,0
+800000f8:	00000c13          	li	s8,0
+800000fc:	00000b93          	li	s7,0
+80000100:	00000b13          	li	s6,0
+80000104:	00000a93          	li	s5,0
+80000108:	00000a13          	li	s4,0
+8000010c:	00000993          	li	s3,0
+80000110:	00000913          	li	s2,0
+80000114:	00000493          	li	s1,0
+80000118:	00000413          	li	s0,0
+8000011c:	00000393          	li	t2,0
+80000120:	00000293          	li	t0,0
+80000124:	00000f93          	li	t6,0
+80000128:	00000f13          	li	t5,0
+8000012c:	00000d93          	li	s11,0
+80000130:	00b12023          	sw	a1,0(sp)
+80000134:	00a12223          	sw	a0,4(sp)
+80000138:	00c12423          	sw	a2,8(sp)
+8000013c:	0007ae03          	lw	t3,0(a5)
+80000140:	0207a303          	lw	t1,32(a5)
+80000144:	0407a883          	lw	a7,64(a5)
+80000148:	0607a683          	lw	a3,96(a5)
+8000014c:	00072803          	lw	a6,0(a4)
+80000150:	02072503          	lw	a0,32(a4)
+80000154:	04072583          	lw	a1,64(a4)
+80000158:	06072603          	lw	a2,96(a4)
+8000015c:	8d0e5dbb          	pm4adda.b	s11,t3,a6
+80000160:	8cae5f3b          	pm4adda.b	t5,t3,a0
+80000164:	8cbe5fbb          	pm4adda.b	t6,t3,a1
+80000168:	8cce52bb          	pm4adda.b	t0,t3,a2
+8000016c:	8d0353bb          	pm4adda.b	t2,t1,a6
+80000170:	8ca3543b          	pm4adda.b	s0,t1,a0
+80000174:	8cb354bb          	pm4adda.b	s1,t1,a1
+80000178:	8cc3593b          	pm4adda.b	s2,t1,a2
+8000017c:	8d08d9bb          	pm4adda.b	s3,a7,a6
+80000180:	8ca8da3b          	pm4adda.b	s4,a7,a0
+80000184:	8cb8dabb          	pm4adda.b	s5,a7,a1
+80000188:	8cc8db3b          	pm4adda.b	s6,a7,a2
+8000018c:	8d06dbbb          	pm4adda.b	s7,a3,a6
+80000190:	8ca6dc3b          	pm4adda.b	s8,a3,a0
+80000194:	8cb6dcbb          	pm4adda.b	s9,a3,a1
+80000198:	8cc6dd3b          	pm4adda.b	s10,a3,a2
+8000019c:	00478793          	addi	a5,a5,4
+800001a0:	00470713          	addi	a4,a4,4
+800001a4:	f8fe9ce3          	bne	t4,a5,8000013c <main+0x10c>
+800001a8:	00812603          	lw	a2,8(sp)
+800001ac:	00012583          	lw	a1,0(sp)
+800001b0:	00412503          	lw	a0,4(sp)
+800001b4:	01b62023          	sw	s11,0(a2)
+800001b8:	01e62223          	sw	t5,4(a2)
+800001bc:	01f62423          	sw	t6,8(a2)
+800001c0:	00562623          	sw	t0,12(a2)
+800001c4:	08762023          	sw	t2,128(a2)
+800001c8:	08862223          	sw	s0,132(a2)
+800001cc:	08962423          	sw	s1,136(a2)
+800001d0:	09262623          	sw	s2,140(a2)
+800001d4:	11362023          	sw	s3,256(a2)
+800001d8:	11462223          	sw	s4,260(a2)
+800001dc:	11562423          	sw	s5,264(a2)
+800001e0:	11662623          	sw	s6,268(a2)
+800001e4:	19762023          	sw	s7,384(a2)
+800001e8:	19862223          	sw	s8,388(a2)
+800001ec:	19962423          	sw	s9,392(a2)
+800001f0:	19a62623          	sw	s10,396(a2)
+800001f4:	02058593          	addi	a1,a1,32
+800001f8:	10800793          	li	a5,264
+800001fc:	01060613          	addi	a2,a2,16
+80000200:	08050513          	addi	a0,a0,128
+80000204:	eef590e3          	bne	a1,a5,800000e4 <main+0xb4>
+80000208:	01812703          	lw	a4,24(sp)
+8000020c:	01412783          	lw	a5,20(sp)
+80000210:	00c12d83          	lw	s11,12(sp)
+80000214:	01012803          	lw	a6,16(sp)
+80000218:	02070713          	addi	a4,a4,32
+8000021c:	080d8d93          	addi	s11,s11,128
+80000220:	08080813          	addi	a6,a6,128
+80000224:	20078793          	addi	a5,a5,512
+80000228:	eab710e3          	bne	a4,a1,800000c8 <main+0x98>
+8000022c:	800207b7          	lui	a5,0x80020
+80000230:	00100713          	li	a4,1
+80000234:	fee7ae23          	sw	a4,-4(a5) # 8001fffc <_done_flag>
+80000238:	0000006f          	j	80000238 <main+0x208>
+
+Disassembly of section .rodata:
+
+80010000 <mat_B>:
+80010000:	6245                	.insn	2, 0x6245
+80010002:	aaa6                	.insn	2, 0xaaa6
+80010004:	0240d547          	.insn	4, 0x0240d547
+80010008:	951a                	.insn	2, 0x951a
+8001000a:	083a                	.insn	2, 0x083a
+8001000c:	f208                	.insn	2, 0xf208
+8001000e:	51bdea5b          	.insn	4, 0x51bdea5b
+80010012:	fc9d                	.insn	2, 0xfc9d
+80010014:	8e24                	.insn	2, 0x8e24
+80010016:	b85c                	.insn	2, 0xb85c
+80010018:	fc60                	.insn	2, 0xfc60
+8001001a:	ffb231c3          	.insn	4, 0xffb231c3
+8001001e:	b4699e2f          	.insn	4, 0xb4699e2f
+80010022:	c478                	.insn	2, 0xc478
+80010024:	d6ed722b          	.insn	4, 0xd6ed722b
+80010028:	beff8217          	auipc	tp,0xbeff8
+8001002c:	074e                	.insn	2, 0x074e
+8001002e:	71e2                	.insn	2, 0x71e2
+80010030:	9fba                	.insn	2, 0x9fba
+80010032:	ab95                	.insn	2, 0xab95
+80010034:	edf5                	.insn	2, 0xedf5
+80010036:	d23d                	.insn	2, 0xd23d
+80010038:	6e1f b880 f6df      	.insn	6, 0xf6dfb8806e1f
+8001003e:	4557044f          	.insn	4, 0x4557044f
+80010042:	0e5f 8c68 3379      	.insn	6, 0x33798c680e5f
+80010048:	e7e14e33          	.insn	4, 0xe7e14e33
+8001004c:	54f0                	.insn	2, 0x54f0
+8001004e:	dd96                	.insn	2, 0xdd96
+80010050:	47bd                	.insn	2, 0x47bd
+80010052:	901c                	.insn	2, 0x901c
+80010054:	3570                	.insn	2, 0x3570
+80010056:	7846                	.insn	2, 0x7846
+80010058:	1939                	.insn	2, 0x1939
+8001005a:	c180                	.insn	2, 0xc180
+8001005c:	76e272b3          	.insn	4, 0x76e272b3
+80010060:	bfb3c58b          	.insn	4, 0xbfb3c58b
+80010064:	4d7d                	.insn	2, 0x4d7d
+80010066:	c0f4                	.insn	2, 0xc0f4
+80010068:	c0a6                	.insn	2, 0xc0a6
+8001006a:	0132                	.insn	2, 0x0132
+8001006c:	cb2d                	.insn	2, 0xcb2d
+8001006e:	02ff d7dd f036 86dc 	.insn	10, 0xe4cd86dcf036d7dd02ff
+80010076:	e4cd 
+80010078:	6986                	.insn	2, 0x6986
+8001007a:	f0a5                	.insn	2, 0xf0a5
+8001007c:	6bce                	.insn	2, 0x6bce
+8001007e:	37c8                	.insn	2, 0x37c8
+80010080:	ecd0eb6b          	.insn	4, 0xecd0eb6b
+80010084:	89f1                	.insn	2, 0x89f1
+80010086:	423a                	.insn	2, 0x423a
+80010088:	e8f0c4cb          	.insn	4, 0xe8f0c4cb
+8001008c:	1c8c                	.insn	2, 0x1c8c
+8001008e:	f081                	.insn	2, 0xf081
+80010090:	12017a83          	.insn	4, 0x12017a83
+80010094:	385b002f          	.insn	4, 0x385b002f
+80010098:	e9b9                	.insn	2, 0xe9b9
+8001009a:	36b5                	.insn	2, 0x36b5
+8001009c:	8dad                	.insn	2, 0x8dad
+8001009e:	83d6                	.insn	2, 0x83d6
+800100a0:	88f6                	.insn	2, 0x88f6
+800100a2:	df64                	.insn	2, 0xdf64
+800100a4:	c7d5                	.insn	2, 0xc7d5
+800100a6:	165f d8d6 9c60      	.insn	6, 0x9c60d8d6165f
+800100ac:	6804                	.insn	2, 0x6804
+800100ae:	5900                	.insn	2, 0x5900
+800100b0:	22e4                	.insn	2, 0x22e4
+800100b2:	6d12                	.insn	2, 0x6d12
+800100b4:	36fdbdd3          	.insn	4, 0x36fdbdd3
+800100b8:	2ec2                	.insn	2, 0x2ec2
+800100ba:	5401                	.insn	2, 0x5401
+800100bc:	d4b4a597          	auipc	a1,0xd4b4a
+800100c0:	462b076b          	.insn	4, 0x462b076b
+800100c4:	fdcc                	.insn	2, 0xfdcc
+800100c6:	6a59                	.insn	2, 0x6a59
+800100c8:	f221                	.insn	2, 0xf221
+800100ca:	161f 7cd3 e645      	.insn	6, 0xe6457cd3161f
+800100d0:	0d0a                	.insn	2, 0x0d0a
+800100d2:	d51f bd77 7876      	.insn	6, 0x7876bd77d51f
+800100d8:	173a                	.insn	2, 0x173a
+800100da:	2c9193c3          	.insn	4, 0x2c9193c3
+800100de:	4d36                	.insn	2, 0x4d36
+800100e0:	9432                	.insn	2, 0x9432
+800100e2:	004a                	.insn	2, 0x004a
+800100e4:	4279                	.insn	2, 0x4279
+800100e6:	de212c37          	lui	s8,0xde212
+800100ea:	50fa                	.insn	2, 0x50fa
+800100ec:	bc55                	.insn	2, 0xbc55
+800100ee:	b110                	.insn	2, 0xb110
+800100f0:	bd7e                	.insn	2, 0xbd7e
+800100f2:	e27e                	.insn	2, 0xe27e
+800100f4:	3aec                	.insn	2, 0x3aec
+800100f6:	11a5                	.insn	2, 0x11a5
+800100f8:	4d1a                	.insn	2, 0x4d1a
+800100fa:	dea78997          	auipc	s3,0xdea78
+800100fe:	1fc4                	.insn	2, 0x1fc4
+80010100:	f8e5                	.insn	2, 0xf8e5
+80010102:	215e4bf3          	.insn	4, 0x215e4bf3
+80010106:	1ee1                	.insn	2, 0x1ee1
+80010108:	7b41                	.insn	2, 0x7b41
+8001010a:	8045                	.insn	2, 0x8045
+8001010c:	db5522af          	.insn	4, 0xdb5522af
+80010110:	e699                	.insn	2, 0xe699
+80010112:	070a                	.insn	2, 0x070a
+80010114:	09a8                	.insn	2, 0x09a8
+80010116:	2d7e                	.insn	2, 0x2d7e
+80010118:	5181                	.insn	2, 0x5181
+8001011a:	979dba6f          	jal	s4,7ffeba92 <_start-0x1456e>
+8001011e:	4ce0d80f          	.insn	4, 0x4ce0d80f
+80010122:	e2e0                	.insn	2, 0xe2e0
+80010124:	5556                	.insn	2, 0x5556
+80010126:	ec48                	.insn	2, 0xec48
+80010128:	a615                	.insn	2, 0xa615
+8001012a:	d29e24fb          	.insn	4, 0xd29e24fb
+8001012e:	d03a                	.insn	2, 0xd03a
+80010130:	0299                	.insn	2, 0x0299
+80010132:	2dc5                	.insn	2, 0x2dc5
+80010134:	494faf3f bddc32a0 	.insn	8, 0xbddc32a0494faf3f
+8001013c:	8af0                	.insn	2, 0x8af0
+8001013e:	e782                	.insn	2, 0xe782
+80010140:	5b3d                	.insn	2, 0x5b3d
+80010142:	17c44213          	xori	tp,s0,380
+80010146:	d3f28a7b          	.insn	4, 0xd3f28a7b
+8001014a:	5b3a                	.insn	2, 0x5b3a
+8001014c:	2df4                	.insn	2, 0x2df4
+8001014e:	b8e13723          	.insn	4, 0xb8e13723
+80010152:	9912                	.insn	2, 0x9912
+80010154:	65d984bf 0742368d 	.insn	8, 0x0742368d65d984bf
+8001015c:	0398                	.insn	2, 0x0398
+8001015e:	f57e                	.insn	2, 0xf57e
+80010160:	20124fbb          	.insn	4, 0x20124fbb
+80010164:	ac13b97b          	.insn	4, 0xac13b97b
+80010168:	d9c2                	.insn	2, 0xd9c2
+8001016a:	8bdf 25aa 8646      	.insn	6, 0x864625aa8bdf
+80010170:	981f c7b3 ac23      	.insn	6, 0xac23c7b3981f
+80010176:	a168                	.insn	2, 0xa168
+80010178:	7046                	.insn	2, 0x7046
+8001017a:	cb20                	.insn	2, 0xcb20
+8001017c:	3061                	.insn	2, 0x3061
+8001017e:	e547c727          	.insn	4, 0xe547c727
+80010182:	e38196ff 040bdaa6 	.insn	12, 0x6f4d09d1040bdaa6e38196ff
+8001018a:	6f4d09d1 
+8001018e:	56f4abe7          	.insn	4, 0x56f4abe7
+80010192:	1200                	.insn	2, 0x1200
+80010194:	a3b4                	.insn	2, 0xa3b4
+80010196:	878a                	.insn	2, 0x878a
+80010198:	2c7a                	.insn	2, 0x2c7a
+8001019a:	d7d09f5b          	.insn	4, 0xd7d09f5b
+8001019e:	9f38                	.insn	2, 0x9f38
+800101a0:	19583cb7          	lui	s9,0x19583
+800101a4:	9d8c                	.insn	2, 0x9d8c
+800101a6:	3731                	.insn	2, 0x3731
+800101a8:	b505                	.insn	2, 0xb505
+800101aa:	3816                	.insn	2, 0x3816
+800101ac:	6c38                	.insn	2, 0x6c38
+800101ae:	d51e                	.insn	2, 0xd51e
+800101b0:	0a1c                	.insn	2, 0x0a1c
+800101b2:	cf5d                	.insn	2, 0xcf5d
+800101b4:	6019                	.insn	2, 0x6019
+800101b6:	6da9                	.insn	2, 0x6da9
+800101b8:	329e                	.insn	2, 0x329e
+800101ba:	f6e2                	.insn	2, 0xf6e2
+800101bc:	c288                	.insn	2, 0xc288
+800101be:	c186                	.insn	2, 0xc186
+800101c0:	ba02                	.insn	2, 0xba02
+800101c2:	2874367b          	.insn	4, 0x2874367b
+800101c6:	ac49580f          	.insn	4, 0xac49580f
+800101ca:	f9d9                	.insn	2, 0xf9d9
+800101cc:	51b5                	.insn	2, 0x51b5
+800101ce:	7befe2ef          	jal	t0,8010e98c <_stack_top+0xee98c>
+800101d2:	2378                	.insn	2, 0x2378
+800101d4:	0ea1                	.insn	2, 0x0ea1
+800101d6:	04c2bf73          	.insn	4, 0x04c2bf73
+800101da:	0717aebb          	.insn	4, 0x0717aebb
+800101de:	33f0                	.insn	2, 0x33f0
+800101e0:	c245                	.insn	2, 0xc245
+800101e2:	8881                	.insn	2, 0x8881
+800101e4:	bd6a                	.insn	2, 0xbd6a
+800101e6:	fb00                	.insn	2, 0xfb00
+800101e8:	af8a                	.insn	2, 0xaf8a
+800101ea:	5515                	.insn	2, 0x5515
+800101ec:	a5387d97          	auipc	s11,0xa5387
+800101f0:	2f6e0b77          	.insn	4, 0x2f6e0b77
+800101f4:	4465                	.insn	2, 0x4465
+800101f6:	6cd1                	.insn	2, 0x6cd1
+800101f8:	a40e                	.insn	2, 0xa40e
+800101fa:	014c                	.insn	2, 0x014c
+800101fc:	1f66                	.insn	2, 0x1f66
+800101fe:	74f4                	.insn	2, 0x74f4
+80010200:	7a61                	.insn	2, 0x7a61
+80010202:	7622926f          	jal	tp,80039964 <_stack_top+0x19964>
+80010206:	88b0cf9b          	psrl.hs	t6,ra,a1
+8001020a:	4a28                	.insn	2, 0x4a28
+8001020c:	68d6                	.insn	2, 0x68d6
+8001020e:	e49c                	.insn	2, 0xe49c
+80010210:	e54ce2c7          	.insn	4, 0xe54ce2c7
+80010214:	12d9                	.insn	2, 0x12d9
+80010216:	ca26                	.insn	2, 0xca26
+80010218:	58bbaf33          	.insn	4, 0x58bbaf33
+8001021c:	4f39                	.insn	2, 0x4f39
+8001021e:	3e48                	.insn	2, 0x3e48
+80010220:	0258                	.insn	2, 0x0258
+80010222:	2984                	.insn	2, 0x2984
+80010224:	1365                	.insn	2, 0x1365
+80010226:	b891                	.insn	2, 0xb891
+80010228:	9898175b          	.insn	4, 0x9898175b
+8001022c:	0d58b563          	.insn	4, 0x0d58b563
+80010230:	256cf7e7          	.insn	4, 0x256cf7e7
+80010234:	c4662047          	.insn	4, 0xc4662047
+80010238:	dcaf1763          	bne	t5,a0,8000f806 <main+0xf7d6>
+8001023c:	f324                	.insn	2, 0xf324
+8001023e:	56f2                	.insn	2, 0x56f2
+80010240:	ca59                	.insn	2, 0xca59
+80010242:	0ab2                	.insn	2, 0x0ab2
+80010244:	f095                	.insn	2, 0xf095
+80010246:	0546                	.insn	2, 0x0546
+80010248:	e0ff476f          	jal	a4,80005056 <main+0x5026>
+8001024c:	23a9                	.insn	2, 0x23a9
+8001024e:	8c95                	.insn	2, 0x8c95
+80010250:	2549                	.insn	2, 0x2549
+80010252:	8725                	.insn	2, 0x8725
+80010254:	e766                	.insn	2, 0xe766
+80010256:	c250                	.insn	2, 0xc250
+80010258:	be6fd32b          	.insn	4, 0xbe6fd32b
+8001025c:	27607d1b          	.insn	4, 0x27607d1b
+80010260:	6214                	.insn	2, 0x6214
+80010262:	da3c                	.insn	2, 0xda3c
+80010264:	ef82                	.insn	2, 0xef82
+80010266:	cd6c                	.insn	2, 0xcd6c
+80010268:	7ddf 7a89 5899      	.insn	6, 0x58997a897ddf
+8001026e:	2c15                	.insn	2, 0x2c15
+80010270:	e270                	.insn	2, 0xe270
+80010272:	5bc0                	.insn	2, 0x5bc0
+80010274:	1829                	.insn	2, 0x1829
+80010276:	c288                	.insn	2, 0xc288
+80010278:	dc79                	.insn	2, 0xdc79
+8001027a:	1181cb37          	lui	s6,0x1181c
+8001027e:	ffc82f8b          	.insn	4, 0xffc82f8b
+80010282:	eda9aa37          	lui	s4,0xeda9a
+80010286:	d1ceacd3          	.insn	4, 0xd1ceacd3
+8001028a:	f951                	.insn	2, 0xf951
+8001028c:	410c                	.insn	2, 0x410c
+8001028e:	d1ae                	.insn	2, 0xd1ae
+80010290:	b5fc                	.insn	2, 0xb5fc
+80010292:	2231a08b          	.insn	4, 0x2231a08b
+80010296:	4b6c                	.insn	2, 0x4b6c
+80010298:	4ff2                	.insn	2, 0x4ff2
+8001029a:	666e                	.insn	2, 0x666e
+8001029c:	3c26                	.insn	2, 0x3c26
+8001029e:	287e1443          	.insn	4, 0x287e1443
+800102a2:	e936                	.insn	2, 0xe936
+800102a4:	63b9                	.insn	2, 0x63b9
+800102a6:	20ad89ef          	jal	s3,800e84b0 <_stack_top+0xc84b0>
+800102aa:	d1e0                	.insn	2, 0xd1e0
+800102ac:	c336                	.insn	2, 0xc336
+800102ae:	2016                	.insn	2, 0x2016
+800102b0:	a084                	.insn	2, 0xa084
+800102b2:	0dbc3cdb          	.insn	4, 0x0dbc3cdb
+800102b6:	ef51                	.insn	2, 0xef51
+800102b8:	94fe                	.insn	2, 0x94fe
+800102ba:	cde5                	.insn	2, 0xcde5
+800102bc:	47d3afd3          	.insn	4, 0x47d3afd3
+800102c0:	13ad                	.insn	2, 0x13ad
+800102c2:	773f9a8f          	.insn	4, 0x773f9a8f
+800102c6:	5065                	.insn	2, 0x5065
+800102c8:	ffdd                	.insn	2, 0xffdd
+800102ca:	0726ced7          	.insn	4, 0x0726ced7
+800102ce:	0175                	.insn	2, 0x0175
+800102d0:	063e                	.insn	2, 0x063e
+800102d2:	e634                	.insn	2, 0xe634
+800102d4:	4259                	.insn	2, 0x4259
+800102d6:	0f04                	.insn	2, 0x0f04
+800102d8:	1038                	.insn	2, 0x1038
+800102da:	d9d1                	.insn	2, 0xd9d1
+800102dc:	ff28                	.insn	2, 0xff28
+800102de:	5d92                	.insn	2, 0x5d92
+800102e0:	a0ce                	.insn	2, 0xa0ce
+800102e2:	fc2c                	.insn	2, 0xfc2c
+800102e4:	2f11                	.insn	2, 0x2f11
+800102e6:	636a                	.insn	2, 0x636a
+800102e8:	4b0a                	.insn	2, 0x4b0a
+800102ea:	7b91                	.insn	2, 0x7b91
+800102ec:	c1233a97          	auipc	s5,0xc1233
+800102f0:	f202                	.insn	2, 0xf202
+800102f2:	a21f 55de 6631      	.insn	6, 0x663155dea21f
+800102f8:	f622                	.insn	2, 0xf622
+800102fa:	64cd                	.insn	2, 0x64cd
+800102fc:	9ec495c3          	.insn	4, 0x9ec495c3
+80010300:	6dc0                	.insn	2, 0x6dc0
+80010302:	f69a                	.insn	2, 0xf69a
+80010304:	1dbe                	.insn	2, 0x1dbe
+80010306:	8146                	.insn	2, 0x8146
+80010308:	97b8a517          	auipc	a0,0x97b8a
+8001030c:	6579                	.insn	2, 0x6579
+8001030e:	1838                	.insn	2, 0x1838
+80010310:	ec7a                	.insn	2, 0xec7a
+80010312:	228d                	.insn	2, 0x228d
+80010314:	b2e4                	.insn	2, 0xb2e4
+80010316:	1ba2                	.insn	2, 0x1ba2
+80010318:	35fc                	.insn	2, 0x35fc
+8001031a:	dda9                	.insn	2, 0xdda9
+8001031c:	8764                	.insn	2, 0x8764
+8001031e:	9a677697          	auipc	a3,0x9a677
+80010322:	12cd                	.insn	2, 0x12cd
+80010324:	9a21                	.insn	2, 0x9a21
+80010326:	b4f8                	.insn	2, 0xb4f8
+80010328:	f84061ef          	jal	gp,7ff16aac <_start-0xe9554>
+8001032c:	1e3d944b          	.insn	4, 0x1e3d944b
+80010330:	9dd9                	.insn	2, 0x9dd9
+80010332:	e0002c53          	.insn	4, 0xe0002c53
+80010336:	a5fe                	.insn	2, 0xa5fe
+80010338:	9b25                	.insn	2, 0x9b25
+8001033a:	2f79                	.insn	2, 0x2f79
+8001033c:	be1bee13          	ori	t3,s7,-1055
+80010340:	95233f2b          	.insn	4, 0x95233f2b
+80010344:	60fe                	.insn	2, 0x60fe
+80010346:	ba95                	.insn	2, 0xba95
+80010348:	445d                	.insn	2, 0x445d
+8001034a:	7bf1                	.insn	2, 0x7bf1
+8001034c:	7bb1                	.insn	2, 0x7bb1
+8001034e:	bcba6deb          	.insn	4, 0xbcba6deb
+80010352:	721f af38 4ba3      	.insn	6, 0x4ba3af38721f
+80010358:	603212ff ee5e83c7 	.insn	12, 0xb912a212ee5e83c7603212ff
+80010360:	b912a212 
+80010364:	3f86                	.insn	2, 0x3f86
+80010366:	3f74                	.insn	2, 0x3f74
+80010368:	b044                	.insn	2, 0xb044
+8001036a:	bd2c                	.insn	2, 0xbd2c
+8001036c:	1d25                	.insn	2, 0x1d25
+8001036e:	8ba9                	.insn	2, 0x8ba9
+80010370:	a090                	.insn	2, 0xa090
+80010372:	5c2badd7          	.insn	4, 0x5c2badd7
+80010376:	7e1a                	.insn	2, 0x7e1a
+80010378:	7041645b          	.insn	4, 0x7041645b
+8001037c:	c81d                	.insn	2, 0xc81d
+8001037e:	f8ce                	.insn	2, 0xf8ce
+80010380:	295c                	.insn	2, 0x295c
+80010382:	74b4                	.insn	2, 0x74b4
+80010384:	c4ad                	.insn	2, 0xc4ad
+80010386:	c711                	.insn	2, 0xc711
+80010388:	0df4                	.insn	2, 0x0df4
+8001038a:	6ab4                	.insn	2, 0x6ab4
+8001038c:	2a85                	.insn	2, 0x2a85
+8001038e:	62ac                	.insn	2, 0x62ac
+80010390:	38e2                	.insn	2, 0x38e2
+80010392:	de42                	.insn	2, 0xde42
+80010394:	3feafffb          	.insn	4, 0x3feafffb
+80010398:	7668                	.insn	2, 0x7668
+8001039a:	8374                	.insn	2, 0x8374
+8001039c:	04a4                	.insn	2, 0x04a4
+8001039e:	737c                	.insn	2, 0x737c
+800103a0:	6d26c997          	auipc	s3,0x6d26c
+800103a4:	8ddc                	.insn	2, 0x8ddc
+800103a6:	d42c                	.insn	2, 0xd42c
+800103a8:	f970                	.insn	2, 0xf970
+800103aa:	ed1d                	.insn	2, 0xed1d
+800103ac:	81ad                	.insn	2, 0x81ad
+800103ae:	0d02                	.insn	2, 0x0d02
+800103b0:	3034                	.insn	2, 0x3034
+800103b2:	77f6                	.insn	2, 0x77f6
+800103b4:	42de                	.insn	2, 0x42de
+800103b6:	1201                	.insn	2, 0x1201
+800103b8:	4ce2                	.insn	2, 0x4ce2
+800103ba:	823b762f          	.insn	4, 0x823b762f
+800103be:	53607a77          	.insn	4, 0x53607a77
+800103c2:	5ade                	.insn	2, 0x5ade
+800103c4:	93c964f3          	.insn	4, 0x93c964f3
+800103c8:	803e                	.insn	2, 0x803e
+800103ca:	cbe1                	.insn	2, 0xcbe1
+800103cc:	a87c                	.insn	2, 0xa87c
+800103ce:	cec2                	.insn	2, 0xcec2
+800103d0:	4354                	.insn	2, 0x4354
+800103d2:	e215                	.insn	2, 0xe215
+800103d4:	0b1f b05f 9756      	.insn	6, 0x9756b05f0b1f
+800103da:	5964                	.insn	2, 0x5964
+800103dc:	4420                	.insn	2, 0x4420
+800103de:	c43a                	.insn	2, 0xc43a
+800103e0:	a14c                	.insn	2, 0xa14c
+800103e2:	c2d1                	.insn	2, 0xc2d1
+800103e4:	bbcd                	.insn	2, 0xbbcd
+800103e6:	fffc                	.insn	2, 0xfffc
+800103e8:	e360                	.insn	2, 0xe360
+800103ea:	e8e891ab          	.insn	4, 0xe8e891ab
+800103ee:	98df 0a07 690e      	.insn	6, 0x690e0a0798df
+800103f4:	8aff 5ee5 2756 b56f 	.insn	10, 0x9edab56f27565ee58aff
+800103fc:	9eda 
+800103fe:	b958                	.insn	2, 0xb958
+
+80010400 <mat_A>:
+80010400:	5ce6                	.insn	2, 0x5ce6
+80010402:	df61                	.insn	2, 0xdf61
+80010404:	4b6abd33          	.insn	4, 0x4b6abd33
+80010408:	83dc                	.insn	2, 0x83dc
+8001040a:	73e2                	.insn	2, 0x73e2
+8001040c:	158e                	.insn	2, 0x158e
+8001040e:	ae75                	.insn	2, 0xae75
+80010410:	74ea                	.insn	2, 0x74ea
+80010412:	54c73be3          	.insn	4, 0x54c73be3
+80010416:	4719                	.insn	2, 0x4719
+80010418:	2e3c                	.insn	2, 0x2e3c
+8001041a:	19c1                	.insn	2, 0x19c1
+8001041c:	ac94                	.insn	2, 0xac94
+8001041e:	56e6184b          	.insn	4, 0x56e6184b
+80010422:	a770                	.insn	2, 0xa770
+80010424:	98f9                	.insn	2, 0x98f9
+80010426:	f2a2                	.insn	2, 0xf2a2
+80010428:	c152                	.insn	2, 0xc152
+8001042a:	7456a76f          	jal	a4,8007b36e <_stack_top+0x5b36e>
+8001042e:	11ca9917          	auipc	s2,0x11ca9
+80010432:	8e5e                	.insn	2, 0x8e5e
+80010434:	d54a                	.insn	2, 0xd54a
+80010436:	f511                	.insn	2, 0xf511
+80010438:	5d3d38d7          	.insn	4, 0x5d3d38d7
+8001043c:	6df4                	.insn	2, 0x6df4
+8001043e:	d5ed                	.insn	2, 0xd5ed
+80010440:	19622ce3          	.insn	4, 0x19622ce3
+80010444:	a4126be7          	.insn	4, 0xa4126be7
+80010448:	35c4be17          	auipc	t3,0x35c4b
+8001044c:	2002                	.insn	2, 0x2002
+8001044e:	2620                	.insn	2, 0x2620
+80010450:	8615                	.insn	2, 0x8615
+80010452:	85c5                	.insn	2, 0x85c5
+80010454:	7db4                	.insn	2, 0x7db4
+80010456:	8ef0                	.insn	2, 0x8ef0
+80010458:	8381                	.insn	2, 0x8381
+8001045a:	78cc                	.insn	2, 0x78cc
+8001045c:	385469d7          	.insn	4, 0x385469d7
+80010460:	559a756b          	.insn	4, 0x559a756b
+80010464:	7d1d                	.insn	2, 0x7d1d
+80010466:	70c4                	.insn	2, 0x70c4
+80010468:	5ba5                	.insn	2, 0x5ba5
+8001046a:	8901b6db          	.insn	4, 0x8901b6db
+8001046e:	943f80b3          	.insn	4, 0x943f80b3
+80010472:	ae0c                	.insn	2, 0xae0c
+80010474:	7e81133b          	.insn	4, 0x7e81133b
+80010478:	1994                	.insn	2, 0x1994
+8001047a:	c420ae73          	.insn	4, 0xc420ae73
+8001047e:	514b1e93          	.insn	4, 0x514b1e93
+80010482:	cd62                	.insn	2, 0xcd62
+80010484:	cdb9                	.insn	2, 0xcdb9
+80010486:	1c15                	.insn	2, 0x1c15
+80010488:	f095                	.insn	2, 0xf095
+8001048a:	06d6                	.insn	2, 0x06d6
+8001048c:	987c                	.insn	2, 0x987c
+8001048e:	726b814f          	.insn	4, 0x726b814f
+80010492:	ebd8ee13          	ori	t3,a7,-323
+80010496:	7eb08567          	jalr	a0,2027(ra)
+8001049a:	ca0d                	.insn	2, 0xca0d
+8001049c:	215a                	.insn	2, 0x215a
+8001049e:	e4ba06d7          	.insn	4, 0xe4ba06d7
+800104a2:	1c22                	.insn	2, 0x1c22
+800104a4:	c97e                	.insn	2, 0xc97e
+800104a6:	e6dd                	.insn	2, 0xe6dd
+800104a8:	5e29                	.insn	2, 0x5e29
+800104aa:	a335                	.insn	2, 0xa335
+800104ac:	5b8b72c7          	.insn	4, 0x5b8b72c7
+800104b0:	497d                	.insn	2, 0x497d
+800104b2:	3bca                	.insn	2, 0x3bca
+800104b4:	c88a                	.insn	2, 0xc88a
+800104b6:	4f79                	.insn	2, 0x4f79
+800104b8:	8edd4963          	blt	s10,a3,8000f5aa <main+0xf57a>
+800104bc:	3dbb1667          	.insn	4, 0x3dbb1667
+800104c0:	4180                	.insn	2, 0x4180
+800104c2:	3df4                	.insn	2, 0x3df4
+800104c4:	2e97b17b          	.insn	4, 0x2e97b17b
+800104c8:	81ca                	.insn	2, 0x81ca
+800104ca:	3d49                	.insn	2, 0x3d49
+800104cc:	b21ece0b          	.insn	4, 0xb21ece0b
+800104d0:	9d52                	.insn	2, 0x9d52
+800104d2:	6987ebb3          	.insn	4, 0x6987ebb3
+800104d6:	b6e1                	.insn	2, 0xb6e1
+800104d8:	245e                	.insn	2, 0x245e
+800104da:	35847303          	.insn	4, 0x35847303
+800104de:	28fbbf7b          	.insn	4, 0x28fbbf7b
+800104e2:	fd457817          	auipc	a6,0xfd457
+800104e6:	64ac02f7          	.insn	4, 0x64ac02f7
+800104ea:	a58d648b          	.insn	4, 0xa58d648b
+800104ee:	b25c                	.insn	2, 0xb25c
+800104f0:	061b088f          	.insn	4, 0x061b088f
+800104f4:	a822                	.insn	2, 0xa822
+800104f6:	942e                	.insn	2, 0x942e
+800104f8:	27f8                	.insn	2, 0x27f8
+800104fa:	d36bc8ab          	.insn	4, 0xd36bc8ab
+800104fe:	27b826f3          	.insn	4, 0x27b826f3
+80010502:	9190                	.insn	2, 0x9190
+80010504:	e5d5                	.insn	2, 0xe5d5
+80010506:	6aa90383          	lb	t2,1706(s2) # 91cb9ad8 <_stack_top+0x11c99ad8>
+8001050a:	d872                	.insn	2, 0xd872
+8001050c:	b4a2                	.insn	2, 0xb4a2
+8001050e:	bb71                	.insn	2, 0xbb71
+80010510:	b329                	.insn	2, 0xb329
+80010512:	b3288d77          	.insn	4, 0xb3288d77
+80010516:	7110                	.insn	2, 0x7110
+80010518:	73a0                	.insn	2, 0x73a0
+8001051a:	794e                	.insn	2, 0x794e
+8001051c:	88e22a27          	.insn	4, 0x88e22a27
+80010520:	d9cd7bab          	.insn	4, 0xd9cd7bab
+80010524:	96dd                	.insn	2, 0x96dd
+80010526:	b484                	.insn	2, 0xb484
+80010528:	818a                	.insn	2, 0x818a
+8001052a:	0199                	.insn	2, 0x0199
+8001052c:	d3bb9b5b          	.insn	4, 0xd3bb9b5b
+80010530:	a965                	.insn	2, 0xa965
+80010532:	3358db2f          	.insn	4, 0x3358db2f
+80010536:	eebd                	.insn	2, 0xeebd
+80010538:	2d55                	.insn	2, 0x2d55
+8001053a:	3bf0                	.insn	2, 0x3bf0
+8001053c:	462e6adb          	.insn	4, 0x462e6adb
+80010540:	bd65                	.insn	2, 0xbd65
+80010542:	2b9f a83d 7c1c      	.insn	6, 0x7c1ca83d2b9f
+80010548:	4369                	.insn	2, 0x4369
+8001054a:	87fe                	.insn	2, 0x87fe
+8001054c:	2e55ccc3          	.insn	4, 0x2e55ccc3
+80010550:	a2884d2f          	.insn	4, 0xa2884d2f
+80010554:	e120                	.insn	2, 0xe120
+80010556:	4dac                	.insn	2, 0x4dac
+80010558:	49b8                	.insn	2, 0x49b8
+8001055a:	d068                	.insn	2, 0xd068
+8001055c:	9c0c                	.insn	2, 0x9c0c
+8001055e:	23e4                	.insn	2, 0x23e4
+80010560:	b1c2bfe7          	.insn	4, 0xb1c2bfe7
+80010564:	2786                	.insn	2, 0x2786
+80010566:	e7ae                	.insn	2, 0xe7ae
+80010568:	03291b8f          	.insn	4, 0x03291b8f
+8001056c:	dfdd                	.insn	2, 0xdfdd
+8001056e:	8141                	.insn	2, 0x8141
+80010570:	4ccc                	.insn	2, 0x4ccc
+80010572:	57837dcf          	.insn	4, 0x57837dcf
+80010576:	05ec                	.insn	2, 0x05ec
+80010578:	a3ad                	.insn	2, 0xa3ad
+8001057a:	b505                	.insn	2, 0xb505
+8001057c:	bb2a                	.insn	2, 0xbb2a
+8001057e:	e9b5                	.insn	2, 0xe9b5
+80010580:	75b4                	.insn	2, 0x75b4
+80010582:	d44f830b          	.insn	4, 0xd44f830b
+80010586:	b511                	.insn	2, 0xb511
+80010588:	d21f 5caf 84a5      	.insn	6, 0x84a55cafd21f
+8001058e:	3e88                	.insn	2, 0x3e88
+80010590:	b632                	.insn	2, 0xb632
+80010592:	1178                	.insn	2, 0x1178
+80010594:	1f79                	.insn	2, 0x1f79
+80010596:	ef9a5957          	.insn	4, 0xef9a5957
+8001059a:	ab46                	.insn	2, 0xab46
+8001059c:	a396                	.insn	2, 0xa396
+8001059e:	038021f3          	.insn	4, 0x038021f3
+800105a2:	4970                	.insn	2, 0x4970
+800105a4:	a810                	.insn	2, 0xa810
+800105a6:	3de5                	.insn	2, 0x3de5
+800105a8:	636593e7          	.insn	4, 0x636593e7
+800105ac:	8d6db903          	.insn	4, 0x8d6db903
+800105b0:	8f79                	.insn	2, 0x8f79
+800105b2:	de19                	.insn	2, 0xde19
+800105b4:	aeff af3a 6b73 ad8e 	.insn	14, 0x9627f147d318ad8e6b73af3aaeff
+800105bc:	d318 f147 9627 
+800105c2:	1d4d                	.insn	2, 0x1d4d
+800105c4:	1288                	.insn	2, 0x1288
+800105c6:	6e56                	.insn	2, 0x6e56
+800105c8:	e47bb2ab          	.insn	4, 0xe47bb2ab
+800105cc:	05d5                	.insn	2, 0x05d5
+800105ce:	8378                	.insn	2, 0x8378
+800105d0:	8b14                	.insn	2, 0x8b14
+800105d2:	de3d                	.insn	2, 0xde3d
+800105d4:	59a7768f          	.insn	4, 0x59a7768f
+800105d8:	d3c8                	.insn	2, 0xd3c8
+800105da:	de54                	.insn	2, 0xde54
+800105dc:	da4f58b3          	.insn	4, 0xda4f58b3
+800105e0:	e300                	.insn	2, 0xe300
+800105e2:	de6c                	.insn	2, 0xde6c
+800105e4:	3fd0                	.insn	2, 0x3fd0
+800105e6:	a1d1                	.insn	2, 0xa1d1
+800105e8:	c3eec5f7          	.insn	4, 0xc3eec5f7
+800105ec:	0aa9                	.insn	2, 0x0aa9
+800105ee:	a4b4                	.insn	2, 0xa4b4
+800105f0:	54a8                	.insn	2, 0x54a8
+800105f2:	16b5d397          	auipc	t2,0x16b5d
+800105f6:	af19                	.insn	2, 0xaf19
+800105f8:	dbd4                	.insn	2, 0xdbd4
+800105fa:	7858                	.insn	2, 0x7858
+800105fc:	779a                	.insn	2, 0x779a
+800105fe:	c76bd27b          	.insn	4, 0xc76bd27b
+80010602:	1be6183b          	.insn	4, 0x1be6183b
+80010606:	0a6ea1fb          	.insn	4, 0x0a6ea1fb
+8001060a:	616c                	.insn	2, 0x616c
+8001060c:	1ca8c627          	.insn	4, 0x1ca8c627
+80010610:	141ca493          	slti	s1,s9,321
+80010614:	cb58                	.insn	2, 0xcb58
+80010616:	488e                	.insn	2, 0x488e
+80010618:	4ddc                	.insn	2, 0x4ddc
+8001061a:	6fac                	.insn	2, 0x6fac
+8001061c:	aace                	.insn	2, 0xaace
+8001061e:	40c0                	.insn	2, 0x40c0
+80010620:	9395                	.insn	2, 0x9395
+80010622:	3fd8                	.insn	2, 0x3fd8
+80010624:	8480                	.insn	2, 0x8480
+80010626:	1fc6                	.insn	2, 0x1fc6
+80010628:	7c24                	.insn	2, 0x7c24
+8001062a:	8a88                	.insn	2, 0x8a88
+8001062c:	ece4                	.insn	2, 0xece4
+8001062e:	453155d7          	.insn	4, 0x453155d7
+80010632:	7400                	.insn	2, 0x7400
+80010634:	e596                	.insn	2, 0xe596
+80010636:	b25f876b          	.insn	4, 0xb25f876b
+8001063a:	cba28a07          	.insn	4, 0xcba28a07
+8001063e:	81e96557          	.insn	4, 0x81e96557
+80010642:	3cbe                	.insn	2, 0x3cbe
+80010644:	831a                	.insn	2, 0x831a
+80010646:	940a                	.insn	2, 0x940a
+80010648:	5042                	.insn	2, 0x5042
+8001064a:	d572                	.insn	2, 0xd572
+8001064c:	1ad0b267          	.insn	4, 0x1ad0b267
+80010650:	3474                	.insn	2, 0x3474
+80010652:	369a0107          	.insn	4, 0x369a0107
+80010656:	b622                	.insn	2, 0xb622
+80010658:	3a20                	.insn	2, 0x3a20
+8001065a:	7122                	.insn	2, 0x7122
+8001065c:	4ac8                	.insn	2, 0x4ac8
+8001065e:	79a0                	.insn	2, 0x79a0
+80010660:	45f1                	.insn	2, 0x45f1
+80010662:	b1fa                	.insn	2, 0xb1fa
+80010664:	1ba0                	.insn	2, 0x1ba0
+80010666:	1784                	.insn	2, 0x1784
+80010668:	9274                	.insn	2, 0x9274
+8001066a:	8d69                	.insn	2, 0x8d69
+8001066c:	6da2                	.insn	2, 0x6da2
+8001066e:	e866                	.insn	2, 0xe866
+80010670:	db44                	.insn	2, 0xdb44
+80010672:	7b79                	.insn	2, 0x7b79
+80010674:	262c                	.insn	2, 0x262c
+80010676:	18a8                	.insn	2, 0x18a8
+80010678:	9d29                	.insn	2, 0x9d29
+8001067a:	6aba4c9b          	.insn	4, 0x6aba4c9b
+8001067e:	d806                	.insn	2, 0xd806
+80010680:	5c74                	.insn	2, 0x5c74
+80010682:	a048                	.insn	2, 0xa048
+80010684:	591c                	.insn	2, 0x591c
+80010686:	1f10f7c7          	.insn	4, 0x1f10f7c7
+8001068a:	f38fb38b          	.insn	4, 0xf38fb38b
+8001068e:	3b21                	.insn	2, 0x3b21
+80010690:	d435                	.insn	2, 0xd435
+80010692:	4ca0                	.insn	2, 0x4ca0
+80010694:	98ec                	.insn	2, 0x98ec
+80010696:	90c5dcaf          	.insn	4, 0x90c5dcaf
+8001069a:	7176                	.insn	2, 0x7176
+8001069c:	de6d                	.insn	2, 0xde6d
+8001069e:	0916                	.insn	2, 0x0916
+800106a0:	cf1c                	.insn	2, 0xcf1c
+800106a2:	aebd                	.insn	2, 0xaebd
+800106a4:	2bb9                	.insn	2, 0x2bb9
+800106a6:	d3bfb657          	.insn	4, 0xd3bfb657
+800106aa:	63a4                	.insn	2, 0x63a4
+800106ac:	2af9                	.insn	2, 0x2af9
+800106ae:	f8e2                	.insn	2, 0xf8e2
+800106b0:	ca2b3a47          	.insn	4, 0xca2b3a47
+800106b4:	17df 77e7 23b6      	.insn	6, 0x23b677e717df
+800106ba:	aa55                	.insn	2, 0xaa55
+800106bc:	c6d4                	.insn	2, 0xc6d4
+800106be:	df5a                	.insn	2, 0xdf5a
+800106c0:	63a0                	.insn	2, 0x63a0
+800106c2:	26a2                	.insn	2, 0x26a2
+800106c4:	0f2d                	.insn	2, 0x0f2d
+800106c6:	9340                	.insn	2, 0x9340
+800106c8:	fe62f863          	bgeu	t0,t1,8000feb8 <main+0xfe88>
+800106cc:	3ae4e287          	.insn	4, 0x3ae4e287
+800106d0:	9e1d                	.insn	2, 0x9e1d
+800106d2:	9f2e                	.insn	2, 0x9f2e
+800106d4:	7842                	.insn	2, 0x7842
+800106d6:	b54d                	.insn	2, 0xb54d
+800106d8:	ea023617          	auipc	a2,0xea023
+800106dc:	59d2                	.insn	2, 0x59d2
+800106de:	4f80                	.insn	2, 0x4f80
+800106e0:	4242                	.insn	2, 0x4242
+800106e2:	c484                	.insn	2, 0xc484
+800106e4:	5c593843          	.insn	4, 0x5c593843
+800106e8:	01760f2f          	.insn	4, 0x01760f2f
+800106ec:	bce9                	.insn	2, 0xbce9
+800106ee:	9a7e                	.insn	2, 0x9a7e
+800106f0:	45de                	.insn	2, 0x45de
+800106f2:	310d                	.insn	2, 0x310d
+800106f4:	c10d                	.insn	2, 0xc10d
+800106f6:	e3e6                	.insn	2, 0xe3e6
+800106f8:	fee9                	.insn	2, 0xfee9
+800106fa:	5b9a                	.insn	2, 0x5b9a
+800106fc:	8ad9                	.insn	2, 0x8ad9
+800106fe:	5108                	.insn	2, 0x5108
+80010700:	0551                	.insn	2, 0x0551
+80010702:	804e                	.insn	2, 0x804e
+80010704:	356e                	.insn	2, 0x356e
+80010706:	d48e                	.insn	2, 0xd48e
+80010708:	d7d9edf3          	.insn	4, 0xd7d9edf3
+8001070c:	5ea99ce3          	bne	s3,a0,80011504 <output_C+0x900>
+80010710:	8601                	.insn	2, 0x8601
+80010712:	f0f8dbfb          	.insn	4, 0xf0f8dbfb
+80010716:	454c                	.insn	2, 0x454c
+80010718:	9b1e                	.insn	2, 0x9b1e
+8001071a:	5e32                	.insn	2, 0x5e32
+8001071c:	3ebeb323          	.insn	4, 0x3ebeb323
+80010720:	43df888b          	.insn	4, 0x43df888b
+80010724:	65d0                	.insn	2, 0x65d0
+80010726:	4a66                	.insn	2, 0x4a66
+80010728:	5c70226b          	.insn	4, 0x5c70226b
+8001072c:	f931                	.insn	2, 0xf931
+8001072e:	d0f922b3          	.insn	4, 0xd0f922b3
+80010732:	537c                	.insn	2, 0x537c
+80010734:	10b2                	.insn	2, 0x10b2
+80010736:	30df 02b1 d703      	.insn	6, 0xd70302b130df
+8001073c:	328d                	.insn	2, 0x328d
+8001073e:	c65d                	.insn	2, 0xc65d
+80010740:	68d6                	.insn	2, 0x68d6
+80010742:	b964                	.insn	2, 0xb964
+80010744:	1d16a32b          	.insn	4, 0x1d16a32b
+80010748:	bf51                	.insn	2, 0xbf51
+8001074a:	9866                	.insn	2, 0x9866
+8001074c:	5a6c1a3b          	.insn	4, 0x5a6c1a3b
+80010750:	e98e                	.insn	2, 0xe98e
+80010752:	860e                	.insn	2, 0x860e
+80010754:	4c2a0ab3          	.insn	4, 0x4c2a0ab3
+80010758:	529c41eb          	.insn	4, 0x529c41eb
+8001075c:	04a3b37b          	.insn	4, 0x04a3b37b
+80010760:	ba12                	.insn	2, 0xba12
+80010762:	5a8c                	.insn	2, 0x5a8c
+80010764:	71de                	.insn	2, 0x71de
+80010766:	741f 9334 bfc6      	.insn	6, 0xbfc69334741f
+8001076c:	a63a19cf          	.insn	4, 0xa63a19cf
+80010770:	caad                	.insn	2, 0xcaad
+80010772:	ec72                	.insn	2, 0xec72
+80010774:	315d                	.insn	2, 0x315d
+80010776:	4cd5                	.insn	2, 0x4cd5
+80010778:	a9c5                	.insn	2, 0xa9c5
+8001077a:	61e6d79b          	.insn	4, 0x61e6d79b
+8001077e:	2ac1                	.insn	2, 0x2ac1
+80010780:	6e80                	.insn	2, 0x6e80
+80010782:	2a29                	.insn	2, 0x2a29
+80010784:	1f55                	.insn	2, 0x1f55
+80010786:	7aac                	.insn	2, 0x7aac
+80010788:	4e60                	.insn	2, 0x4e60
+8001078a:	26bd                	.insn	2, 0x26bd
+8001078c:	cb2e                	.insn	2, 0xcb2e
+8001078e:	3f38                	.insn	2, 0x3f38
+80010790:	22a6                	.insn	2, 0x22a6
+80010792:	2b74                	.insn	2, 0x2b74
+80010794:	9b81                	.insn	2, 0x9b81
+80010796:	8a05                	.insn	2, 0x8a05
+80010798:	5f98                	.insn	2, 0x5f98
+8001079a:	f45ff39b          	.insn	4, 0xf45ff39b
+8001079e:	4d3df49b          	.insn	4, 0x4d3df49b
+800107a2:	b76b36eb          	.insn	4, 0xb76b36eb
+800107a6:	af438eab          	.insn	4, 0xaf438eab
+800107aa:	ea20e5d3          	.insn	4, 0xea20e5d3
+800107ae:	3f9d                	.insn	2, 0x3f9d
+800107b0:	64fe                	.insn	2, 0x64fe
+800107b2:	273d                	.insn	2, 0x273d
+800107b4:	629e                	.insn	2, 0x629e
+800107b6:	d5ca                	.insn	2, 0xd5ca
+800107b8:	0a92                	.insn	2, 0x0a92
+800107ba:	c6ff d388 e579 4e34 	.insn	18, 0xd55865e6bddb9fc1a7764e34e579d388c6ff
+800107c2:	a776 9fc1 bddb 65e6 
+800107ca:	d558 
+800107cc:	dbb6                	.insn	2, 0xdbb6
+800107ce:	2c66                	.insn	2, 0x2c66
+800107d0:	d1e8                	.insn	2, 0xd1e8
+800107d2:	683d                	.insn	2, 0x683d
+800107d4:	68a5                	.insn	2, 0x68a5
+800107d6:	dc60                	.insn	2, 0xdc60
+800107d8:	9cac                	.insn	2, 0x9cac
+800107da:	f500                	.insn	2, 0xf500
+800107dc:	c52a                	.insn	2, 0xc52a
+800107de:	75f8                	.insn	2, 0x75f8
+800107e0:	bad9                	.insn	2, 0xbad9
+800107e2:	859a                	.insn	2, 0x859a
+800107e4:	6f3d254f          	.insn	4, 0x6f3d254f
+800107e8:	edd6                	.insn	2, 0xedd6
+800107ea:	9af8                	.insn	2, 0x9af8
+800107ec:	80a2                	.insn	2, 0x80a2
+800107ee:	51e9eaf3          	.insn	4, 0x51e9eaf3
+800107f2:	734c                	.insn	2, 0x734c
+800107f4:	dac1                	.insn	2, 0xdac1
+800107f6:	5668                	.insn	2, 0x5668
+800107f8:	5cd8                	.insn	2, 0x5cd8
+800107fa:	a582                	.insn	2, 0xa582
+800107fc:	ce86                	.insn	2, 0xce86
+800107fe:	1de6                	.insn	2, 0x1de6
+
+Disassembly of section .srodata:
+
+80010800 <DONE_FLAG>:
+80010800:	fffc                	.insn	2, 0xfffc
+80010802:	8001                	.insn	2, 0x8001
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	2f41                	.insn	2, 0x2f41
+   2:	0000                	.insn	2, 0x0000
+   4:	7200                	.insn	2, 0x7200
+   6:	7369                	.insn	2, 0x7369
+   8:	01007663          	bgeu	zero,a6,14 <_start-0x7fffffec>
+   c:	0025                	.insn	2, 0x0025
+   e:	0000                	.insn	2, 0x0000
+  10:	1004                	.insn	2, 0x1004
+  12:	7205                	.insn	2, 0x7205
+  14:	3376                	.insn	2, 0x3376
+  16:	6932                	.insn	2, 0x6932
+  18:	7032                	.insn	2, 0x7032
+  1a:	5f31                	.insn	2, 0x5f31
+  1c:	326d                	.insn	2, 0x326d
+  1e:	3070                	.insn	2, 0x3070
+  20:	705f 7030 3531      	.insn	6, 0x35317030705f
+  26:	7a5f 6d6d 6c75      	.insn	6, 0x6c756d6d7a5f
+  2c:	7031                	.insn	2, 0x7031
+  2e:	0030                	.insn	2, 0x0030
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347          	.insn	4, 0x3a434347
+   4:	2820                	.insn	2, 0x2820
+   6:	66663667          	.insn	4, 0x66663667
+   a:	6664                	.insn	2, 0x6664
+   c:	3764                	.insn	2, 0x3764
+   e:	31383633          	.insn	4, 0x31383633
+  12:	2938                	.insn	2, 0x2938
+  14:	3120                	.insn	2, 0x3120
+  16:	2e36                	.insn	2, 0x2e36
+  18:	2e30                	.insn	2, 0x2e30
+  1a:	2030                	.insn	2, 0x2030
+  1c:	3032                	.insn	2, 0x3032
+  1e:	3532                	.insn	2, 0x3532
+  20:	3830                	.insn	2, 0x3830
+  22:	3331                	.insn	2, 0x3331
+  24:	2820                	.insn	2, 0x2820
+  26:	7865                	.insn	2, 0x7865
+  28:	6570                	.insn	2, 0x6570
+  2a:	6972                	.insn	2, 0x6972
+  2c:	656d                	.insn	2, 0x656d
+  2e:	746e                	.insn	2, 0x746e
+  30:	6c61                	.insn	2, 0x6c61
+  32:	0029                	.insn	2, 0x0029
