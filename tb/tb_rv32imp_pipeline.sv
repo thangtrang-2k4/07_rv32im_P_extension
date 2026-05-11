@@ -1,6 +1,8 @@
 `timescale 1ns/1ps
 
 module tb_rv32imp_pipeline;
+  import rv32_pkg::*;
+  
   logic clk;
   logic rst_n;
 

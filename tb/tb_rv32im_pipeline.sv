@@ -1,6 +1,8 @@
 `timescale 1ns/1ps
 
 module tb_rv32im_pipeline;
+  import rv32_pkg::*;
+
   logic clk;
   logic rst_n;
 
@@ -110,7 +112,7 @@ module tb_rv32im_pipeline;
       
       // Instruction Retired Counter (Method 1)
       // Increments when a non-NOP instruction reaches the WB stage
-      if (dut.ctrl_WB != dut.CTRL_NOP) begin
+      if (dut.ctrl_WB != CTRL_NOP) begin
         retired_inst_count <= retired_inst_count + 1;
       end
 
