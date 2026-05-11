@@ -27,10 +27,10 @@ module IMem #(
             inst = rom_data;
     end
 
-    // Load program
-    initial begin
-        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
-    end
+//    // Load program
+//    initial begin
+//        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
+//    end
 //    initial begin
 //        string program_path;
 //    
