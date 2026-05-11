@@ -6,12 +6,19 @@
 // 
 // ================================================================
 `timescale 1ns/1ps
-module rv32imp_pipeline #(
+module rv32im_pipeline #(
     parameter int DEPTH_WORDS = 524288  // 1MB
 )(
   input  logic clk,
   input  logic rst_n,
   output logic [31:0] o_obs_data
+  
+  //input  logic [7:0] sw,
+  //output logic [7:0] led
+
+  // single_cycle.sv: khai báo port
+  //output logic [31:0] a0_out
+  //output logic [31:0] debug_pc
 );
 
   import rv32_pkg::*;
@@ -86,15 +93,7 @@ module rv32imp_pipeline #(
   logic [31:0] A, B;
 
   // ALU
-  logic [31:0] ResultALU, ResultALUP, alu;
-
-  // MAC Accumulator
-  logic [31:0] dataR3;          // 3rd read port (rd as ACC source)
-  logic [31:0] dataR3_EX;      // piped rd value to EX stage
-  logic [1:0]  forwardACC;      // ACC forwarding control
-  logic [31:0] acc_fwd;         // ACC forwarded value
-  logic        is_mac_ID;       // MAC instruction at ID stage
-  logic        is_mac_EX;       // MAC instruction at EX stage
+  logic [31:0] alu;
 
   /////////////////////////////
   // EX
@@ -227,8 +226,7 @@ module rv32imp_pipeline #(
       .MemUnsigned (ctrl.MemUnsigned),
       .MemSize     (ctrl.MemSize),
       .RegWEn      (ctrl.RegWEn),
-      .WBSel       (ctrl.WBSel),
-      .rdSel       (ctrl.rdSel)
+      .WBSel       (ctrl.WBSel)
   );
 
   // ------------------------------
@@ -248,34 +246,30 @@ module rv32imp_pipeline #(
     .rst_n (rst_n),
     .rsR1  (rs1_ID),
     .rsR2  (rs2_ID),
-    .rsR3  (rd_ID),       // đọc rd làm ACC source cho MAC
     .rsW   (rd_WB),
     .dataW (WBdata),
     .RegWEn(ctrl_WB.RegWEn),
     .dataR1(dataR1),
-    .dataR2(dataR2),
-    .dataR3(dataR3)
+    .dataR2(dataR2)
   );
 
   // ---------- ID/EX pipeline registers ----------
 
   // Decoder -> EX
-  pipe_reg #(.W(7)) u_opcode_EX (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(PCSel), .d(opcode_ID),   .bubble(7'b0),          .q(opcode_EX));
-  pipe_reg #(.W(3)) u_funct3_EX (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(PCSel), .d(funct3_ID),   .bubble(3'b0),          .q(funct3_EX));
-  pipe_reg #(.W(5)) u_rd_EX     (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(PCSel), .d(rd_ID),       .bubble(5'b0),          .q(rd_EX));
-  pipe_reg #(.W(5)) u_rs1_EX    (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(PCSel), .d(rs1_ID),      .bubble(5'b0),          .q(rs1_EX));
-  pipe_reg #(.W(5)) u_rs2_EX    (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(PCSel), .d(rs2_ID),      .bubble(5'b0),          .q(rs2_EX));
+  pipe_reg #(.W(7)) u_opcode_EX (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall | PCSel), .d(opcode_ID),   .bubble(7'b0),          .q(opcode_EX));
+  pipe_reg #(.W(3)) u_funct3_EX (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall | PCSel), .d(funct3_ID),   .bubble(3'b0),          .q(funct3_EX));
+  pipe_reg #(.W(5)) u_rd_EX     (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall | PCSel), .d(rd_ID),       .bubble(5'b0),          .q(rd_EX));
+  pipe_reg #(.W(5)) u_rs1_EX    (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall | PCSel), .d(rs1_ID),      .bubble(5'b0),          .q(rs1_EX));
+  pipe_reg #(.W(5)) u_rs2_EX    (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall | PCSel), .d(rs2_ID),      .bubble(5'b0),          .q(rs2_EX));
 
   // baseline: en=1, flush=0
-  pipe_reg #(.W(32)) u_pc_EX     (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(pc_ID),        .bubble(32'b0),         .q(pc_EX));
-  pipe_reg #(.W(32)) u_dataR1_EX (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(dataR1),  .bubble(32'b0),         .q(dataR1_EX));
-  pipe_reg #(.W(32)) u_dataR2_EX (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(dataR2),  .bubble(32'b0),         .q(dataR2_EX));
-  pipe_reg #(.W(32)) u_imm_EX    (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(imm),       .bubble(32'b0),         .q(imm_EX));
+  pipe_reg #(.W(32)) u_pc_EX     (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall), .d(pc_ID),        .bubble(32'b0),         .q(pc_EX));
+  pipe_reg #(.W(32)) u_dataR1_EX (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall), .d(dataR1),  .bubble(32'b0),         .q(dataR1_EX));
+  pipe_reg #(.W(32)) u_dataR2_EX (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall), .d(dataR2),  .bubble(32'b0),         .q(dataR2_EX));
+  pipe_reg #(.W(32)) u_imm_EX    (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall), .d(imm),       .bubble(32'b0),         .q(imm_EX));
 
   // control -> EX
-  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_EX   (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(PCSel), .d(ctrl),      .bubble(CTRL_NOP),  .q(ctrl_EX));
-  // rd_data -> EX (MAC accumulator)
-  pipe_reg #(.W(32)) u_rddata_EX (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(dataR3), .bubble(32'b0), .q(dataR3_EX));
+  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_EX   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(stall | PCSel), .d(ctrl),      .bubble(CTRL_NOP),  .q(ctrl_EX));
   // EX
 
   // ------------------------------
@@ -288,13 +282,10 @@ module rv32imp_pipeline #(
     .WBSel_MEM(ctrl_MEM.WBSel),
     .rs1_EX(rs1_EX),
     .rs2_EX(rs2_EX),
-    .rd_EX(rd_EX),
-    .is_mac_EX(is_mac_EX),
     .rd_MEM(rd_MEM),
     .rd_WB(rd_WB),
     .forwardA(forwardA),
-    .forwardB(forwardB),
-    .forwardACC(forwardACC)
+    .forwardB(forwardB)
   );
   // ------------------------------
   // Branch Comparator
@@ -339,46 +330,9 @@ module rv32imp_pipeline #(
     .A      (A),
     .B      (B),
     .ALUSel (ctrl_EX.ALUSel),
-    .result    (ResultALU)
+    .alu    (alu)
   );
 
-  // ------------------------------
-  // MAC Detection & ACC Forwarding
-  // ------------------------------
-  assign is_mac_EX = (ctrl_EX.ALUSel == ALU_PM4ADDA_B)  ||
-                     (ctrl_EX.ALUSel == ALU_PM4ADDASU_B) ||
-                     (ctrl_EX.ALUSel == ALU_PM4ADDAU_B);
-
-  assign is_mac_ID = (ctrl.ALUSel == ALU_PM4ADDA_B)  ||
-                     (ctrl.ALUSel == ALU_PM4ADDASU_B) ||
-                     (ctrl.ALUSel == ALU_PM4ADDAU_B);
-
-  always_comb begin
-    unique case (forwardACC)
-      2'b10:   acc_fwd = alu_MEM;      // forward từ EX/MEM
-      2'b01:   acc_fwd = WBdata;       // forward từ MEM/WB
-      default: acc_fwd = dataR3_EX;   // từ RegFile (pipe qua ID/EX)
-    endcase
-  end
-
-  // ------------------------------
-  // ALUP
-  // ------------------------------
-  ALUP u_alup (
-    .A      (A),
-    .B      (B),
-    .ACC    (acc_fwd),
-    .ALUSel (ctrl_EX.ALUSel),
-    .result (ResultALUP)
-  );
-  
-  always_comb begin
-    unique case (ctrl_EX.rdSel)
-      ALU_RESULT: alu = ResultALU;
-      ALUP_RESULT: alu = ResultALUP;
-      default: alu = 32'h0;
-    endcase
-  end
   // ------------------------------
   // Branch Control
   // ------------------------------
@@ -393,13 +347,13 @@ module rv32imp_pipeline #(
   // ---------- EX/MEM pipeline registers ----------
 
 
-  pipe_reg #(.W(32)) u_pc_MEM     (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(pc_EX),      .bubble(32'b0), .q(pc_MEM));
-  pipe_reg #(.W(32)) u_alu_MEM    (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(alu),        .bubble(32'b0), .q(alu_MEM));
-  pipe_reg #(.W(32)) u_dataR2_MEM (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(dataR2_fwd), .bubble(32'b0), .q(dataR2_MEM));
-  pipe_reg #(.W(5))  u_rd_MEM     (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(rd_EX),      .bubble(5'd0),  .q(rd_MEM));
+  pipe_reg #(.W(32)) u_pc_MEM     (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(pc_EX),      .bubble(32'b0), .q(pc_MEM));
+  pipe_reg #(.W(32)) u_alu_MEM    (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(alu),        .bubble(32'b0), .q(alu_MEM));
+  pipe_reg #(.W(32)) u_dataR2_MEM (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(dataR2_fwd), .bubble(32'b0), .q(dataR2_MEM));
+  pipe_reg #(.W(5))  u_rd_MEM     (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(rd_EX),      .bubble(5'd0),  .q(rd_MEM));
 
   // Control
-  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_MEM   (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(ctrl_EX),      .bubble(CTRL_NOP),  .q(ctrl_MEM));
+  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_MEM   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(ctrl_EX),      .bubble(CTRL_NOP),  .q(ctrl_MEM));
   // MEM
 
   // ------------------------------
@@ -407,7 +361,7 @@ module rv32imp_pipeline #(
   // ------------------------------
   Data_Memory #(
     .DEPTH_WORDS(DEPTH_WORDS),
-    .BASE_ADDR(32'h8001_0000)
+    .BASE_ADDR(32'h8000_0000)
   ) u_dmem (
     .clk   (clk),
     .rst_n (rst_n),
@@ -435,18 +389,19 @@ module rv32imp_pipeline #(
   // ---------- MEM/WB pipeline registers ----------
 
 
-  pipe_reg #(.W(32)) u_pc4_WB  (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(pc_plus4_mem), .bubble(32'b0), .q(pc_plus4_mem_WB));
-  pipe_reg #(.W(32)) u_alu_WB  (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(alu_MEM),      .bubble(32'b0), .q(alu_WB));
-  pipe_reg #(.W(5))  u_rd_WB   (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(rd_MEM),       .bubble(5'd0),  .q(rd_WB));
+  pipe_reg #(.W(32)) u_pc4_WB  (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(pc_plus4_mem), .bubble(32'b0), .q(pc_plus4_mem_WB));
+  pipe_reg #(.W(32)) u_alu_WB  (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(alu_MEM),      .bubble(32'b0), .q(alu_WB));
+  pipe_reg #(.W(32)) u_mem_WB  (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(mem),          .bubble(32'b0), .q(mem_WB));
+  pipe_reg #(.W(5))  u_rd_WB   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(rd_MEM),       .bubble(5'd0),  .q(rd_WB));
   // Control
-  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_WB   (.clk(clk), .rst_n(rst_n), .en(!stall), .flush(1'b0), .d(ctrl_MEM),      .bubble(CTRL_NOP),  .q(ctrl_WB));
+  pipe_reg #(.W($bits(ctrl_t))) u_ctrl_WB   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(ctrl_MEM),      .bubble(CTRL_NOP),  .q(ctrl_WB));
   // ------------------------------
   // Write-Back MUX
   // WBSel: 00->MEM, 01->ALU, 10->PC+4
   // ------------------------------
   always_comb begin
     unique case (ctrl_WB.WBSel)
-      WB_MEM: WBdata = mem;
+      WB_MEM: WBdata = mem_WB;
       WB_ALU: WBdata = alu_WB;
       WB_PC4: WBdata = pc_plus4_mem_WB;
       default: WBdata = 32'h0;
@@ -462,8 +417,6 @@ module rv32imp_pipeline #(
     .rs2_ID(rs2_ID),
     .opcode_EX(opcode_t'(opcode_EX)),
     .rd_EX(rd_EX),
-    .is_mac_ID(is_mac_ID),
-    .rd_ID(rd_ID),
     .stall(stall)
   );
 
