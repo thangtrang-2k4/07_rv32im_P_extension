@@ -38,12 +38,13 @@ module tb_rv32imp_pipeline;
     #10 rst_n = 1;
   end
 
-//  localparam int depth      = 1024; // Sobel
-  localparam int depth      = 1024; // (200byte) Fir
+//  localparam int depth      = 1024; // Sobel, Matrix
+  localparam int depth      = 50; // (200byte) Fir
   localparam int BaseAddr   = 32'h80010000;
 //  localparam int OAddr      = 32'h80011000; // Sobel
 //  localparam int DoneAddr   = 32'h8001fffc; // Sobel
-  localparam int OAddr      = 32'h80010c04;
+  localparam int OAddr      = 32'h800100e8; // fir 
+//  localparam int OAddr      = 32'h80010c04; // Matrix
   localparam int DoneAddr   = 32'h8001fffc; // Fir
   localparam int DONE_INDEX = (DoneAddr - BaseAddr) >> 2;
 
@@ -70,12 +71,27 @@ module tb_rv32imp_pipeline;
 
     load_golden("../sw/Matrix-Multiplication/pext_goldenw.hex", golden);
 
+//    load_imem("../sw/Matrix-Multiplication/pext_imem.hex");
+//    load_dmem("../sw/Matrix-Multiplication/pext_dmem.hex");
+
+//    load_golden("../sw/Matrix-Multiplication/pext_goldenw.hex", golden);
+
+//    load_imem("../sw/Matrix-Multiplication/pext_imem.hex");
+//    load_dmem("../sw/Matrix-Multiplication/pext_dmem.hex");
+
+//    load_golden("../sw/Matrix-Multiplication/pext_goldenw.hex", golden);
     // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
     wait (done == 1'b1);
     #20;
 
     dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/pext_signature.hex");
     load_result("../sw/Matrix-Multiplication/pext_signature.hex", result);
+
+//    dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/pext_signature.hex");
+//    load_result("../sw/Matrix-Multiplication/pext_signature.hex", result);
+
+//    dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/pext_signature.hex");
+//    load_result("../sw/Matrix-Multiplication/pext_signature.hex", result);
     #1;
     compare_result(depth, OAddr, golden, result, error);
     if (error == 0)
