@@ -1,10 +1,9 @@
 # vsim -voptargs="+acc" -debugDB -c tb_rv32im_pipeline -l logs/rv32im_pipeline.log -do "log -r /*; run -all; quit" 
-# Start time: 20:48:08 on May 11,2026
-# ** Note: (vsim-3812) Design is being optimized...
+# Start time: 07:50:37 on May 12,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # ** Note: (vsim-8611) Generating debug db.
 # ** Warning: ../tb/tb_rv32im_pipeline.sv(11): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 3, found 2.
 # ** Warning: ../tb/tb_rv32im_pipeline.sv(11): (vopt-2718) [TFMPC] - Missing connection for port 'o_obs_data'.
-# ** Note: (vopt-4301) Memory core inferred for signal 'ram_array' width=32, depth=16384, type=RAM at location ../rtl/rv32im/data_memory.sv:24
 # ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=2.
 # //  Questa Sim-64
 # //  Version 2021.2_1 linux_x86_64 May 15 2021
@@ -1075,8 +1074,8 @@
 # Match at address 800117f8: expected fffffbf6, got fffffbf6
 # Match at address 800117fc: expected ffff4473, got ffff4473
 # Match at address 80011800: expected ffffc9fa, got ffffc9fa
-#  PASS: FIR Filter (Scalar) matched golden reference.
-# ** Note: $finish    : ../tb/tb_rv32im_pipeline.sv(59)
+#  PASS
+# ** Note: $finish    : ../tb/tb_rv32im_pipeline.sv(77)
 #    Time: 1228246 ns  Iteration: 0  Instance: /tb_rv32im_pipeline
-# End time: 20:48:12 on May 11,2026, Elapsed time: 0:00:04
+# End time: 07:50:42 on May 12,2026, Elapsed time: 0:00:05
 # Errors: 0, Warnings: 2

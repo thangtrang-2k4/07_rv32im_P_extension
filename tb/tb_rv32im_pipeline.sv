@@ -27,12 +27,12 @@ module tb_rv32im_pipeline;
     #10 rst_n = 1;
   end
 
-  localparam int depth      = 50; // (200byte) Fir
-//  localparam int depth      = 1024; // Sobel, Matrix
+//  localparam int depth      = 50; // (200byte) Fir
+  localparam int depth      = 1024; // Sobel, Matrix
   localparam int BaseAddr   = 32'h80010000;
-  localparam int OAddr      = 32'h800100e8; // fir 
+//  localparam int OAddr      = 32'h800100e8; // fir 
 //  localparam int OAddr      = 32'h80011000; // Sobel
-//  localparam int OAddr      = 32'h80010804; // Matrix
+  localparam int OAddr      = 32'h80010804; // Matrix
   localparam int DoneAddr   = 32'h8001fffc; // Fir
   localparam int DONE_INDEX = (DoneAddr - BaseAddr) >> 2;
 
@@ -43,30 +43,30 @@ module tb_rv32im_pipeline;
 
     #10;
 
-    load_imem("../sw/Filter-Fir/scala_imem.hex");
-    load_dmem("../sw/Filter-Fir/scala_dmem.hex");
-    load_golden("../sw/Filter-Fir/scala_goldenw.hex", golden);
+//    load_imem("../sw/Filter-Fir/scala_imem.hex");
+//    load_dmem("../sw/Filter-Fir/scala_dmem.hex");
+//    load_golden("../sw/Filter-Fir/scala_goldenw.hex", golden);
 
 //    load_imem("../sw/Filter-Sobel/scala_imem.hex");
 //    load_dmem("../sw/Filter-Sobel/scala_dmem.hex");
 //    load_golden("../sw/Filter-Sobel/scala_goldenw.hex", golden);
 
-//    load_imem("../sw/Matrix-Multiplication/scala_imem.hex");
-//    load_dmem("../sw/Matrix-Multiplication/scala_dmem.hex");
-//    load_golden("../sw/Matrix-Multiplication/scala_goldenw.hex", golden);
+    load_imem("../sw/Matrix-Multiplication/scala_imem.hex");
+    load_dmem("../sw/Matrix-Multiplication/scala_dmem.hex");
+    load_golden("../sw/Matrix-Multiplication/scala_goldenw.hex", golden);
 
     // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
     wait (done == 1'b1);
     #20;
 
-    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Fir/scala_signature.hex");
-    load_result("../sw/Filter-Fir/scala_signature.hex", result);
+//    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Fir/scala_signature.hex");
+//    load_result("../sw/Filter-Fir/scala_signature.hex", result);
 
 //    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/scala_signature.hex");
 //    load_result("../sw/Filter-Sobel/scala_signature.hex", result);
 
-//    dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/scala_signature.hex");
-//    load_result("../sw/Matrix-Multiplication/scala_signature.hex", result);
+    dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/scala_signature.hex");
+    load_result("../sw/Matrix-Multiplication/scala_signature.hex", result);
 
     #1;
     compare_result(depth, OAddr, golden, result, error);
