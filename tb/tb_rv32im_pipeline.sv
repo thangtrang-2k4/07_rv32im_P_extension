@@ -32,7 +32,7 @@ module tb_rv32im_pipeline;
   localparam int BaseAddr   = 32'h80010000;
   localparam int OAddr      = 32'h800100e8; // fir 
 //  localparam int OAddr      = 32'h80011000; // Sobel
-//  localparam int OAddr      = 32'h80010c04; // Matrix
+//  localparam int OAddr      = 32'h80010804; // Matrix
   localparam int DoneAddr   = 32'h8001fffc; // Fir
   localparam int DONE_INDEX = (DoneAddr - BaseAddr) >> 2;
 
