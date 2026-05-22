@@ -2,72 +2,45 @@ module IMem #(
     parameter int DEPTH_WORDS = 16384,
     parameter logic [31:0] BASE_ADDR = 32'h8000_0000
 )(
+    input  logic        clk,
     input  logic        rst_n,
-    input  logic [31:0] addr,
-    output logic [31:0] inst
+    input  logic        i_stb,
+    input  logic [31:0] i_addr,
+    output logic        o_ack,
+    output logic [31:0] o_inst
 );
 
     // Force Quartus infer block RAM
     (* ramstyle = "M10K" *)
     logic [31:0] rom_array [0:DEPTH_WORDS - 1];
 
-    logic [31:0] word_addr;
+    localparam int ADDR_BITS = $clog2(DEPTH_WORDS);
 
-    //assign word_addr = addr[31:2];   // word aligned
-    assign word_addr = (addr - BASE_ADDR) >> 2;
-    //assign word_addr = addr >> 2;
+    logic [ADDR_BITS-1:0] word_addr;
 
-    // Use continuous assignment for the RAM read
-    wire [31:0] rom_data = (word_addr < DEPTH_WORDS) ? rom_array[word_addr] : 32'h00000013; // NOP if out of bounds
+    assign word_addr = i_addr[ADDR_BITS+1:2] - BASE_ADDR[ADDR_BITS+1:2];
 
-    always_comb begin
-        if (!rst_n)
-            inst = 32'h00000013; // NOP
-        else
-            inst = rom_data;
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            o_ack  <= 1'b0;
+        end else begin
+            o_ack <= i_stb;
+        end
     end
 
-//    // Load program
-//    initial begin
-//        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
-//    end
-//    initial begin
-//        string program_path;
-//    
-//        if (!$value$plusargs("program=%s", program_path)) begin
-//            $display("ERROR: No +program specified!");
-//            $finish;
-//        end
-//    
-//        $display("Loading program: %s", program_path);
-//        $readmemh(program_path, rom_array);
-//    end
-////initial begin
-////    string path;
-////    int file;
-////
-////    file = $fopen("../rtl/imem_path.txt", "r");
-////
-////    if (!file) begin
-////        $display("ERROR: Cannot open imem_path.txt");
-////        $finish;
-////    end
-////
-////    $fgets(path, file);
-////    $fclose(file);
-////
-////    // remove '\n'
-////    if (path.len() > 0 && path[path.len()-1] == 8'h0A)
-////        path = path.substr(0, path.len()-2);
-////
-////    // remove '\r'
-////    if (path.len() > 0 && path[path.len()-1] == 8'h0D)
-////        path = path.substr(0, path.len()-2);
-////
-////    $display("Loading instruction memory from: '%s'", path);
-////
-////    $readmemh(path, rom_array);
-////
-////    $display("Instruction memory loaded.");
-////end
+    // M10K inference requires read register to NOT have async reset
+    always_ff @(posedge clk) begin
+        if (i_stb) begin
+            o_inst <= rom_array[word_addr];
+        end
+    end
+
+    // Load program
+    initial begin
+`ifdef SIM
+        $readmemh("../sw/Filter-Fir/scala_imem.hex", rom_array);
+`else
+        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
+`endif
+    end
 endmodule

@@ -55,7 +55,8 @@ build:
 	mkdir -p $(FILELIST_DIR) $(LOG_DIR)
 	vlib work
 	vmap work work
-	vlog -f $(FILELIST_DIR)/tb_$(TBNAME).f | tee $(LOG_DIR)/compile_$(TBNAME).log
+	vlog +define+SIM -f $(FILELIST_DIR)/tb_$(TBNAME).f | tee $(LOG_DIR)/compile_$(TBNAME).log
+#vlog -f $(FILELIST_DIR)/tb_$(TBNAME).f | tee $(LOG_DIR)/compile_$(TBNAME).log
 
 run:
 	vsim -voptargs=+acc -debugDB -c tb_$(TBNAME) -l $(LOG_DIR)/$(TESTNAME).log -do "log -r /*; run -all; quit"
