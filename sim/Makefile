@@ -55,7 +55,7 @@ build:
 	mkdir -p $(FILELIST_DIR) $(LOG_DIR)
 	vlib work
 	vmap work work
-	vlog +define+SIM -f $(FILELIST_DIR)/tb_$(TBNAME).f | tee $(LOG_DIR)/compile_$(TBNAME).log
+	vlog -f $(FILELIST_DIR)/tb_$(TBNAME).f | tee $(LOG_DIR)/compile_$(TBNAME).log
 #vlog -f $(FILELIST_DIR)/tb_$(TBNAME).f | tee $(LOG_DIR)/compile_$(TBNAME).log
 
 run:

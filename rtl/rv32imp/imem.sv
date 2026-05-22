@@ -1,6 +1,7 @@
 module IMem #(
     parameter int DEPTH_WORDS = 16384,
-    parameter logic [31:0] BASE_ADDR = 32'h8000_0000
+    parameter logic [31:0] BASE_ADDR = 32'h8000_0000,
+    parameter string INIT_FILE = ""
 )(
     input  logic        clk,
     input  logic        rst_n,
@@ -35,12 +36,12 @@ module IMem #(
         end
     end
 
-    // Load program
+`ifdef QUARTUS_INIT
     initial begin
-`ifdef SIM
-        $readmemh("../sw/Filter-Fir/pext_imem.hex", rom_array);
-`else
-        $readmemh("../../sw/Filter-Fir/pext_imem.hex", rom_array);
-`endif
+        if (INIT_FILE != "") begin
+            $readmemh(INIT_FILE, rom_array);
+        end
     end
+`endif
+
 endmodule

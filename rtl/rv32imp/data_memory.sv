@@ -1,6 +1,7 @@
 module Data_Memory #(
     parameter int DEPTH_WORDS = 16384,
-    parameter logic [31:0] BASE_ADDR = 32'h8001_0000
+    parameter logic [31:0] BASE_ADDR = 32'h8001_0000,
+    parameter string INIT_FILE = ""
 )(
     input  logic        clk,
     input  logic        rst_n,
@@ -129,13 +130,12 @@ module Data_Memory #(
         endcase
     end
 
-    // ---- Initialisation ----
+`ifdef QUARTUS_INIT
     initial begin
-`ifdef SIM
-        $readmemh("../sw/Filter-Fir/pext_dmem.hex", ram_array);
-`else
-        $readmemh("../../sw/Filter-Fir/pext_dmem.hex", ram_array);
-`endif
+        if (INIT_FILE != "") begin
+            $readmemh(INIT_FILE, ram_array);
+        end
     end
+`endif
 
 endmodule

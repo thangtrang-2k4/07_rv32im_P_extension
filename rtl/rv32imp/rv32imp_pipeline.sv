@@ -180,7 +180,8 @@ module rv32imp_pipeline #(
   // ------------------------------
   IMem #(
     .DEPTH_WORDS(DEPTH_WORDS),
-    .BASE_ADDR(32'h8000_0000)
+    .BASE_ADDR(32'h8000_0000),
+    .INIT_FILE("../../sw/Filter-Fir/pext_imem.hex")
   )u_imem (
     .clk    (clk),
     .rst_n  (rst_n),
@@ -478,7 +479,8 @@ module rv32imp_pipeline #(
   // ------------------------------
   Data_Memory #(
     .DEPTH_WORDS(DEPTH_WORDS),
-    .BASE_ADDR(32'h8001_0000)
+    .BASE_ADDR(32'h8001_0000),
+    .INIT_FILE("../../sw/Filter-Fir/pext_dmem.hex")
   ) u_dmem (
       .clk         (clk),
       .rst_n       (rst_n),
