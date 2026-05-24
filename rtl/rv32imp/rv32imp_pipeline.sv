@@ -7,7 +7,8 @@
 // ================================================================
 `timescale 1ns/1ps
 module rv32imp_pipeline #(
-    parameter int DEPTH_WORDS = 524288  // 1MB
+    parameter int IMEM_DEPTH = 512,
+    parameter int DMEM_DEPTH = 512
 )(
   input  logic clk,
   input  logic rst_n,
@@ -179,9 +180,8 @@ module rv32imp_pipeline #(
   // Instruction memory 
   // ------------------------------
   IMem #(
-    .DEPTH_WORDS(DEPTH_WORDS),
-    .BASE_ADDR(32'h8000_0000),
-    .INIT_FILE("../../sw/Filter-Fir/pext_imem.hex")
+    .DEPTH_WORDS(IMEM_DEPTH),
+    .BASE_ADDR(32'h8000_0000)
   )u_imem (
     .clk    (clk),
     .rst_n  (rst_n),
@@ -478,9 +478,8 @@ module rv32imp_pipeline #(
   // Data Memory (LW/SW 32-bit)
   // ------------------------------
   Data_Memory #(
-    .DEPTH_WORDS(DEPTH_WORDS),
-    .BASE_ADDR(32'h8001_0000),
-    .INIT_FILE("../../sw/Filter-Fir/pext_dmem.hex")
+    .DEPTH_WORDS(DMEM_DEPTH),
+    .BASE_ADDR(32'h8001_0000)
   ) u_dmem (
       .clk         (clk),
       .rst_n       (rst_n),

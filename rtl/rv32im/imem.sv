@@ -1,7 +1,6 @@
 module IMem #(
     parameter int DEPTH_WORDS = 16384,
-    parameter logic [31:0] BASE_ADDR = 32'h8000_0000,
-    parameter string INIT_FILE = ""
+    parameter logic [31:0] BASE_ADDR = 32'h8000_0000
 )(
     input  logic        clk,
     input  logic        rst_n,
@@ -11,37 +10,30 @@ module IMem #(
     output logic [31:0] o_inst
 );
 
-    // Force Quartus infer block RAM
-    (* ramstyle = "M10K" *)
-    logic [31:0] rom_array [0:DEPTH_WORDS - 1];
-
     localparam int ADDR_BITS = $clog2(DEPTH_WORDS);
 
     logic [ADDR_BITS-1:0] word_addr;
 
     assign word_addr = i_addr[ADDR_BITS+1:2] - BASE_ADDR[ADDR_BITS+1:2];
 
+    // Ack: registered strobe
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            o_ack  <= 1'b0;
-        end else begin
+        if (!rst_n)
+            o_ack <= 1'b0;
+        else
             o_ack <= i_stb;
-        end
     end
 
-    // M10K inference requires read register to NOT have async reset
+    // ROM: synchronous read, no write ports
+    (* ramstyle = "M10K" *)
+    logic [31:0] rom_array [0:DEPTH_WORDS - 1];
+
     always_ff @(posedge clk) begin
-        if (i_stb) begin
-            o_inst <= rom_array[word_addr];
-        end
+        o_inst <= rom_array[word_addr];
     end
 
-`ifdef QUARTUS_INIT
     initial begin
-        if (INIT_FILE != "") begin
-            $readmemh(INIT_FILE, rom_array);
-        end
+        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
     end
-`endif
 
 endmodule
