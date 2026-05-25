@@ -101,9 +101,9 @@ module Data_Memory #(
         endcase
     end
 
-    // Load program
-    initial begin
-        $readmemh("../../sw/Filter-Fir/scala_dmem.hex", ram_array);
-    end
+//    // Load program
+//    initial begin
+//        $readmemh("../../sw/Filter-Fir/scala_dmem.hex", ram_array);
+//    end
 
 endmodule
