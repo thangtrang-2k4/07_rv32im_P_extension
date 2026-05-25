@@ -8,7 +8,7 @@ module tb_rv32im_pipeline;
 
   rv32im_pipeline #(
       .IMEM_DEPTH(256),
-      .DMEM_DEPTH(128)
+      .DMEM_DEPTH(16384)
   ) dut (
     .clk(clk),
     .rst_n(rst_n)
