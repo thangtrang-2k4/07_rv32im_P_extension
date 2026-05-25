@@ -8,7 +8,7 @@ module tb_rv32imp_pipeline;
 
   rv32imp_pipeline #(
       .IMEM_DEPTH(256),
-      .DMEM_DEPTH(16384)
+      .DMEM_DEPTH(4096)
   ) dut (
     .clk(clk),
     .rst_n(rst_n)
@@ -45,7 +45,7 @@ module tb_rv32imp_pipeline;
 //  localparam int OAddr      = 32'h800100e8; // fir 
 //  localparam int OAddr      = 32'h80011000; // Sobel
   localparam int OAddr      = 32'h80010c04; // Matrix
-  localparam int DoneAddr   = 32'h8001fffc; // Fir
+  localparam int DoneAddr   = 32'h80013ffc; // DMEM 16KB
   localparam int DONE_INDEX = (DoneAddr - BaseAddr) >> 2;
 
   initial begin
