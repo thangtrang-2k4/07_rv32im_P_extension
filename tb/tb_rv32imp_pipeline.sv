@@ -7,7 +7,8 @@ module tb_rv32imp_pipeline;
   logic rst_n;
 
   rv32imp_pipeline #(
-      .DEPTH_WORDS(524288)
+      .IMEM_DEPTH(256),
+      .DMEM_DEPTH(128)
   ) dut (
     .clk(clk),
     .rst_n(rst_n)

@@ -7,7 +7,8 @@
 // ================================================================
 `timescale 1ns/1ps
 module rv32imp_pipeline #(
-    parameter int DEPTH_WORDS = 524288  // 1MB
+    parameter int IMEM_DEPTH = 512,
+    parameter int DMEM_DEPTH = 512
 )(
   input  logic clk,
   input  logic rst_n,
@@ -125,10 +126,8 @@ module rv32imp_pipeline #(
   // rd_WB
   logic [4:0] rd_WB;
 
-  // PC4_WB, alu_WB + control tới WB
-  // NOTE: mem_WB removed — synchronous-read DMEM output (mem) is already
-  //       1-cycle delayed and naturally aligns with WB stage timing.
-  logic [31:0] pc_plus4_mem_WB, alu_WB;
+  // PC4_WB, alu_WB, mem_WB + control tới WB
+  logic [31:0] pc_plus4_mem_WB, alu_WB, mem_WB;
 
   // Control sang WB
   ctrl_t ctrl_WB;
@@ -172,7 +171,7 @@ module rv32imp_pipeline #(
   // Instruction memory 
   // ------------------------------
   IMem #(
-    .DEPTH_WORDS(DEPTH_WORDS),
+    .DEPTH_WORDS(IMEM_DEPTH),
     .BASE_ADDR(32'h8000_0000)
   )u_imem (
     .rst_n (rst_n),
@@ -409,20 +408,16 @@ module rv32imp_pipeline #(
   // Data Memory (LW/SW 32-bit)
   // ------------------------------
   Data_Memory #(
-    .DEPTH_WORDS(DEPTH_WORDS),
+    .DEPTH_WORDS(DMEM_DEPTH),
     .BASE_ADDR(32'h8001_0000)
   ) u_dmem (
-    .clk   (clk),
-    .rst_n (rst_n),
-    .addr  (alu_MEM),        // address từ ALU
-    .dataW (dataR2_MEM),     // store dữ liệu từ rs2
-    .MemRW (ctrl_MEM.MemRW),      // 1: write, 0: read
-    .MemSize(ctrl_MEM.MemSize),
+    .clk       (clk),
+    .addr      (alu_MEM),
+    .dataW     (dataR2_MEM),
+    .MemRW     (ctrl_MEM.MemRW),
+    .MemSize   (ctrl_MEM.MemSize),
     .MemUnsigned(ctrl_MEM.MemUnsigned),
-    .dataR (mem)  // read data
-	 
-	//.sw    (sw),
-    //.led   (led)
+    .dataR     (mem)
   );
 
   // ------------------------------
@@ -436,13 +431,10 @@ module rv32imp_pipeline #(
   );
 
   // ---------- MEM/WB pipeline registers ----------
-  // NOTE: en=1'b1 — MEM/WB must always advance so LOAD data (from sync read)
-  //       becomes available at WB stage. u_mem_WB removed since DMEM's
-  //       registered read already provides 1-cycle delay (mem aligns with WB).
 
   pipe_reg #(.W(32)) u_pc4_WB  (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(pc_plus4_mem), .bubble(32'b0), .q(pc_plus4_mem_WB));
   pipe_reg #(.W(32)) u_alu_WB  (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(alu_MEM),      .bubble(32'b0), .q(alu_WB));
-  // u_mem_WB removed: mem is already 1-cycle delayed from synchronous DMEM read
+  pipe_reg #(.W(32)) u_mem_WB  (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(mem),          .bubble(32'b0), .q(mem_WB));
   pipe_reg #(.W(5))  u_rd_WB   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(rd_MEM),       .bubble(5'd0),  .q(rd_WB));
   // Control
   pipe_reg #(.W($bits(ctrl_t))) u_ctrl_WB   (.clk(clk), .rst_n(rst_n), .en(1'b1), .flush(1'b0), .d(ctrl_MEM),      .bubble(CTRL_NOP),  .q(ctrl_WB));
@@ -452,7 +444,7 @@ module rv32imp_pipeline #(
   // ------------------------------
   always_comb begin
     unique case (ctrl_WB.WBSel)
-      WB_MEM: WBdata = mem;
+      WB_MEM: WBdata = mem_WB;
       WB_ALU: WBdata = alu_WB;
       WB_PC4: WBdata = pc_plus4_mem_WB;
       default: WBdata = 32'h0;

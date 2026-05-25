@@ -27,47 +27,8 @@ module IMem #(
             inst = rom_data;
     end
 
-//    // Load program
-//    initial begin
-//        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
-//    end
-//    initial begin
-//        string program_path;
-//    
-//        if (!$value$plusargs("program=%s", program_path)) begin
-//            $display("ERROR: No +program specified!");
-//            $finish;
-//        end
-//    
-//        $display("Loading program: %s", program_path);
-//        $readmemh(program_path, rom_array);
-//    end
-////initial begin
-////    string path;
-////    int file;
-////
-////    file = $fopen("../rtl/imem_path.txt", "r");
-////
-////    if (!file) begin
-////        $display("ERROR: Cannot open imem_path.txt");
-////        $finish;
-////    end
-////
-////    $fgets(path, file);
-////    $fclose(file);
-////
-////    // remove '\n'
-////    if (path.len() > 0 && path[path.len()-1] == 8'h0A)
-////        path = path.substr(0, path.len()-2);
-////
-////    // remove '\r'
-////    if (path.len() > 0 && path[path.len()-1] == 8'h0D)
-////        path = path.substr(0, path.len()-2);
-////
-////    $display("Loading instruction memory from: '%s'", path);
-////
-////    $readmemh(path, rom_array);
-////
-////    $display("Instruction memory loaded.");
-////end
+    // Load program
+    initial begin
+        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
+    end
 endmodule
