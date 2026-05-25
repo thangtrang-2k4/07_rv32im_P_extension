@@ -39,10 +39,10 @@ module tb_rv32imp_pipeline;
     #10 rst_n = 1;
   end
 
-//  localparam int depth      = 50; // (200byte) Fir
+//  localparam int depth      = 100; // (200byte) Fir
   localparam int depth      = 1024; // Sobel, Matrix
   localparam int BaseAddr   = 32'h80010000;
-//  localparam int OAddr      = 32'h800100e8; // fir 
+//  localparam int OAddr      = 32'h800101b0; // fir 
 //  localparam int OAddr      = 32'h80011000; // Sobel
   localparam int OAddr      = 32'h80010c04; // Matrix
   localparam int DoneAddr   = 32'h80013ffc; // DMEM 16KB
