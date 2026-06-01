@@ -8,7 +8,7 @@ module Hazard_Detection (
   input  logic [11:7]       rd_EX,    // rd của instruction ở EX
   input  logic              is_mac_ID,   // 1 nếu lệnh ở ID là MAC
   input  logic [4:0]        rd_ID,       // rd của instruction ở ID (ACC source cho MAC)
-  output logic        stall
+  output logic              stall
 );
   import rv32_pkg::*;
 
