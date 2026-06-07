@@ -79,3 +79,5 @@ MEMORY.md
 
 .claude/*
 user_reports/*
+ref-codes/
+ref-model/
