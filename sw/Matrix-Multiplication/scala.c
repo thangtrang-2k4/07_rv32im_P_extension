@@ -4,9 +4,8 @@
 // Destination buffer in BSS
 static int32_t output_C[H_A * W_B] __attribute__((aligned(4)));
 
-// Done flag for testbench (located at end of DMEM)
-// Address: 0x80010000 + 64K - 4 = 0x8001FFFC
-volatile uint32_t * const DONE_FLAG = (uint32_t *)0x8001FFFC;
+// Done flag for testbench (linker symbol)
+extern volatile uint32_t _done_flag;
 
 void matmul_scalar(const int8_t * __restrict__ A_,
                     const int8_t * __restrict__ B_,
@@ -70,7 +69,7 @@ void matmul_scalar(const int8_t * __restrict__ A_,
 int main() {
     matmul_scalar(mat_A, mat_B, output_C, H_A, W_A, W_B);
     
-    *DONE_FLAG = 1;
+    _done_flag = 1;
     while(1);
     return 0;
 }

@@ -13,7 +13,7 @@
  */
 
 #include <stdint.h>
-#include "fir_data.h"
+#include "fir_data2.h"
 
 /* ──────────────────────────────────────────────────────────────────── */
 /*  Cấu hình tự động từ fir_data.h                                     */

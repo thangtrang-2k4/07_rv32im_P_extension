@@ -5,8 +5,8 @@
 static int8_t  mat_Bt[W_B * W_A] __attribute__((aligned(4)));
 static int32_t output_C[H_A * W_B] __attribute__((aligned(4)));
 
-// Done flag for testbench
-volatile uint32_t * const DONE_FLAG = (uint32_t *)0x8001FFFC;
+// Done flag for testbench (linker symbol)
+extern volatile uint32_t _done_flag;
 
 // P-extension wrapper
 static inline int32_t pm4adda_b(int32_t acc, uint32_t rs1, uint32_t rs2)
@@ -96,7 +96,7 @@ int main() {
     transpose_B(mat_B, mat_Bt, W_A, W_B);
     matmul_pext(mat_A, mat_Bt, output_C, H_A, W_A, W_B);
     
-    *DONE_FLAG = 1;
+    _done_flag = 1;
     while(1);
     return 0;
 }
