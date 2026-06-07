@@ -346,13 +346,8 @@ module rv32imp_pipeline #(
   // ------------------------------
   // MAC Detection & ACC Forwarding
   // ------------------------------
-  assign is_mac_EX = (ctrl_EX.ALUSel == ALU_PM4ADDA_B)  ||
-                     (ctrl_EX.ALUSel == ALU_PM4ADDASU_B) ||
-                     (ctrl_EX.ALUSel == ALU_PM4ADDAU_B);
-
-  assign is_mac_ID = (ctrl.ALUSel == ALU_PM4ADDA_B)  ||
-                     (ctrl.ALUSel == ALU_PM4ADDASU_B) ||
-                     (ctrl.ALUSel == ALU_PM4ADDAU_B);
+  assign is_mac_EX = (opcode_EX == OC_PEXT) && (funct3_EX == 3'b101);
+  assign is_mac_ID = (opcode_ID == OC_PEXT) && (funct3_ID == 3'b101);
 
   always_comb begin
     unique case (forwardACC)

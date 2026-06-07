@@ -2,8 +2,6 @@ module Hazard_Detection (
   input  rv32_pkg::opcode_t opcode_ID,   // instruction ở ID
   input  logic [19:15]      rs1_ID,    // rs1 của instruction ở ID
   input  logic [24:20]      rs2_ID,    // rs2 của
-  //input  logic [11:7]       rd_ID,
-
   input  rv32_pkg::opcode_t opcode_EX,   // instruction ở EX
   input  logic [11:7]       rd_EX,    // rd của instruction ở EX
   input  logic              is_mac_ID,   // 1 nếu lệnh ở ID là MAC
@@ -15,19 +13,21 @@ module Hazard_Detection (
   logic use_rs1_ID, use_rs2_ID;
   always_comb begin
     unique case (opcode_ID)
-      OC_R      : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b1; end // R-type
-      OC_S      : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b1; end // STORE
-      OC_B      : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b1; end // BRANCH
+      OC_R        : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b1; end // R-type
+      OC_PEXT     : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b1; end // PEXT R-type (MAC, ADD, SUB...)
+      OC_PEXT_IMM : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b0; end // PEXT I-type (PSATI, PSABS...)
+      OC_S        : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b1; end // STORE
+      OC_B        : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b1; end // BRANCH
 
-      OC_I_ALU  : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b0; end // I-ALU
-      OC_I_LOAD : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b0; end // LOAD (base rs1)
-      OC_I_JALR : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b0; end // JALR
+      OC_I_ALU    : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b0; end // I-ALU
+      OC_I_LOAD   : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b0; end // LOAD (base rs1)
+      OC_I_JALR   : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b0; end // JALR
 
-      OC_U_LUI  : begin use_rs1_ID = 1'b0; use_rs2_ID = 1'b0; end // LUI
-      OC_U_AUIPC: begin use_rs1_ID = 1'b0; use_rs2_ID = 1'b0; end // AUIPC
-      OC_J      : begin use_rs1_ID = 1'b0; use_rs2_ID = 1'b0; end // JAL
+      OC_U_LUI    : begin use_rs1_ID = 1'b0; use_rs2_ID = 1'b0; end // LUI
+      OC_U_AUIPC  : begin use_rs1_ID = 1'b0; use_rs2_ID = 1'b0; end // AUIPC
+      OC_J        : begin use_rs1_ID = 1'b0; use_rs2_ID = 1'b0; end // JAL
 
-      default   : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b1; end // bảo thủ
+      default     : begin use_rs1_ID = 1'b1; use_rs2_ID = 1'b1; end // bảo thủ
     endcase
   end
 

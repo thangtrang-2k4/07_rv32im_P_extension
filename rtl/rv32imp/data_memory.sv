@@ -102,7 +102,7 @@ module Data_Memory #(
 
     // Load program
     initial begin
-        $readmemh("../../sw/Filter-Fir/pext_dmem.hex", ram_array);
+        $readmemh("../../sw/matrix-multiplication/pext_dmem.hex", ram_array);
     end
 
 endmodule

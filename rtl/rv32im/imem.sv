@@ -29,6 +29,6 @@ module IMem #(
 
     // Load program
     initial begin
-        $readmemh("../../sw/Filter-Fir/scala_imem.hex", rom_array);
+        $readmemh("../../sw/matrix-multiplication/scala_imem.hex", rom_array);
     end
 endmodule
