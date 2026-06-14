@@ -1,12 +1,15 @@
-# Signature Test Flow
+# Signature Test Common Files
 
 These tests write observed values to the `.signature` buffer at `0x80010000`.
 The testbench dumps that memory range and compares it against `golden.hex`.
 
-Build a test from its directory:
+Build tests from `sw/`:
 
 ```sh
-make
+make rv32i-inst
+make rv32im-inst
+make rv32imp-inst
+make hazards-rv32imp
 ```
 
 Run from `sim/` using one of the convenience targets:
