@@ -8,8 +8,6 @@
 ../rtl/common/pc_selection.sv
 ../rtl/common/pc.sv
 ../rtl/common/pipe_reg.sv
-../rtl/common/ifetch_ctrl.sv
-../rtl/common/dmem_ctrl.sv
 
 // RV32IMP Specific Modules
 ../rtl/rv32imp/adder_9bit.sv

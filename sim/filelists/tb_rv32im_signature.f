@@ -8,8 +8,6 @@
 ../rtl/common/pc_selection.sv
 ../rtl/common/pc.sv
 ../rtl/common/pipe_reg.sv
-../rtl/common/ifetch_ctrl.sv
-../rtl/common/dmem_ctrl.sv
 
 // RV32IM Specific Modules
 ../rtl/rv32im/alu.sv
