@@ -100,9 +100,11 @@ module Data_Memory #(
         endcase
     end
 
-    // Load program
+`ifndef NO_DEFAULT_MEM_INIT
+    // Default data load for legacy standalone simulations.
     initial begin
         $readmemh("../../sw/matrix-multiplication/scala_dmem.hex", ram_array);
     end
+`endif
 
 endmodule

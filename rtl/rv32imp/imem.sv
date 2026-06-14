@@ -27,8 +27,10 @@ module IMem #(
             inst = rom_data;
     end
 
-    // Load program
+`ifndef NO_DEFAULT_MEM_INIT
+    // Default program load for legacy standalone simulations.
     initial begin
         $readmemh("../../sw/matrix-multiplication/pext_imem.hex", rom_array);
     end
+`endif
 endmodule

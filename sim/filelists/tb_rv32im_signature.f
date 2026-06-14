@@ -1,3 +1,5 @@
++define+NO_DEFAULT_MEM_INIT
+
 // Common Modules
 ../rtl/common/rv32_pkg.sv
 ../rtl/common/adder.sv
