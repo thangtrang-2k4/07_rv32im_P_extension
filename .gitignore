@@ -22,10 +22,12 @@
 # =========================
 
 sim/work/
+sim/work*/
 sim/logs/
 sim/transcript
 sim/vsim.*
 sim/modelsim.ini
+sim/modelsim.ini_*
 sim/*.wlf
 sim/*.vcd
 sim/*.log
