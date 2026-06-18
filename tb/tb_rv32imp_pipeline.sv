@@ -55,30 +55,30 @@ module tb_rv32imp_pipeline;
 
     #10;
 
-    load_imem("../sw/Filter-Fir/pext_imem.hex");
-    load_dmem("../sw/Filter-Fir/pext_dmem.hex");
-    load_golden("../sw/Filter-Fir/pext_goldenw.hex", golden);
+    load_imem("../sw/apps/filter-fir/pext_imem.hex");
+    load_dmem("../sw/apps/filter-fir/pext_dmem.hex");
+    load_golden("../sw/apps/filter-fir/pext_goldenw.hex", golden);
 
-//    load_imem("../sw/Filter-Sobel/pext_imem.hex");
-//    load_dmem("../sw/Filter-Sobel/pext_dmem.hex");
-//    load_golden("../sw/Filter-Sobel/pext_goldenw.hex", golden);
+//    load_imem("../sw/apps/filter-sobel/pext_imem.hex");
+//    load_dmem("../sw/apps/filter-sobel/pext_dmem.hex");
+//    load_golden("../sw/apps/filter-sobel/pext_goldenw.hex", golden);
 
-//    load_imem("../sw/Matrix-Multiplication/pext_imem.hex");
-//    load_dmem("../sw/Matrix-Multiplication/pext_dmem.hex");
-//    load_golden("../sw/Matrix-Multiplication/pext_goldenw.hex", golden);
+//    load_imem("../sw/apps/matrix-multiplication/pext_imem.hex");
+//    load_dmem("../sw/apps/matrix-multiplication/pext_dmem.hex");
+//    load_golden("../sw/apps/matrix-multiplication/pext_goldenw.hex", golden);
 
     // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
     wait (done == 1'b1);
     #20;
 
-    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Fir/pext_signature.hex");
-    load_result("../sw/Filter-Fir/pext_signature.hex", result);
+    dump_result(depth, BaseAddr, OAddr, "../sw/apps/filter-fir/pext_signature.hex");
+    load_result("../sw/apps/filter-fir/pext_signature.hex", result);
 
-//    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/pext_signature.hex");
-//    load_result("../sw/Filter-Sobel/pext_signature.hex", result);
+//    dump_result(depth, BaseAddr, OAddr, "../sw/apps/filter-sobel/pext_signature.hex");
+//    load_result("../sw/apps/filter-sobel/pext_signature.hex", result);
 
-//    dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/pext_signature.hex");
-//    load_result("../sw/Matrix-Multiplication/pext_signature.hex", result);
+//    dump_result(depth, BaseAddr, OAddr, "../sw/apps/matrix-multiplication/pext_signature.hex");
+//    load_result("../sw/apps/matrix-multiplication/pext_signature.hex", result);
 
     #1;
     compare_result(depth, OAddr, golden, result, error);

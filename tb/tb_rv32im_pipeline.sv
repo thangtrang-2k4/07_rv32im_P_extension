@@ -44,30 +44,30 @@ module tb_rv32im_pipeline;
 
     #10;
 
-    load_imem("../sw/Filter-Fir/scala_imem.hex");
-    load_dmem("../sw/Filter-Fir/scala_dmem.hex");
-    load_golden("../sw/Filter-Fir/scala_goldenw.hex", golden);
+    load_imem("../sw/apps/filter-fir/scala_imem.hex");
+    load_dmem("../sw/apps/filter-fir/scala_dmem.hex");
+    load_golden("../sw/apps/filter-fir/scala_goldenw.hex", golden);
 
-//    load_imem("../sw/Filter-Sobel/scala_imem.hex");
-//    load_dmem("../sw/Filter-Sobel/scala_dmem.hex");
-//    load_golden("../sw/Filter-Sobel/scala_goldenw.hex", golden);
+//    load_imem("../sw/apps/filter-sobel/scala_imem.hex");
+//    load_dmem("../sw/apps/filter-sobel/scala_dmem.hex");
+//    load_golden("../sw/apps/filter-sobel/scala_goldenw.hex", golden);
 
-//    load_imem("../sw/Matrix-Multiplication/scala_imem.hex");
-//    load_dmem("../sw/Matrix-Multiplication/scala_dmem.hex");
-//    load_golden("../sw/Matrix-Multiplication/scala_goldenw.hex", golden);
+//    load_imem("../sw/apps/matrix-multiplication/scala_imem.hex");
+//    load_dmem("../sw/apps/matrix-multiplication/scala_dmem.hex");
+//    load_golden("../sw/apps/matrix-multiplication/scala_goldenw.hex", golden);
 
     // Chờ cho cờ done_flag = 1 từ file scala.c đánh dấu kết thúc
     wait (done == 1'b1);
     #20;
 
-    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Fir/scala_signature.hex");
-    load_result("../sw/Filter-Fir/scala_signature.hex", result);
+    dump_result(depth, BaseAddr, OAddr, "../sw/apps/filter-fir/scala_signature.hex");
+    load_result("../sw/apps/filter-fir/scala_signature.hex", result);
 
-//    dump_result(depth, BaseAddr, OAddr, "../sw/Filter-Sobel/scala_signature.hex");
-//    load_result("../sw/Filter-Sobel/scala_signature.hex", result);
+//    dump_result(depth, BaseAddr, OAddr, "../sw/apps/filter-sobel/scala_signature.hex");
+//    load_result("../sw/apps/filter-sobel/scala_signature.hex", result);
 
-//    dump_result(depth, BaseAddr, OAddr, "../sw/Matrix-Multiplication/scala_signature.hex");
-//    load_result("../sw/Matrix-Multiplication/scala_signature.hex", result);
+//    dump_result(depth, BaseAddr, OAddr, "../sw/apps/matrix-multiplication/scala_signature.hex");
+//    load_result("../sw/apps/matrix-multiplication/scala_signature.hex", result);
 
     #1;
     compare_result(depth, OAddr, golden, result, error);

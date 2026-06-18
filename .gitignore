@@ -84,3 +84,7 @@ user_reports/*
 ref-codes/
 ref-model/
 AGENTS.md
+instructions/
+rtl/common/*
+rtl/rv32im/*
+rtl/rv32imp/*

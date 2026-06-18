@@ -126,10 +126,10 @@ module Data_Memory #(
 
     // ---- Initialisation ----
     initial begin
-        $readmemh("../../sw/Filter-Fir/scala_dmem.hex", ram_b0);
-        $readmemh("../../sw/Filter-Fir/scala_dmem.hex", ram_b1);
-        $readmemh("../../sw/Filter-Fir/scala_dmem.hex", ram_b2);
-        $readmemh("../../sw/Filter-Fir/scala_dmem.hex", ram_b3);
+        $readmemh("../../sw/apps/filter-fir/scala_dmem.hex", ram_b0);
+        $readmemh("../../sw/apps/filter-fir/scala_dmem.hex", ram_b1);
+        $readmemh("../../sw/apps/filter-fir/scala_dmem.hex", ram_b2);
+        $readmemh("../../sw/apps/filter-fir/scala_dmem.hex", ram_b3);
     end
 
 endmodule

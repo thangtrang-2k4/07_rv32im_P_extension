@@ -107,7 +107,7 @@ module Data_Memory #(
 
     // ---- Initialisation ----
 //    initial begin
-//        $readmemh("../../sw/Filter-Fir/pext_dmem.hex", ram_array);
+//        $readmemh("../../sw/apps/filter-fir/pext_dmem.hex", ram_array);
 //    end
 
 endmodule
