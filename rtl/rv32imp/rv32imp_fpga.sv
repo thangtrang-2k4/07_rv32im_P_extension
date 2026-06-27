@@ -13,14 +13,17 @@ module rv32imp_fpga (
 //        .clk_out(clk_1hz)
 //    );
 
+    logic done_flag;
+
     // 2. RV32IMP CPU Instance
     rv32imp_pipeline #(
-        .IMEM_DEPTH(1024),
-        .DMEM_DEPTH(4098)
+        .IMEM_DEPTH(144),
+        .DMEM_DEPTH(1096)
     ) u_core (
         .clk       (MAX10_CLK1_50),
         .rst_n     (KEY[0]),
-        .o_obs_data(obs_data)
+        .o_obs_data(obs_data),
+        .o_done    (done_flag)
     );
 
     // 3. Register the observation data
@@ -31,6 +34,7 @@ module rv32imp_fpga (
 
     // 4. LED Output Mapping
     assign LEDR[0]   = obs_reg[31];                                    // MSB of observation data
-    assign LEDR[9:1] = obs_reg[8:0] ^ obs_reg[17:9] ^ obs_reg[26:18]; // folded XOR
+    assign LEDR[8:1] = obs_reg[7:0] ^ obs_reg[15:8] ^ obs_reg[23:16]; // folded XOR
+    assign LEDR[9]   = done_flag;                                      // DONE flag
 
 endmodule

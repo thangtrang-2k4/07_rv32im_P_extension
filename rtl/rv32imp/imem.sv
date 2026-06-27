@@ -7,8 +7,7 @@ module IMem #(
     output logic [31:0] inst
 );
 
-    // Force Quartus infer block RAM
-    (* ramstyle = "M10K" *)
+    // Let Quartus auto-infer RAM
     logic [31:0] rom_array [0:DEPTH_WORDS - 1];
 
     logic [31:0] word_addr;
@@ -30,7 +29,9 @@ module IMem #(
 `ifndef NO_DEFAULT_MEM_INIT
     // Default program load for legacy standalone simulations.
     initial begin
-        $readmemh("../../sw/apps/matrix-multiplication/pext_imem.hex", rom_array);
+//        $readmemh("../../sw/apps/matrix-multiplication/pext_imem.hex", rom_array);
+		  $readmemh("../../sw/apps/filter-fir/pext_imem.hex", rom_array);
+//		  $readmemh("../../sw/apps/filter-sobel/pext_imem.hex", rom_array);
     end
 `endif
 endmodule

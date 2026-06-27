@@ -13,7 +13,7 @@ module Data_Memory #(
 
     localparam int ADDR_BITS = $clog2(DEPTH_WORDS);
 
-    (* ramstyle = "M10K" *)
+    (* ramstyle = "M4K" *)
     logic [31:0] ram_array [0:DEPTH_WORDS-1];
 
     // ---- Address decode ----

@@ -30,7 +30,9 @@ module IMem #(
 `ifndef NO_DEFAULT_MEM_INIT
     // Default program load for legacy standalone simulations.
     initial begin
-        $readmemh("../../sw/apps/matrix-multiplication/scala_imem.hex", rom_array);
+//        $readmemh("../../sw/apps/matrix-multiplication/scala_imem.hex", rom_array);
+		  $readmemh("../../sw/apps/filter-fir/scala_imem.hex", rom_array);
+//		  $readmemh("../../sw/apps/filter-sobel/scala_imem.hex", rom_array);
     end
 `endif
 endmodule

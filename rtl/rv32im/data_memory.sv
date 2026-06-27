@@ -1,4 +1,4 @@
-module Data_Memory #(
+	module Data_Memory #(
     parameter int DEPTH_WORDS = 4096,
     parameter logic [31:0] BASE_ADDR = 32'h8001_0000
 )(
@@ -103,7 +103,9 @@ module Data_Memory #(
 `ifndef NO_DEFAULT_MEM_INIT
     // Default data load for legacy standalone simulations.
     initial begin
-        $readmemh("../../sw/apps/matrix-multiplication/scala_dmem.hex", ram_array);
+//        $readmemh("../../sw/apps/matrix-multiplication/scala_dmem.hex", ram_array);
+		  $readmemh("../../sw/apps/filter-fir/scala_dmem.hex", ram_array);
+//		  $readmemh("../../sw/apps/filter-sobel/scala_dmem.hex", ram_array);
     end
 `endif
 
