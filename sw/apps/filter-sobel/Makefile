@@ -22,9 +22,9 @@ PEXT_CFLAGS   := -O2 -nostdlib -march=rv32imp -mabi=ilp32
 LDFLAGS       := -T link.ld
 
 # ── Scala (RV32IM) ──────────────────────────────────────────────────
-scala: scala_imem.hex scala_dmem.hex
+scala: scala_imem.hex scala_dmem.hex scala.dump
 
-scala.elf: start.s scala.c link.ld
+scala.elf: start.s scala.c link.ld sobel_data.h
 	$(CC) $(SCALA_CFLAGS) $(LDFLAGS) start.s scala.c -o $@
 
 scala.s: scala.elf
@@ -41,9 +41,9 @@ scala_dmem.hex: scala.elf
 	    $< $@
 
 # ── P-Extension (RV32IMP) ───────────────────────────────────────────
-pext: pext_imem.hex pext_dmem.hex
+pext: pext_imem.hex pext_dmem.hex pext.dump
 
-pext.elf: start.s pext.c link.ld
+pext.elf: start.s pext.c link.ld sobel_data.h
 	$(CC) $(PEXT_CFLAGS) $(LDFLAGS) start.s pext.c -o $@
 
 pext.s: pext.elf
@@ -59,7 +59,7 @@ pext_dmem.hex: pext.elf
 	    --adjust-vma=-0x80010000 --only-section=.rodata --only-section=.data --only-section=.bss --verilog-data-width=4 \
 	    $< $@
 	@echo "Generating 4-way MIF files for Quartus..."
-	python ../generate_mif.py $@
+	python3 ../generate_mif.py $@
 
 # ── All & Clean ─────────────────────────────────────────────────────
 all: scala pext
