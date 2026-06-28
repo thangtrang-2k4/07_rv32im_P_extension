@@ -44,9 +44,13 @@ def process_file(input_file, depth=4096):
     print(f"Generated {base}_0.mif to _3.mif successfully!")
 
 if __name__ == '__main__':
-    apps = ['filter-fir', 'filter-sobel', 'matrix-multiplication']
-    for app in apps:
-        dmem_path = os.path.join(app, 'pext_dmem.hex')
-        imem_path = os.path.join(app, 'pext_imem.hex')
-        process_file(dmem_path, depth=4096)
-        process_file(imem_path, depth=4096)
+    if len(sys.argv) > 1:
+        for f in sys.argv[1:]:
+            process_file(f, depth=4096)
+    else:
+        apps = ['filter-fir', 'filter-sobel', 'matrix-multiplication']
+        for app in apps:
+            dmem_path = os.path.join(app, 'pext_dmem.hex')
+            imem_path = os.path.join(app, 'pext_imem.hex')
+            process_file(dmem_path, depth=4096)
+            process_file(imem_path, depth=4096)
