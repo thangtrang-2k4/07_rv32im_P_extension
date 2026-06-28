@@ -46,8 +46,9 @@ pext_imem.hex: pext.elf
 
 pext_dmem.hex: pext.elf
 	$(OBJCOPY) -O verilog \
-	    --adjust-vma=-0x80010000 --only-section=.rodata --only-section=.data --only-section=.bss --verilog-data-width=1 \
+	    --adjust-vma=-0x80010000 --only-section=.rodata --only-section=.data --only-section=.bss --verilog-data-width=4 \
 	    $< $@
+	python generate_mifs.py $@
 
 # ── All & Clean ─────────────────────────────────────────────────────
 all: scala pext
