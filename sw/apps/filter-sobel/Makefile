@@ -17,14 +17,20 @@ OBJDUMP := $(CROSS)-objdump
 IMEM_ORIGIN := 0x80000000
 DMEM_ORIGIN := 0x80010000
 
-SCALA_CFLAGS  := -O2 -nostdlib -march=rv32im -mabi=ilp32
-PEXT_CFLAGS   := -O2 -nostdlib -march=rv32imp -mabi=ilp32
+ifeq ($(PHOTO), 2)
+    EXTRA_CFLAGS = -DPHOTO2
+else
+    EXTRA_CFLAGS = 
+endif
+
+SCALA_CFLAGS  := -O2 -nostdlib -march=rv32im -mabi=ilp32 $(EXTRA_CFLAGS)
+PEXT_CFLAGS   := -O2 -nostdlib -march=rv32imp -mabi=ilp32 $(EXTRA_CFLAGS)
 LDFLAGS       := -T link.ld
 
 # ── Scala (RV32IM) ──────────────────────────────────────────────────
 scala: scala_imem.hex scala_dmem.hex scala.dump
 
-scala.elf: start.s scala.c link.ld sobel_data.h
+scala.elf: start.s scala.c link.ld sobel-photo1.h sobel-photo2.h
 	$(CC) $(SCALA_CFLAGS) $(LDFLAGS) start.s scala.c -o $@
 
 scala.s: scala.elf
@@ -43,7 +49,7 @@ scala_dmem.hex: scala.elf
 # ── P-Extension (RV32IMP) ───────────────────────────────────────────
 pext: pext_imem.hex pext_dmem.hex pext.dump
 
-pext.elf: start.s pext.c link.ld sobel_data.h
+pext.elf: start.s pext.c link.ld sobel-photo1.h sobel-photo2.h
 	$(CC) $(PEXT_CFLAGS) $(LDFLAGS) start.s pext.c -o $@
 
 pext.s: pext.elf

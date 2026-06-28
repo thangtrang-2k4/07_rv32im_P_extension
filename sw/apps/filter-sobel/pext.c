@@ -14,13 +14,18 @@
  */
 
 #include <stdint.h>
+#ifdef PHOTO2
+#include "sobel-photo2.h"
+#else
 #include "sobel-photo1.h"
+#endif
 
 /* ──────────────────────────────────────────────────────────────────── */
 /*  Cấu hình tự động từ sobel_data.h                                   */
 /* ──────────────────────────────────────────────────────────────────── */
 #define WIDTH  IMG_WIDTH
 #define HEIGHT IMG_HEIGHT
+#define input ((const uint8_t (*)[WIDTH])photo1_data)
 
 /* Linker symbols */
 extern volatile uint32_t _done_flag;
