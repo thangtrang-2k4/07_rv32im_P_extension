@@ -1,0 +1,165 @@
+# vsim -voptargs="+acc" -debugDB -c tb_rv32im_pipeline -l logs/rv32im_pipeline.log -do "log -r /*; run -all; quit" 
+# Start time: 14:04:18 on May 25,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Note: (vsim-8611) Generating debug db.
+# ** Warning: ../tb/tb_rv32im_pipeline.sv(12): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 3, found 2.
+# ** Warning: ../tb/tb_rv32im_pipeline.sv(12): (vopt-2718) [TFMPC] - Missing connection for port 'o_obs_data'.
+# ** Note: (vopt-4301) Memory core inferred for signal 'ram_array' width=32, depth=4096, type=RAM at location ../rtl/rv32im/data_memory.sv:17
+# ** Note: (vopt-4301) Memory core inferred for signal 'rom_array' width=32, depth=256, type=ROM at location ../rtl/rv32im/imem.sv:12
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=2.
+# //  Questa Sim-64
+# //  Version 2021.2_1 linux_x86_64 May 15 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.rv32_pkg(fast)
+# Loading work.tb_rv32im_pipeline(fast)
+# Loading work.rv32im_pipeline(fast)
+# Loading work.Program_Counter(fast)
+# Loading work.Adder(fast)
+# Loading work.IMem(fast)
+# Loading work.pipe_reg(fast)
+# Loading work.Decoder(fast)
+# Loading work.Control_Logic(fast)
+# Loading work.ImmGen(fast)
+# Loading work.RegFile(fast)
+# Loading work.pipe_reg(fast__1)
+# Loading work.pipe_reg(fast__2)
+# Loading work.pipe_reg(fast__3)
+# Loading work.pipe_reg(fast__4)
+# Loading work.Forwarding_Unit(fast)
+# Loading work.Branch_Comparator(fast)
+# Loading work.ALU(fast)
+# Loading work.PC_Selection(fast)
+# Loading work.Data_Memory(fast)
+# Loading work.Hazard_Detection(fast)
+# ** Note: (vsim-8900) Creating design debug database vsim.dbg.
+# log -r /*
+#  run -all
+# ** Warning: (vsim-7) Failed to open readmem file "../../sw/Filter-Fir/scala_imem.hex" in read mode.
+# No such file or directory. (errno = ENOENT)    : ../rtl/rv32im/imem.sv(32)
+#    Time: 0 ps  Iteration: 0  Instance: /tb_rv32im_pipeline/dut/u_imem
+# ** Warning: (vsim-7) Failed to open readmem file "../../sw/Filter-Fir/scala_dmem.hex" in read mode.
+# No such file or directory. (errno = ENOENT)    : ../rtl/rv32im/data_memory.sv(105)
+#    Time: 0 ps  Iteration: 0  Instance: /tb_rv32im_pipeline/dut/u_dmem
+# =================================
+# CORE RV32IM EXECUTION COMPLETE!
+# Total simulation cycles = 112492
+# Total instructions retired = 100154
+# Final CPI = 1.123
+# =================================
+# Match at address 800101b0: expected 00000000, got 00000000
+# Match at address 800101b4: expected 00000000, got 00000000
+# Match at address 800101b8: expected 00000000, got 00000000
+# Match at address 800101bc: expected 00000000, got 00000000
+# Match at address 800101c0: expected 00000000, got 00000000
+# Match at address 800101c4: expected 00000000, got 00000000
+# Match at address 800101c8: expected 00000000, got 00000000
+# Match at address 800101cc: expected 7f000000, got 7f000000
+# Match at address 800101d0: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800101d4: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800101d8: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800101dc: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800101e0: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800101e4: expected f6204b74, got f6204b74
+# Match at address 800101e8: expected 8080a1cb, got 8080a1cb
+# Match at address 800101ec: expected 80808080, got 80808080
+# Match at address 800101f0: expected 80808080, got 80808080
+# Match at address 800101f4: expected 80808080, got 80808080
+# Match at address 800101f8: expected 80808080, got 80808080
+# Match at address 800101fc: expected 80808080, got 80808080
+# Match at address 80010200: expected 80808080, got 80808080
+# Match at address 80010204: expected 80808080, got 80808080
+# Match at address 80010208: expected 80808080, got 80808080
+# Match at address 8001020c: expected e9be9480, got e9be9480
+# Match at address 80010210: expected 7f6e4115, got 7f6e4115
+# Match at address 80010214: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010218: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 8001021c: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010220: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010224: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010228: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 8001022c: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010230: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010234: expected 39647f7f, got 39647f7f
+# Match at address 80010238: expected 94bce50e, got 94bce50e
+# Match at address 8001023c: expected 80808080, got 80808080
+# Match at address 80010240: expected 80808080, got 80808080
+# Match at address 80010244: expected 80808080, got 80808080
+# Match at address 80010248: expected 80808080, got 80808080
+# Match at address 8001024c: expected 80808080, got 80808080
+# Match at address 80010250: expected 80808080, got 80808080
+# Match at address 80010254: expected 80808080, got 80808080
+# Match at address 80010258: expected 80808080, got 80808080
+# Match at address 8001025c: expected e4bc9480, got e4bc9480
+# Match at address 80010260: expected 7f5d350c, got 7f5d350c
+# Match at address 80010264: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010268: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 8001026c: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010270: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010274: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010278: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 8001027c: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010280: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010284: expected 3c637f7f, got 3c637f7f
+# Match at address 80010288: expected 93bde813, got 93bde813
+# Match at address 8001028c: expected 80808080, got 80808080
+# Match at address 80010290: expected 80808080, got 80808080
+# Match at address 80010294: expected 80808080, got 80808080
+# Match at address 80010298: expected 80808080, got 80808080
+# Match at address 8001029c: expected 80808080, got 80808080
+# Match at address 800102a0: expected 80808080, got 80808080
+# Match at address 800102a4: expected 80808080, got 80808080
+# Match at address 800102a8: expected 80808080, got 80808080
+# Match at address 800102ac: expected dbb58f80, got dbb58f80
+# Match at address 800102b0: expected 714c2701, got 714c2701
+# Match at address 800102b4: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800102b8: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800102bc: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800102c0: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800102c4: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800102c8: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800102cc: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800102d0: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 800102d4: expected 274a6b7f, got 274a6b7f
+# Match at address 800102d8: expected 9ec0e204, got 9ec0e204
+# Match at address 800102dc: expected 80808080, got 80808080
+# Match at address 800102e0: expected 80808080, got 80808080
+# Match at address 800102e4: expected 80808080, got 80808080
+# Match at address 800102e8: expected 80808080, got 80808080
+# Match at address 800102ec: expected 80808080, got 80808080
+# Match at address 800102f0: expected 80808080, got 80808080
+# Match at address 800102f4: expected 80808080, got 80808080
+# Match at address 800102f8: expected 80808080, got 80808080
+# Match at address 800102fc: expected d1aa8380, got d1aa8380
+# Match at address 80010300: expected 724921f9, got 724921f9
+# Match at address 80010304: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010308: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 8001030c: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010310: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010314: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010318: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 8001031c: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010320: expected 7f7f7f7f, got 7f7f7f7f
+# Match at address 80010324: expected 092b4d6e, got 092b4d6e
+# Match at address 80010328: expected 809dc1e5, got 809dc1e5
+# Match at address 8001032c: expected 80808080, got 80808080
+# Match at address 80010330: expected 80808080, got 80808080
+# Match at address 80010334: expected 80808080, got 80808080
+# Match at address 80010338: expected 80808080, got 80808080
+# Match at address 8001033c: expected 80808080, got 80808080
+#  PASS
+# ** Note: $finish    : ../tb/tb_rv32im_pipeline.sv(78)
+#    Time: 1124956 ns  Iteration: 0  Instance: /tb_rv32im_pipeline
+# End time: 14:04:23 on May 25,2026, Elapsed time: 0:00:05
+# Errors: 0, Warnings: 4

@@ -1,0 +1,19 @@
+----------------------------------------
+Mismatch at Address: 0x80000880
+  Expected: 12340003 | Got: 12340000
+  Test Case: PABS.H
+  Instruction: psabs.h x12, x10
+  File: sw/PExtTest/pext_alup_test.S at Line 483 (Instruction) / 484 (Store)
+----------------------------------------
+Mismatch at Address: 0x80000884
+  Expected: 00010013 | Got: 00000000
+  Test Case: PABS.H
+  Instruction: psabs.h x12, x10
+  File: sw/PExtTest/pext_alup_test.S at Line 488 (Instruction) / 489 (Store)
+----------------------------------------
+Mismatch at Address: 0x80000888
+  Expected: 00031234 | Got: 00001234
+  Test Case: PABS.H
+  Instruction: psabs.h x12, x10
+  File: sw/PExtTest/pext_alup_test.S at Line 493 (Instruction) / 494 (Store)
+----------------------------------------
