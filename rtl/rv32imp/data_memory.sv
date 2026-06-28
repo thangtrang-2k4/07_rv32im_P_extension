@@ -55,23 +55,99 @@ module Data_Memory #(
 
     logic [31:0] rdata;
 
-    (* ramstyle = "M10K" *)
-    logic [31:0] ram_array [0:DEPTH_WORDS-1];
+    // ---- Explicit ALTSYNCRAM Instantiation (4 parallel 8-bit RAMs for ISMCE support) ----
+    
+    // RAM 0: Byte 0 (bits 7:0)
+    altsyncram #(
+        .intended_device_family("Cyclone IV E"),
+        .operation_mode("SINGLE_PORT"),
+        .width_a(8),
+        .widthad_a(ADDR_BITS),
+        .numwords_a(DEPTH_WORDS),
+`ifndef NO_DEFAULT_MEM_INIT
+        //.init_file("../../sw/apps/matrix-multiplication/pext_dmem_0.mif"),
+        .init_file("../../sw/apps/filter-fir/pext_dmem_0.mif"),
+        //.init_file("../../sw/apps/filter-sobel/pext_dmem_0.mif"),
+`endif
+        .lpm_type("altsyncram"),
+        .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM0"),
+        .outdata_reg_a("UNREGISTERED")
+    ) ram_byte0 (
+        .clock0(clk),
+        .address_a(word_addr),
+        .data_a(store_wdata[7:0]),
+        .wren_a(i_stb & i_we & be[0]),
+        .q_a(rdata[7:0])
+    );
 
-    // WRITE: conditional on strobe + write-enable
-    always_ff @(posedge clk) begin
-        if (i_stb && i_we) begin
-            if (be[0]) ram_array[word_addr][ 7: 0] <= store_wdata[ 7: 0];
-            if (be[1]) ram_array[word_addr][15: 8] <= store_wdata[15: 8];
-            if (be[2]) ram_array[word_addr][23:16] <= store_wdata[23:16];
-            if (be[3]) ram_array[word_addr][31:24] <= store_wdata[31:24];
-        end
-    end
+    // RAM 1: Byte 1 (bits 15:8)
+    altsyncram #(
+        .intended_device_family("Cyclone IV E"),
+        .operation_mode("SINGLE_PORT"),
+        .width_a(8),
+        .widthad_a(ADDR_BITS),
+        .numwords_a(DEPTH_WORDS),
+`ifndef NO_DEFAULT_MEM_INIT
+        //.init_file("../../sw/apps/matrix-multiplication/pext_dmem_1.mif"),
+        .init_file("../../sw/apps/filter-fir/pext_dmem_1.mif"),
+        //.init_file("../../sw/apps/filter-sobel/pext_dmem_1.mif"),
+`endif
+        .lpm_type("altsyncram"),
+        .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM1"),
+        .outdata_reg_a("UNREGISTERED")
+    ) ram_byte1 (
+        .clock0(clk),
+        .address_a(word_addr),
+        .data_a(store_wdata[15:8]),
+        .wren_a(i_stb & i_we & be[1]),
+        .q_a(rdata[15:8])
+    );
 
-    // READ: unconditional (M10K always reads every cycle)
-    always_ff @(posedge clk) begin
-        rdata <= ram_array[word_addr];
-    end
+    // RAM 2: Byte 2 (bits 23:16)
+    altsyncram #(
+        .intended_device_family("Cyclone IV E"),
+        .operation_mode("SINGLE_PORT"),
+        .width_a(8),
+        .widthad_a(ADDR_BITS),
+        .numwords_a(DEPTH_WORDS),
+`ifndef NO_DEFAULT_MEM_INIT
+        //.init_file("../../sw/apps/matrix-multiplication/pext_dmem_2.mif"),
+        .init_file("../../sw/apps/filter-fir/pext_dmem_2.mif"),
+        //.init_file("../../sw/apps/filter-sobel/pext_dmem_2.mif"),
+`endif
+        .lpm_type("altsyncram"),
+        .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM2"),
+        .outdata_reg_a("UNREGISTERED")
+    ) ram_byte2 (
+        .clock0(clk),
+        .address_a(word_addr),
+        .data_a(store_wdata[23:16]),
+        .wren_a(i_stb & i_we & be[2]),
+        .q_a(rdata[23:16])
+    );
+
+    // RAM 3: Byte 3 (bits 31:24)
+    altsyncram #(
+        .intended_device_family("Cyclone IV E"),
+        .operation_mode("SINGLE_PORT"),
+        .width_a(8),
+        .widthad_a(ADDR_BITS),
+        .numwords_a(DEPTH_WORDS),
+`ifndef NO_DEFAULT_MEM_INIT
+        //.init_file("../../sw/apps/matrix-multiplication/pext_dmem_3.mif"),
+        .init_file("../../sw/apps/filter-fir/pext_dmem_3.mif"),
+        //.init_file("../../sw/apps/filter-sobel/pext_dmem_3.mif"),
+`endif
+        .lpm_type("altsyncram"),
+        .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM3"),
+        .outdata_reg_a("UNREGISTERED")
+    ) ram_byte3 (
+        .clock0(clk),
+        .address_a(word_addr),
+        .data_a(store_wdata[31:24]),
+        .wren_a(i_stb & i_we & be[3]),
+        .q_a(rdata[31:24])
+    );
 
     logic [1:0] size_q;
     logic [1:0] offset_q;
@@ -117,8 +193,6 @@ module Data_Memory #(
         endcase
     end
 
-    initial begin
-        $readmemh("../../sw/Filter-Fir/pext_dmem.hex", ram_array);
-    end
+    // (Initial block removed because altsyncram uses init_file)
 
 endmodule

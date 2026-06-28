@@ -32,8 +32,13 @@ module IMem #(
         o_inst <= rom_array[word_addr];
     end
 
+`ifndef NO_DEFAULT_MEM_INIT
+    // Default program load for legacy standalone simulations.
     initial begin
-        $readmemh("../../sw/Filter-Fir/pext_imem.hex", rom_array);
+//        $readmemh("../../sw/apps/matrix-multiplication/pext_imem.hex", rom_array);
+		  $readmemh("../../sw/apps/filter-fir/pext_imem.hex", rom_array);
+//		  $readmemh("../../sw/apps/filter-sobel/pext_imem.hex", rom_array);
     end
+`endif
 
 endmodule

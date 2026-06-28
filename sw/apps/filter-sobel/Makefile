@@ -58,6 +58,8 @@ pext_dmem.hex: pext.elf
 	$(OBJCOPY) -O verilog \
 	    --adjust-vma=-0x80010000 --only-section=.rodata --only-section=.data --only-section=.bss --verilog-data-width=4 \
 	    $< $@
+	@echo "Generating 4-way MIF files for Quartus..."
+	python ../generate_mif.py
 
 # ── All & Clean ─────────────────────────────────────────────────────
 all: scala pext

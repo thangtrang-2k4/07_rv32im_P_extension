@@ -105,6 +105,14 @@ module ALUP(
                 //CarryIn1 = 1'b0;
                 //CarryIn2 = 1'b0;
                 //CarryIn3 = 1'b0;
+                A0 = {A[7], A[7:0]};
+                A1 = {A[15], A[15:8]};
+                A2 = {A[23], A[23:16]};
+                A3 = {A[31], A[31:24]};
+                B0 = {B[7], B[7:0]};
+                B1 = {B[15], B[15:8]};
+                B2 = {B[23], B[23:16]};
+                B3 = {B[31], B[31:24]};
                 result = {Result3[7:0], Result2[7:0], Result1[7:0], Result0[7:0]};
 
             end
@@ -820,7 +828,7 @@ module ALUP(
                     Result0 = A[7:0];
                     Result1 = A[15:8];
                 end else begin
-                    if( A[15:0] === -16'sd32768) begin
+                    if( A[15:0] === 16'h8000) begin
                         Result0 = 9'd255;
                         Result1 = 9'd127;
                     end else begin
@@ -832,7 +840,7 @@ module ALUP(
                     Result2 = A[23:16];
                     Result3 = A[31:24];
                 end else begin
-                    if( A[31:16] === -16'sd32768) begin
+                    if( A[31:16] === 16'h8000) begin
                         Result2 = 9'd255;
                         Result3 = 9'd127;
                     end else begin
@@ -941,10 +949,10 @@ module Mac8_Unit(
     logic signed [31:0] sum0, sum1, sum2, sum3;
     
     always_comb begin
-        sum0 = 32'(A0 * B0);
-        sum1 = 32'(A1 * B1);
-        sum2 = 32'(A2 * B2);
-        sum3 = 32'(A3 * B3);
+        sum0 = int'(A0) * int'(B0);
+        sum1 = int'(A1) * int'(B1);
+        sum2 = int'(A2) * int'(B2);
+        sum3 = int'(A3) * int'(B3);
         MacOut = ACC + sum0 + sum1 + sum2 + sum3;
     end
 endmodule

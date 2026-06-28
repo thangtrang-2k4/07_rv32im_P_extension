@@ -12,8 +12,10 @@ module rv32imp_pipeline #(
 )(
   input  logic clk,
   input  logic rst_n,
-  output logic [31:0] o_obs_data
+  output logic [31:0] o_obs_data,
+  output logic o_done
 );
+
 
   import rv32_pkg::*;
   
@@ -543,5 +545,16 @@ module rv32imp_pipeline #(
   );
 
   assign o_obs_data = pc ^ alu_MEM ^ dmem_rdata_out ^ WBdata;
+
+  // ------------------------------
+  // Done Flag Detection
+  // ------------------------------
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      o_done <= 1'b0;
+    end else if (ctrl_MEM.MemRW && (alu_MEM == 32'h80013FFC) && (dataR2_MEM[0] == 1'b1)) begin
+      o_done <= 1'b1;
+    end
+  end
 
 endmodule
