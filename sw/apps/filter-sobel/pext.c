@@ -15,9 +15,9 @@
 
 #include <stdint.h>
 #ifdef PHOTO2
-#include "sobel-photo2.h"
+#include "sobel_photo2.h"
 #else
-#include "sobel-photo1.h"
+#include "sobel_photo1.h"
 #endif
 
 /* ──────────────────────────────────────────────────────────────────── */

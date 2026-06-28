@@ -31,10 +31,18 @@ scala_dmem.hex: scala.elf
 	    $< $@
 
 # ── P-Extension (RV32IMP) ───────────────────────────────────────────
+MODE ?= normal
+
+ifeq ($(MODE), transpose)
+    PEXT_SRC = pext_transpose.c
+else
+    PEXT_SRC = pext_normal.c
+endif
+
 pext: pext_imem.hex pext_dmem.hex pext.dump
 
-pext.elf: start.s pext.c link.ld matrix_data.h
-	$(CC) $(PEXT_CFLAGS) $(LDFLAGS) start.s pext.c -o $@
+pext.elf: start.s $(PEXT_SRC) link.ld matrix_data.h
+	$(CC) $(PEXT_CFLAGS) $(LDFLAGS) start.s $(PEXT_SRC) -o $@
 
 pext.dump: pext.elf
 	$(OBJDUMP) -D $< > $@
