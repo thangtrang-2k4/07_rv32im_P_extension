@@ -14,7 +14,7 @@
  */
 
 #include <stdint.h>
-#include "sobel-photo1.h"
+#include "sobel_data.h"
 
 /* ──────────────────────────────────────────────────────────────────── */
 /*  Cấu hình tự động từ sobel_data.h                                   */
