@@ -58,28 +58,11 @@ static inline int32_t pm4adda_b(int32_t acc, int32_t a, int32_t b)
 /*  byte0 = p[0] (LSB), byte1 = p[1], byte2 = p[2], byte3 = p[3]     */
 /*  Dùng __builtin_memcpy để compiler sinh lệnh LW nếu aligned        */
 /* ──────────────────────────────────────────────────────────────────── */
-static inline int32_t load_word_lw(const void *p)
+static inline int32_t load32_i8(const int8_t *p)
 {
     int32_t v;
-
-    asm volatile (
-        "lw %0, 0(%1)"
-        : "=r"(v)
-        : "r"(p)
-    );
-
+    __builtin_memcpy(&v, p, 4);
     return v;
-}
-
-/*
- * Scale + clip giống code cũ.
- */
-static inline int32_t scale_and_clip(int32_t acc)
-{
-    acc = (acc + (1 << (SCALE_SHIFT - 1))) >> SCALE_SHIFT;
-
-
-    return acc;
 }
 
 /* ──────────────────────────────────────────────────────────────────── */
@@ -104,66 +87,56 @@ static __attribute__((noinline)) void fir_pext(void)
     /* Ta muốn:  acc += c[4i]*in[n-4i] + c[4i+1]*in[n-4i-1] + ...     */
     /* Nên pack sample cũng theo thứ tự: s0=in[n-4i], s1=in[n-4i-1]   */
     int32_t coeff_blocks[NUM_BLOCKS];
-
-    /*
-     * Load hệ số h bằng lw trực tiếp.
-     *
-     * coeff_blocks[i]:
-     *   byte0 = h[4i + 0]
-     *   byte1 = h[4i + 1]
-     *   byte2 = h[4i + 2]
-     *   byte3 = h[4i + 3]
-     */
     for (int i = 0; i < NUM_BLOCKS; i++) {
-        coeff_blocks[i] = load_word_lw(&fir_coeffs[i * 4]);
+        const int8_t *c = &fir_coeffs[i * 4];
+        /* Cast mỗi int8_t lên uint8_t trước khi pack để tránh sign-ext */
+        coeff_blocks[i] =
+            ((int32_t)(uint8_t)c[0])        |
+            ((int32_t)(uint8_t)c[1] <<  8)  |
+            ((int32_t)(uint8_t)c[2] << 16)  |
+            ((int32_t)(uint8_t)c[3] << 24);
+
+        /* Đảo ngược thứ tự byte và dùng uint32_t để tránh Undefined Behavior do dịch bit có dấu */
+//        coeff_blocks[i] = (int32_t)(
+//            ((uint32_t)(uint8_t)c[3])        |
+//            ((uint32_t)(uint8_t)c[2] <<  8)  |
+//            ((uint32_t)(uint8_t)c[1] << 16)  |
+//            ((uint32_t)(uint8_t)c[0] << 24)
+//        );
     }
 
-    /*
-     * PHẦN 1: zero-padding cho 31 mẫu đầu.
-     *
-     * Với n < 31, các mẫu x[n-k] có chỉ số âm được coi là 0.
-     * Do đó chỉ cộng tới k <= n.
-     */
-    for (int n = 0; n < VALID_START; n++) {
-        int32_t acc = 0;
-
-        for (int k = 0; k <= n; k++) {
-            acc += (int32_t)input_data[n - k] * (int32_t)fir_coeffs[k];
-        }
-
-        output[n] = scale_and_clip(acc);
-    }
-
-    /*
-     * PHẦN 2: vùng đủ mẫu hợp lệ, dùng P-extension.
-     */
+    /* Vòng lặp xử lý từng mẫu đầu ra hợp lệ */
     for (int n = VALID_START; n < INPUT_LEN; n++) {
         int32_t acc = 0;
 
+        /* 1. Xử lý phần chẵn (mỗi lần 4 taps) dùng SIMD */
         for (int i = 0; i < NUM_BLOCKS; i++) {
             int idx = n - i * 4;
             const int8_t *p = &input_data[idx];
-
-            /*
-             * Pack input theo đúng thứ tự FIR:
-             *
-             * byte0 = x[n - 4i]
-             * byte1 = x[n - 4i - 1]
-             * byte2 = x[n - 4i - 2]
-             * byte3 = x[n - 4i - 3]
-             *
-             * Không dùng lw cho x ở đây vì thứ tự bộ nhớ bị ngược.
-             */
             int32_t sample_block =
                 ((int32_t)(uint8_t)p[ 0])        |
-                ((int32_t)(uint8_t)p[-1] <<  8) |
-                ((int32_t)(uint8_t)p[-2] << 16) |
+                ((int32_t)(uint8_t)p[-1] <<  8)  |
+                ((int32_t)(uint8_t)p[-2] << 16)  |
                 ((int32_t)(uint8_t)p[-3] << 24);
+
+            /* Tối ưu: Dùng load32_i8 để nạp 4 mẫu liên tiếp từ RAM thay vì pack thủ công tốn lệnh */
+//            int32_t sample_block = load32_i8(&input_data[idx - 3]);
 
             acc = pm4adda_b(acc, sample_block, coeff_blocks[i]);
         }
 
-        output[n] = scale_and_clip(acc);
+        /* 2. Xử lý phần dư (nếu FIR_TAPS không chia hết cho 4) */
+//        for (int k = NUM_BLOCKS * 4; k < FIR_TAPS; k++) {
+//            acc += (int32_t)fir_coeffs[k] * (int32_t)input_data[n - k];
+//        }
+
+        /* Round & scale: chia 2^SCALE_SHIFT */
+        acc = (acc + (1 << (SCALE_SHIFT - 1))) >> SCALE_SHIFT;
+
+        /* Clip vào [-128, 127] */
+        if      (acc >  127) acc =  127;
+        else if (acc < -128) acc = -128;
+        output[n] = (int8_t)acc;
     }
 }
 
