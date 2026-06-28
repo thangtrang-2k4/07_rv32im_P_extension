@@ -26,15 +26,19 @@ def process_file(input_file, depth=4096):
         
     data0, data1, data2, data3 = [], [], [], []
     
+    import re
     for line in lines:
         line = line.strip()
         if line.startswith('@'):
             continue # Ignore address markers, assuming sequential
-        elif len(line) == 8:
-            data0.append(line[6:8])
-            data1.append(line[4:6])
-            data2.append(line[2:4])
-            data3.append(line[0:2])
+            
+        # Extract all 8-character hex words from this line
+        words = re.findall(r'\b[0-9a-fA-F]{8}\b', line)
+        for w in words:
+            data0.append(w[6:8])
+            data1.append(w[4:6])
+            data2.append(w[2:4])
+            data3.append(w[0:2])
             
     base = input_file.replace('.hex', '')
     create_mif(f"{base}_0.mif", data0, depth)
