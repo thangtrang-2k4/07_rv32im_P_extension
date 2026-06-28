@@ -43,7 +43,7 @@ scala_dmem.hex: scala.elf
 # ── P-Extension (RV32IMP) ───────────────────────────────────────────
 pext: pext_imem.hex pext_dmem.hex pext.dump
 
-pext.elf: start.s pext.c link.ld sobel_data.h
+pext.elf: start.s pext.c link.ld sobel-photo1.h sobel-photo2.h
 	$(CC) $(PEXT_CFLAGS) $(LDFLAGS) start.s pext.c -o $@
 
 pext.s: pext.elf
