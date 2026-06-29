@@ -23,7 +23,7 @@ module rv32imp_fpga (
     // 2. RV32IMP CPU Instance
     rv32imp_pipeline #(
         .IMEM_DEPTH(256),
-        .DMEM_DEPTH(2048)
+        .DMEM_DEPTH(4096)
     ) u_core (
         .clk       (clk_5M),
         .rst_n     (KEY[0]),

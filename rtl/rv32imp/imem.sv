@@ -35,9 +35,11 @@ module IMem #(
 `ifndef NO_DEFAULT_MEM_INIT
     // Default program load for legacy standalone simulations.
     initial begin
-        $readmemh("../../sw/apps/matrix-multiplication/pext_imem.hex", rom_array);
+//        $readmemh("../../sw/apps/matrix-multiplication/pextnor_imem.hex", rom_array);
+//        $readmemh("../../sw/apps/matrix-multiplication/pexttran_imem.hex", rom_array);
 //		  $readmemh("../../sw/apps/filter-fir/pext_imem.hex", rom_array);
-//		  $readmemh("../../sw/apps/filter-sobel/pext_imem.hex", rom_array);
+		  $readmemh("../../sw/apps/filter-sobel/pext1_imem.hex", rom_array);
+//		  $readmemh("../../sw/apps/filter-sobel/pext2_imem.hex", rom_array);
     end
 `endif
 

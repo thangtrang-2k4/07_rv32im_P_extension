@@ -65,9 +65,11 @@ module Data_Memory #(
         .widthad_a(ADDR_BITS),
         .numwords_a(DEPTH_WORDS),
 `ifndef NO_DEFAULT_MEM_INIT
-        .init_file("../../sw/apps/matrix-multiplication/pext_dmem_0.mif"),
-        //.init_file("../../sw/apps/filter-fir/pext_dmem_0.mif"),
-        //.init_file("../../sw/apps/filter-sobel/pext_dmem_0.mif"),
+//        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_0.mif"),
+//        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_0.mif"),
+//        .init_file("../../sw/apps/filter-fir/pext_dmem_0.mif"),
+        .init_file("../../sw/apps/filter-sobel/pext1_dmem_0.mif"),
+//        .init_file("../../sw/apps/filter-sobel/pext2_dmem_0.mif"),
 `endif
         .lpm_type("altsyncram"),
         .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM0"),
@@ -88,9 +90,11 @@ module Data_Memory #(
         .widthad_a(ADDR_BITS),
         .numwords_a(DEPTH_WORDS),
 `ifndef NO_DEFAULT_MEM_INIT
-        .init_file("../../sw/apps/matrix-multiplication/pext_dmem_1.mif"),
-        //.init_file("../../sw/apps/filter-fir/pext_dmem_1.mif"),
-        //.init_file("../../sw/apps/filter-sobel/pext_dmem_1.mif"),
+//        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_1.mif"),
+//        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_1.mif"),
+//        .init_file("../../sw/apps/filter-fir/pext_dmem_1.mif"),
+        .init_file("../../sw/apps/filter-sobel/pext1_dmem_1.mif"),
+//        .init_file("../../sw/apps/filter-sobel/pext2_dmem_1.mif"),
 `endif
         .lpm_type("altsyncram"),
         .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM1"),
@@ -111,9 +115,11 @@ module Data_Memory #(
         .widthad_a(ADDR_BITS),
         .numwords_a(DEPTH_WORDS),
 `ifndef NO_DEFAULT_MEM_INIT
-        .init_file("../../sw/apps/matrix-multiplication/pext_dmem_2.mif"),
-        //.init_file("../../sw/apps/filter-fir/pext_dmem_2.mif"),
-        //.init_file("../../sw/apps/filter-sobel/pext_dmem_2.mif"),
+//        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_2.mif"),
+//        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_2.mif"),
+//        .init_file("../../sw/apps/filter-fir/pext_dmem_2.mif"),
+        .init_file("../../sw/apps/filter-sobel/pext1_dmem_2.mif"),
+//        .init_file("../../sw/apps/filter-sobel/pext2_dmem_2.mif"),
 `endif
         .lpm_type("altsyncram"),
         .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM2"),
@@ -134,9 +140,11 @@ module Data_Memory #(
         .widthad_a(ADDR_BITS),
         .numwords_a(DEPTH_WORDS),
 `ifndef NO_DEFAULT_MEM_INIT
-        .init_file("../../sw/apps/matrix-multiplication/pext_dmem_3.mif"),
-        //.init_file("../../sw/apps/filter-fir/pext_dmem_3.mif"),
-        //.init_file("../../sw/apps/filter-sobel/pext_dmem_3.mif"),
+//        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_3.mif"),
+//        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_3.mif"),
+//        .init_file("../../sw/apps/filter-fir/pext_dmem_3.mif"),
+        .init_file("../../sw/apps/filter-sobel/pext1_dmem_3.mif"),
+//        .init_file("../../sw/apps/filter-sobel/pext2_dmem_3.mif"),
 `endif
         .lpm_type("altsyncram"),
         .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM3"),

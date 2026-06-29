@@ -32,7 +32,7 @@ extern volatile uint32_t _done_flag;
 
 // ===== OUTPUT: 8-bit =====
 volatile uint8_t output[HEIGHT][WIDTH];
-volatile uint32_t _done_flag;
+// (removed duplicate _done_flag definition)
 
 // ===========================================================
 // Inline Assembly Wrappers cho P-Extension Instructions
