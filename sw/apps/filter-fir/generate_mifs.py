@@ -18,8 +18,12 @@ def convert_hex_to_mifs(input_file, depth=4096):
     with open(input_file, 'r') as f:
         content = f.read()
     
-    # Extract all hex words (8 chars)
-    words = re.findall(r'\b[0-9a-fA-F]{8}\b', content)
+    # Extract only lines that do not start with '@'
+    words = []
+    for line in content.splitlines():
+        line = line.strip()
+        if not line or line.startswith('@'): continue
+        words.extend(re.findall(r'\b[0-9a-fA-F]{8}\b', line))
     
     data0, data1, data2, data3 = [], [], [], []
     for w in words:
