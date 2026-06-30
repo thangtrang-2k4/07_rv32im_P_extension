@@ -53,7 +53,7 @@ h_int = np.clip(
 ).astype(np.int8)
 
 # ===== STEP 4: EXPORT HEADER =====
-output_path = "C:/Users/ADMIN/Downloads/fir_data2.h"
+output_path = "D:/01_Projects/2025-12_Graduation_Thesis/02-rv32im-pext/sw/apps/filter-fir/fir_data2.h"
 
 FREEZE_HEADER = True  # True = nếu file đã tồn tại thì không ghi đè nữa
 
@@ -94,19 +94,25 @@ def load_hex_file(path, N):
 
     with open(path, "r") as f:
         for line in f:
-            val = int(line.strip(), 16)
+            line = line.strip()
+            if not line: continue
+            val = int(line, 16)
 
-            # Convert signed 32-bit
-            if val & (1 << 31):
-                val -= 1 << 32
+            # Unpack 4 bytes (little endian)
+            for i in range(4):
+                b = (val >> (i * 8)) & 0xFF
+                # Sign extend 8-bit to integer
+                if b & 0x80: b -= 256
+                data.append(b)
+                
+                if len(data) == N:
+                    return np.array(data, dtype=np.int32)
 
-            data.append(val)
-
-    return np.array(data[:N], dtype=np.int32)
+    return np.array(data, dtype=np.int32)
 
 
 # 👉 sửa path đúng với file bạn dump
-result_path = "C:/Users/ADMIN/Downloads/result2.hex"
+result_path = "D:/01_Projects/2025-12_Graduation_Thesis/02-rv32im-pext/sw/apps/filter-fir/final_output_test.hex"
 
 y_riscv = load_hex_file(result_path, N)
 

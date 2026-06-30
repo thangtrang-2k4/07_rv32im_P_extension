@@ -51,7 +51,7 @@ def read_input_from_h(filename):
 
 def main():
     golden_file = 'pext_goldenw.hex'
-    final_file = 'final_output.hex'
+    final_file = 'final_output_test.hex'
     header_file = 'fir_data2.h'
     
     # 1. Read input data

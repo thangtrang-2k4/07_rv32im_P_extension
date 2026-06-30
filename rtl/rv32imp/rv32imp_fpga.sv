@@ -38,8 +38,8 @@ module rv32imp_fpga (
     end
 
     // 4. LED Output Mapping
-    assign LEDR[0]   = obs_reg[31];                                    // MSB of observation data
-    assign LEDR[8:1] = obs_reg[7:0] ^ obs_reg[15:8] ^ obs_reg[23:16]; // folded XOR
+    assign LEDR[0]   = 1'b0; // Turn off observation LEDs
+    assign LEDR[8:1] = 8'b0; // Turn off observation LEDs
     assign LEDR[9]   = done_flag;                                      // DONE flag
 
 endmodule

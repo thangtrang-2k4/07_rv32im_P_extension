@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image
 
 # đường dẫn file HEX output Sobel (1 word/hàng)
-hex_file = r"D:\01_Projects\2025-12_Graduation_Thesis\02-rv32im-pext\sw\apps\filter-sobel\pext1_final_output-test.hex"
+hex_file = r"D:\01_Projects\2025-12_Graduation_Thesis\02-rv32im-pext\sw\apps\filter-sobel\pext1_final_output_test.hex"
 
 data_bytes = []
 
@@ -29,5 +29,5 @@ img = Image.fromarray(arr, mode="L")
 img.show()
 
 # lưu ảnh
-img.save(r"D:\01_Projects\2025-12_Graduation_Thesis\02-rv32im-pext\sw\apps\filter-sobel\photo_reconstructed.png")
+img.save(r"D:\01_Projects\2025-12_Graduation_Thesis\02-rv32im-pext\sw\apps\filter-sobel\photo1_reconstructed.png")
 print("Ảnh Sobel 64x64 đã lưu và hiển thị.")
