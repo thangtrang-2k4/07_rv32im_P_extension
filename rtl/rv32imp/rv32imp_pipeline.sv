@@ -13,7 +13,12 @@ module rv32imp_pipeline #(
   input  logic clk,
   input  logic rst_n,
   output logic [31:0] o_obs_data,
-  output logic o_done
+  output logic o_done,
+  
+  // UART Read Port
+  input  logic        uart_clk,
+  input  logic [31:0] uart_addr,
+  output logic [31:0] uart_dataR
 );
 
 
@@ -492,7 +497,10 @@ module rv32imp_pipeline #(
       .i_size      (dmem_size),
       .i_unsigned  (dmem_unsigned),
       .o_ack       (dmem_ack),
-      .o_rdata     (dmem_rdata)
+      .o_rdata     (dmem_rdata),
+      .uart_clk    (uart_clk),
+      .uart_addr   (uart_addr),
+      .uart_dataR  (uart_dataR)
   );
 
   // ------------------------------

@@ -11,7 +11,12 @@ module Data_Memory #(
     input  logic [1:0]  i_size,       // 00=byte, 01=half, 10=word
     input  logic        i_unsigned,   // load unsigned
     output logic        o_ack,
-    output logic [31:0] o_rdata
+    output logic [31:0] o_rdata,
+    
+    // UART Read Port
+    input  logic        uart_clk,
+    input  logic [31:0] uart_addr,
+    output logic [31:0] uart_dataR
 );
 
     localparam int ADDR_BITS = $clog2(DEPTH_WORDS);
@@ -53,6 +58,11 @@ module Data_Memory #(
         endcase
     end
 
+
+    // ---------------- UART READ PORT ----------------
+    logic [ADDR_BITS-1:0] uart_word_addr;
+    assign uart_word_addr = uart_addr[ADDR_BITS+1:2] - BASE_ADDR[ADDR_BITS+1:2];
+
     logic [31:0] rdata;
 
     // ---- Explicit ALTSYNCRAM Instantiation (4 parallel 8-bit RAMs for ISMCE support) ----
@@ -60,10 +70,13 @@ module Data_Memory #(
     // RAM 0: Byte 0 (bits 7:0)
     altsyncram #(
         .intended_device_family("Cyclone IV E"),
-        .operation_mode("SINGLE_PORT"),
+        .operation_mode("BIDIR_DUAL_PORT"),
         .width_a(8),
+        .width_b(8),
         .widthad_a(ADDR_BITS),
+        .widthad_b(ADDR_BITS),
         .numwords_a(DEPTH_WORDS),
+        .numwords_b(DEPTH_WORDS),
 `ifndef NO_DEFAULT_MEM_INIT
 //        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_0.mif"),
 //        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_0.mif"),
@@ -72,23 +85,31 @@ module Data_Memory #(
 //        .init_file("../../sw/apps/filter-sobel/pext2_dmem_0.mif"),
 `endif
         .lpm_type("altsyncram"),
-        .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM0"),
-        .outdata_reg_a("UNREGISTERED")
+        .outdata_reg_a("UNREGISTERED"),
+        .outdata_reg_b("UNREGISTERED")
     ) ram_byte0 (
         .clock0(clk),
+        .clock1(uart_clk),
         .address_a(word_addr),
         .data_a(store_wdata[7:0]),
         .wren_a(i_stb & i_we & be[0]),
-        .q_a(rdata[7:0])
+        .q_a(rdata[7:0]),
+        .address_b(uart_word_addr),
+        .data_b(8'd0),
+        .wren_b(1'b0),
+        .q_b(uart_dataR[7:0])
     );
 
     // RAM 1: Byte 1 (bits 15:8)
     altsyncram #(
         .intended_device_family("Cyclone IV E"),
-        .operation_mode("SINGLE_PORT"),
+        .operation_mode("BIDIR_DUAL_PORT"),
         .width_a(8),
+        .width_b(8),
         .widthad_a(ADDR_BITS),
+        .widthad_b(ADDR_BITS),
         .numwords_a(DEPTH_WORDS),
+        .numwords_b(DEPTH_WORDS),
 `ifndef NO_DEFAULT_MEM_INIT
 //        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_1.mif"),
 //        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_1.mif"),
@@ -97,23 +118,31 @@ module Data_Memory #(
 //        .init_file("../../sw/apps/filter-sobel/pext2_dmem_1.mif"),
 `endif
         .lpm_type("altsyncram"),
-        .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM1"),
-        .outdata_reg_a("UNREGISTERED")
+        .outdata_reg_a("UNREGISTERED"),
+        .outdata_reg_b("UNREGISTERED")
     ) ram_byte1 (
         .clock0(clk),
+        .clock1(uart_clk),
         .address_a(word_addr),
         .data_a(store_wdata[15:8]),
         .wren_a(i_stb & i_we & be[1]),
-        .q_a(rdata[15:8])
+        .q_a(rdata[15:8]),
+        .address_b(uart_word_addr),
+        .data_b(8'd0),
+        .wren_b(1'b0),
+        .q_b(uart_dataR[15:8])
     );
 
     // RAM 2: Byte 2 (bits 23:16)
     altsyncram #(
         .intended_device_family("Cyclone IV E"),
-        .operation_mode("SINGLE_PORT"),
+        .operation_mode("BIDIR_DUAL_PORT"),
         .width_a(8),
+        .width_b(8),
         .widthad_a(ADDR_BITS),
+        .widthad_b(ADDR_BITS),
         .numwords_a(DEPTH_WORDS),
+        .numwords_b(DEPTH_WORDS),
 `ifndef NO_DEFAULT_MEM_INIT
 //        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_2.mif"),
 //        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_2.mif"),
@@ -122,23 +151,31 @@ module Data_Memory #(
 //        .init_file("../../sw/apps/filter-sobel/pext2_dmem_2.mif"),
 `endif
         .lpm_type("altsyncram"),
-        .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM2"),
-        .outdata_reg_a("UNREGISTERED")
+        .outdata_reg_a("UNREGISTERED"),
+        .outdata_reg_b("UNREGISTERED")
     ) ram_byte2 (
         .clock0(clk),
+        .clock1(uart_clk),
         .address_a(word_addr),
         .data_a(store_wdata[23:16]),
         .wren_a(i_stb & i_we & be[2]),
-        .q_a(rdata[23:16])
+        .q_a(rdata[23:16]),
+        .address_b(uart_word_addr),
+        .data_b(8'd0),
+        .wren_b(1'b0),
+        .q_b(uart_dataR[23:16])
     );
 
     // RAM 3: Byte 3 (bits 31:24)
     altsyncram #(
         .intended_device_family("Cyclone IV E"),
-        .operation_mode("SINGLE_PORT"),
+        .operation_mode("BIDIR_DUAL_PORT"),
         .width_a(8),
+        .width_b(8),
         .widthad_a(ADDR_BITS),
+        .widthad_b(ADDR_BITS),
         .numwords_a(DEPTH_WORDS),
+        .numwords_b(DEPTH_WORDS),
 `ifndef NO_DEFAULT_MEM_INIT
 //        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_3.mif"),
 //        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_3.mif"),
@@ -147,14 +184,19 @@ module Data_Memory #(
 //        .init_file("../../sw/apps/filter-sobel/pext2_dmem_3.mif"),
 `endif
         .lpm_type("altsyncram"),
-        .lpm_hint("ENABLE_RUNTIME_MOD=YES,INSTANCE_NAME=DM3"),
-        .outdata_reg_a("UNREGISTERED")
+        .outdata_reg_a("UNREGISTERED"),
+        .outdata_reg_b("UNREGISTERED")
     ) ram_byte3 (
         .clock0(clk),
+        .clock1(uart_clk),
         .address_a(word_addr),
         .data_a(store_wdata[31:24]),
         .wren_a(i_stb & i_we & be[3]),
-        .q_a(rdata[31:24])
+        .q_a(rdata[31:24]),
+        .address_b(uart_word_addr),
+        .data_b(8'd0),
+        .wren_b(1'b0),
+        .q_b(uart_dataR[31:24])
     );
 
     logic [1:0] size_q;

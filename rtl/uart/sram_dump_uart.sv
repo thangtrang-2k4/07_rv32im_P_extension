@@ -23,17 +23,25 @@ module sram_dump_uart #(
     output logic [7:0] uart_wr_data
 );
 
-    typedef enum logic [3:0] {
+    typedef enum logic [4:0] {
         S_IDLE,
         S_READ_ADDR,
         S_WAIT_DATA,
+        S_WAIT_DATA2,
         S_SEND_HEX,
+        S_SEND_HEX_WAIT,
         S_SEND_NL,
+        S_SEND_NL_WAIT,
         S_SEND_D,
+        S_SEND_D_WAIT,
         S_SEND_O,
+        S_SEND_O_WAIT,
         S_SEND_N,
+        S_SEND_N_WAIT,
         S_SEND_E,
+        S_SEND_E_WAIT,
         S_SEND_DONE_NL,
+        S_SEND_DONE_NL_WAIT,
         S_DONE
     } state_t;
 
@@ -112,7 +120,11 @@ module sram_dump_uart #(
             end
 
             S_WAIT_DATA: begin
-                // SRAM requires 1 clock cycle to output data after address is registered.
+                state_next = S_WAIT_DATA2;
+            end
+
+            S_WAIT_DATA2: begin
+                // SRAM requires 1 clock cycle to register address, and 1 cycle to output data.
                 // The data will be captured precisely when transitioning to S_SEND_HEX.
                 word_buf_next = ram_rdata;
                 hex_pos_next  = 3'd7;
@@ -124,12 +136,16 @@ module sram_dump_uart #(
                     // Extract the correct 4-bit nibble and convert to ASCII
                     uart_wr_data_next = hex_char( (word_buf >> (hex_pos * 4)) & 4'hF );
                     uart_wr_en_next   = 1'b1; // Push to FIFO
-                    
-                    if (hex_pos == 0) begin
-                        state_next = S_SEND_NL;
-                    end else begin
-                        hex_pos_next = hex_pos - 1'b1;
-                    end
+                    state_next        = S_SEND_HEX_WAIT;
+                end
+            end
+
+            S_SEND_HEX_WAIT: begin
+                if (hex_pos == 0) begin
+                    state_next = S_SEND_NL;
+                end else begin
+                    hex_pos_next = hex_pos - 1'b1;
+                    state_next   = S_SEND_HEX;
                 end
             end
 
@@ -137,13 +153,16 @@ module sram_dump_uart #(
                 if (!uart_tx_full) begin
                     uart_wr_data_next = 8'h0A; // '\n' (Newline)
                     uart_wr_en_next   = 1'b1;
+                    state_next        = S_SEND_NL_WAIT;
+                end
+            end
 
-                    if (index == COUNT - 1) begin
-                        state_next = S_SEND_D;
-                    end else begin
-                        index_next = index + 1'b1;
-                        state_next = S_READ_ADDR;
-                    end
+            S_SEND_NL_WAIT: begin
+                if (index == COUNT - 1) begin
+                    state_next = S_SEND_D;
+                end else begin
+                    index_next = index + 1'b1;
+                    state_next = S_READ_ADDR;
                 end
             end
 
@@ -152,37 +171,46 @@ module sram_dump_uart #(
                 if (!uart_tx_full) begin
                     uart_wr_data_next = 8'h44; // 'D'
                     uart_wr_en_next   = 1'b1;
-                    state_next        = S_SEND_O;
+                    state_next        = S_SEND_D_WAIT;
                 end
             end
+            S_SEND_D_WAIT: state_next = S_SEND_O;
+
             S_SEND_O: begin
                 if (!uart_tx_full) begin
                     uart_wr_data_next = 8'h4F; // 'O'
                     uart_wr_en_next   = 1'b1;
-                    state_next        = S_SEND_N;
+                    state_next        = S_SEND_O_WAIT;
                 end
             end
+            S_SEND_O_WAIT: state_next = S_SEND_N;
+
             S_SEND_N: begin
                 if (!uart_tx_full) begin
                     uart_wr_data_next = 8'h4E; // 'N'
                     uart_wr_en_next   = 1'b1;
-                    state_next        = S_SEND_E;
+                    state_next        = S_SEND_N_WAIT;
                 end
             end
+            S_SEND_N_WAIT: state_next = S_SEND_E;
+
             S_SEND_E: begin
                 if (!uart_tx_full) begin
                     uart_wr_data_next = 8'h45; // 'E'
                     uart_wr_en_next   = 1'b1;
-                    state_next        = S_SEND_DONE_NL;
+                    state_next        = S_SEND_E_WAIT;
                 end
             end
+            S_SEND_E_WAIT: state_next = S_SEND_DONE_NL;
+
             S_SEND_DONE_NL: begin
                 if (!uart_tx_full) begin
                     uart_wr_data_next = 8'h0A; // '\n'
                     uart_wr_en_next   = 1'b1;
-                    state_next        = S_DONE;
+                    state_next        = S_SEND_DONE_NL_WAIT;
                 end
             end
+            S_SEND_DONE_NL_WAIT: state_next = S_DONE;
 
             S_DONE: begin
                 active_next = 1'b0;

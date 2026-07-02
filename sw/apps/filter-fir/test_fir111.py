@@ -89,14 +89,24 @@ for n in range(N):
     y_int[n] = (acc + (1 << 9)) >> 10
 
 # ===== STEP 8: LOAD RISC-V RESULT =====
-def load_hex_file(path, N):
+def load_hex_file(path, N, skip_words=108):
     data = []
+    line_count = 0
 
     with open(path, "r") as f:
         for line in f:
+            line_count += 1
+            if line_count <= skip_words:
+                continue
+                
             line = line.strip()
             if not line: continue
-            val = int(line, 16)
+            
+            # Skip "DONE" or other text lines
+            try:
+                val = int(line, 16)
+            except ValueError:
+                continue
 
             # Unpack 4 bytes (little endian)
             for i in range(4):
@@ -114,7 +124,13 @@ def load_hex_file(path, N):
 # 👉 sửa path đúng với file bạn dump
 result_path = "D:/01_Projects/2025-12_Graduation_Thesis/02-rv32im-pext/sw/apps/filter-fir/final_output_test.hex"
 
-y_riscv = load_hex_file(result_path, N)
+# Tính toán tự động số offset cần bỏ qua (Input x + Trọng số h)
+# Trong bộ nhớ, x chiếm N bytes, h chiếm 32 bytes (TAPS = 32).
+# RISC-V lưu theo từng word (4 bytes). Nên số dòng (words) cần bỏ qua là:
+TAPS = 32
+skip_words = (N + TAPS) // 4
+
+y_riscv = load_hex_file(result_path, N, skip_words=skip_words)
 
 # ===== STEP 9: CHECK ERROR =====
 # ===== STEP 7: PLOT =====

@@ -8,7 +8,8 @@ module uart_top #(
         // rx, tx
         parameter integer DBIT    = 8, 
         parameter integer DB_TICK = 16,
-        parameter integer SB_TICK = 16
+        parameter integer SB_TICK = 16,
+        parameter integer BAUD_RATE_M = 27 // Defaults to 115200 at 50MHz
         ) (
         input  logic            clk,
         input  logic            rst_n,
@@ -42,7 +43,7 @@ module uart_top #(
 
     // BAUD RATE GENERATOR
     baud_rate #(
-            .M(163)
+            .M(BAUD_RATE_M)
             ) baud (
             .clk(clk),
             .rst_n(rst_n),

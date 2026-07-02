@@ -35,3 +35,4 @@ module Devider (
       default: alu = 32'd0;           // các trường hợp khác không sử dụng divider
     endcase
   end
+  endmodule
