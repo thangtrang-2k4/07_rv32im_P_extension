@@ -5,12 +5,12 @@ pext.elf:     file format elf32-littleriscv
 Disassembly of section .text:
 
 80000000 <_start>:
-80000000:	00014117          	auipc	sp,0x14
+80000000:	00020117          	auipc	sp,0x20
 80000004:	00010113          	mv	sp,sp
 80000008:	00011297          	auipc	t0,0x11
-8000000c:	ff828293          	addi	t0,t0,-8 # 80011000 <output>
-80000010:	00012317          	auipc	t1,0x12
-80000014:	ff030313          	addi	t1,t1,-16 # 80012000 <_bss_end>
+8000000c:	ff828293          	addi	t0,t0,-8 # 80011000 <_bss_end>
+80000010:	00011317          	auipc	t1,0x11
+80000014:	ff030313          	addi	t1,t1,-16 # 80011000 <_bss_end>
 
 80000018 <clear_bss>:
 80000018:	0062d863          	bge	t0,t1,80000028 <done_bss>
@@ -24,13 +24,13 @@ Disassembly of section .text:
 
 80000030 <sobel_pext>:
 80000030:	80011337          	lui	t1,0x80011
-80000034:	ff010113          	addi	sp,sp,-16 # 80013ff0 <_bss_end+0x1ff0>
-80000038:	00030313          	mv	t1,t1
+80000034:	ff010113          	addi	sp,sp,-16 # 8001fff0 <_done_flag+0xbff4>
+80000038:	06030313          	addi	t1,t1,96 # 80011060 <output>
 8000003c:	800108b7          	lui	a7,0x80010
 80000040:	00088893          	mv	a7,a7
 80000044:	00812623          	sw	s0,12(sp)
 80000048:	00010837          	lui	a6,0x10
-8000004c:	7ff30413          	addi	s0,t1,2047 # 800117ff <output+0x7ff>
+8000004c:	7ff30413          	addi	s0,t1,2047
 80000050:	000202b7          	lui	t0,0x20
 80000054:	01000fb7          	lui	t6,0x1000
 80000058:	00010f37          	lui	t5,0x10
@@ -100,7 +100,7 @@ Disassembly of section .text:
 80000150:	ff010113          	addi	sp,sp,-16
 80000154:	80011537          	lui	a0,0x80011
 80000158:	00112623          	sw	ra,12(sp)
-8000015c:	00050513          	mv	a0,a0
+8000015c:	06050513          	addi	a0,a0,96 # 80011060 <output>
 80000160:	00000593          	li	a1,0
 80000164:	04000613          	li	a2,64
 80000168:	00659693          	slli	a3,a1,0x6
@@ -818,7 +818,7 @@ Disassembly of section .rodata:
 800105a0:	fefe                	.insn	2, 0xfefe
 800105a2:	fefe                	.insn	2, 0xfefe
 800105a4:	073946af          	.insn	4, 0x073946af
-800105a8:	84120f03          	lb	t5,-1983(tp) # fffff841 <_stack_top+0x7ffeb841>
+800105a8:	84120f03          	lb	t5,-1983(tp) # fffff841 <_stack_top+0x7ffdf841>
 800105ac:	efe9                	.insn	2, 0xefe9
 800105ae:	fefd                	.insn	2, 0xfefd
 800105b0:	fefe                	.insn	2, 0xfefe
@@ -1271,7 +1271,7 @@ Disassembly of section .rodata:
 8001099e:	443e                	.insn	2, 0x443e
 800109a0:	6c64                	.insn	2, 0x6c64
 800109a2:	b099                	.insn	2, 0xb099
-800109a4:	01050667          	jalr	a2,16(a0) # 80011010 <output+0x10>
+800109a4:	01050667          	jalr	a2,16(a0)
 800109a8:	95282003          	lw	zero,-1710(a6)
 800109ac:	f8f6                	.insn	2, 0xf8f6
 800109ae:	fefe                	.insn	2, 0xfefe
@@ -1298,7 +1298,7 @@ Disassembly of section .rodata:
 800109dc:	e0de                	.insn	2, 0xe0de
 800109de:	e8e6                	.insn	2, 0xe8e6
 800109e0:	efee                	.insn	2, 0xefee
-800109e2:	0a8defef          	jal	t6,800eea8a <_stack_top+0xdaa8a>
+800109e2:	0a8defef          	jal	t6,800eea8a <_stack_top+0xcea8a>
 800109e6:	0208                	.insn	2, 0x0208
 800109e8:	2e04                	.insn	2, 0x2e04
 800109ea:	9f3a                	.insn	2, 0x9f3a
@@ -1726,7 +1726,7 @@ Disassembly of section .rodata:
 80010d62:	f8fa                	.insn	2, 0xf8fa
 80010d64:	1999                	.insn	2, 0x1999
 80010d66:	0414                	.insn	2, 0x0414
-80010d68:	921b1603          	lh	a2,-1759(s6) # f3cca921 <_stack_top+0x73cb6921>
+80010d68:	921b1603          	lh	a2,-1759(s6) # f3cca921 <_stack_top+0x73caa921>
 80010d6c:	fefefcfb          	.insn	4, 0xfefefcfb
 80010d70:	fefe                	.insn	2, 0xfefe
 80010d72:	fefe                	.insn	2, 0xfefe
@@ -2043,6 +2043,11 @@ Disassembly of section .rodata:
 80010ffa:	fefe                	.insn	2, 0xfefe
 80010ffc:	fefe                	.insn	2, 0xfefe
 80010ffe:	fefe                	.insn	2, 0xfefe
+
+Disassembly of section .output_data:
+
+80011060 <output>:
+	...
 
 Disassembly of section .riscv.attributes:
 
