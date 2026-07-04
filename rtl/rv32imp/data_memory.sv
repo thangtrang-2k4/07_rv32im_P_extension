@@ -81,8 +81,8 @@ module Data_Memory #(
 //        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_0.mif"),
 //        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_0.mif"),
 //        .init_file("../../sw/apps/filter-fir/pext_dmem_0.mif"),
-        .init_file("../../sw/apps/filter-sobel/pext1_dmem_0.mif"),
-//        .init_file("../../sw/apps/filter-sobel/pext2_dmem_0.mif"),
+//        .init_file("../../sw/apps/filter-sobel/pext1_dmem_0.mif"),
+        .init_file("../../sw/apps/filter-sobel/pext2_dmem_0.mif"),
 `endif
         .lpm_type("altsyncram"),
         .outdata_reg_a("UNREGISTERED"),
@@ -114,8 +114,8 @@ module Data_Memory #(
 //        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_1.mif"),
 //        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_1.mif"),
 //        .init_file("../../sw/apps/filter-fir/pext_dmem_1.mif"),
-        .init_file("../../sw/apps/filter-sobel/pext1_dmem_1.mif"),
-//        .init_file("../../sw/apps/filter-sobel/pext2_dmem_1.mif"),
+//        .init_file("../../sw/apps/filter-sobel/pext1_dmem_1.mif"),
+        .init_file("../../sw/apps/filter-sobel/pext2_dmem_1.mif"),
 `endif
         .lpm_type("altsyncram"),
         .outdata_reg_a("UNREGISTERED"),
@@ -147,8 +147,8 @@ module Data_Memory #(
 //        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_2.mif"),
 //        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_2.mif"),
 //        .init_file("../../sw/apps/filter-fir/pext_dmem_2.mif"),
-        .init_file("../../sw/apps/filter-sobel/pext1_dmem_2.mif"),
-//        .init_file("../../sw/apps/filter-sobel/pext2_dmem_2.mif"),
+//        .init_file("../../sw/apps/filter-sobel/pext1_dmem_2.mif"),
+        .init_file("../../sw/apps/filter-sobel/pext2_dmem_2.mif"),
 `endif
         .lpm_type("altsyncram"),
         .outdata_reg_a("UNREGISTERED"),
@@ -180,8 +180,8 @@ module Data_Memory #(
 //        .init_file("../../sw/apps/matrix-multiplication/pextnor_dmem_3.mif"),
 //        .init_file("../../sw/apps/matrix-multiplication/pexttran_dmem_3.mif"),
 //        .init_file("../../sw/apps/filter-fir/pext_dmem_3.mif"),
-        .init_file("../../sw/apps/filter-sobel/pext1_dmem_3.mif"),
-//        .init_file("../../sw/apps/filter-sobel/pext2_dmem_3.mif"),
+//        .init_file("../../sw/apps/filter-sobel/pext1_dmem_3.mif"),
+        .init_file("../../sw/apps/filter-sobel/pext2_dmem_3.mif"),
 `endif
         .lpm_type("altsyncram"),
         .outdata_reg_a("UNREGISTERED"),

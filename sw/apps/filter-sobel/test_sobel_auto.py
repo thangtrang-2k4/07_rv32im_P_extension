@@ -17,6 +17,10 @@ if __name__ == "__main__":
     
     # 2. Đọc file Hex vừa nhận và Parse
     data_bytes = []
+    if not os.path.exists(result_path):
+        print("Lỗi: Không tìm thấy file output. Quá trình nhận UART đã thất bại (có thể sai cổng COM hoặc chưa cắm cáp).")
+        sys.exit(1)
+        
     with open(result_path, "r") as f:
         for line in f:
             line = line.strip()

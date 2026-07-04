@@ -41,6 +41,10 @@ if __name__ == "__main__":
     uart_receive.receive_uart_data(com_port, 115200, result_path)
     
     # 2. Đọc file Hex vừa nhận
+    if not os.path.exists(result_path):
+        print("Lỗi: Không tìm thấy file output. Quá trình nhận UART đã thất bại (có thể sai cổng COM hoặc chưa cắm cáp).")
+        sys.exit(1)
+        
     def load_hex_file(path, N):
         data = []
         with open(path, "r") as f:
