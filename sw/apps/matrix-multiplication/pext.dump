@@ -5,12 +5,12 @@ pext.elf:     file format elf32-littleriscv
 Disassembly of section .text:
 
 80000000 <_start>:
-80000000:	00014117          	auipc	sp,0x14
+80000000:	00020117          	auipc	sp,0x20
 80000004:	00010113          	mv	sp,sp
 80000008:	00010297          	auipc	t0,0x10
-8000000c:	7fc28293          	addi	t0,t0,2044 # 80010804 <output_C>
-80000010:	00011317          	auipc	t1,0x11
-80000014:	7f430313          	addi	t1,t1,2036 # 80011804 <_bss_end>
+8000000c:	7f828293          	addi	t0,t0,2040 # 80010800 <_bss_end>
+80000010:	00010317          	auipc	t1,0x10
+80000014:	7f030313          	addi	t1,t1,2032 # 80010800 <_bss_end>
 
 80000018 <clear_bss>:
 80000018:	0062d863          	bge	t0,t1,80000028 <done_bss>
@@ -26,14 +26,14 @@ Disassembly of section .text:
 80000030:	800107b7          	lui	a5,0x80010
 80000034:	00078793          	mv	a5,a5
 80000038:	800106b7          	lui	a3,0x80010
-8000003c:	fb010113          	addi	sp,sp,-80 # 80013fb0 <_bss_end+0x27ac>
+8000003c:	fb010113          	addi	sp,sp,-80 # 8001ffb0 <_done_flag+0xbfb4>
 80000040:	80011737          	lui	a4,0x80011
 80000044:	02078613          	addi	a2,a5,32 # 80010020 <mat_A+0x20>
 80000048:	40068693          	addi	a3,a3,1024 # 80010400 <mat_B>
 8000004c:	03912423          	sw	s9,40(sp)
 80000050:	00c12223          	sw	a2,4(sp)
 80000054:	00d12a23          	sw	a3,20(sp)
-80000058:	80470613          	addi	a2,a4,-2044 # 80010804 <output_C>
+80000058:	06070613          	addi	a2,a4,96 # 80011060 <output_C>
 8000005c:	04812623          	sw	s0,76(sp)
 80000060:	04912423          	sw	s1,72(sp)
 80000064:	05212223          	sw	s2,68(sp)
@@ -177,9 +177,9 @@ Disassembly of section .text:
 8000028c:	00f12223          	sw	a5,4(sp)
 80000290:	10800793          	li	a5,264
 80000294:	e0f690e3          	bne	a3,a5,80000094 <main+0x64>
-80000298:	800207b7          	lui	a5,0x80020
+80000298:	800147b7          	lui	a5,0x80014
 8000029c:	00100713          	li	a4,1
-800002a0:	fee7ae23          	sw	a4,-4(a5) # 8001fffc <_stack_top+0xbffc>
+800002a0:	fee7ae23          	sw	a4,-4(a5) # 80013ffc <_done_flag>
 800002a4:	0000006f          	j	800002a4 <main+0x274>
 
 Disassembly of section .rodata:
@@ -203,7 +203,7 @@ Disassembly of section .rodata:
 80010024:	98f9                	.insn	2, 0x98f9
 80010026:	f2a2                	.insn	2, 0xf2a2
 80010028:	c152                	.insn	2, 0xc152
-8001002a:	7456a76f          	jal	a4,8007af6e <_stack_top+0x66f6e>
+8001002a:	7456a76f          	jal	a4,8007af6e <_stack_top+0x5af6e>
 8001002e:	11ca9917          	auipc	s2,0x11ca9
 80010032:	8e5e                	.insn	2, 0x8e5e
 80010034:	d54a                	.insn	2, 0xd54a
@@ -282,7 +282,7 @@ Disassembly of section .rodata:
 800100fe:	27b826f3          	.insn	4, 0x27b826f3
 80010102:	9190                	.insn	2, 0x9190
 80010104:	e5d5                	.insn	2, 0xe5d5
-80010106:	6aa90383          	lb	t2,1706(s2) # 91cb96d8 <_stack_top+0x11ca56d8>
+80010106:	6aa90383          	lb	t2,1706(s2) # 91cb96d8 <_stack_top+0x11c996d8>
 8001010a:	d872                	.insn	2, 0xd872
 8001010c:	b4a2                	.insn	2, 0xb4a2
 8001010e:	bb71                	.insn	2, 0xbb71
@@ -485,7 +485,7 @@ Disassembly of section .rodata:
 80010304:	356e                	.insn	2, 0x356e
 80010306:	d48e                	.insn	2, 0xd48e
 80010308:	d7d9edf3          	.insn	4, 0xd7d9edf3
-8001030c:	5ea99ce3          	bne	s3,a0,80011104 <output_C+0x900>
+8001030c:	5ea99ce3          	bne	s3,a0,80011104 <output_C+0xa4>
 80010310:	8601                	.insn	2, 0x8601
 80010312:	f0f8dbfb          	.insn	4, 0xf0f8dbfb
 80010316:	454c                	.insn	2, 0x454c
@@ -747,7 +747,7 @@ Disassembly of section .rodata:
 800105c6:	ac49580f          	.insn	4, 0xac49580f
 800105ca:	f9d9                	.insn	2, 0xf9d9
 800105cc:	51b5                	.insn	2, 0x51b5
-800105ce:	7befe2ef          	jal	t0,8010ed8c <_stack_top+0xfad8c>
+800105ce:	7befe2ef          	jal	t0,8010ed8c <_stack_top+0xeed8c>
 800105d2:	2378                	.insn	2, 0x2378
 800105d4:	0ea1                	.insn	2, 0x0ea1
 800105d6:	04c2bf73          	.insn	4, 0x04c2bf73
@@ -768,7 +768,7 @@ Disassembly of section .rodata:
 800105fc:	1f66                	.insn	2, 0x1f66
 800105fe:	74f4                	.insn	2, 0x74f4
 80010600:	7a61                	.insn	2, 0x7a61
-80010602:	7622926f          	jal	tp,80039d64 <_stack_top+0x25d64>
+80010602:	7622926f          	jal	tp,80039d64 <_stack_top+0x19d64>
 80010606:	88b0cf9b          	psrl.hs	t6,ra,a1
 8001060a:	4a28                	.insn	2, 0x4a28
 8001060c:	68d6                	.insn	2, 0x68d6
@@ -830,7 +830,7 @@ Disassembly of section .rodata:
 8001069e:	287e1443          	.insn	4, 0x287e1443
 800106a2:	e936                	.insn	2, 0xe936
 800106a4:	63b9                	.insn	2, 0x63b9
-800106a6:	20ad89ef          	jal	s3,800e88b0 <_stack_top+0xd48b0>
+800106a6:	20ad89ef          	jal	s3,800e88b0 <_stack_top+0xc88b0>
 800106aa:	d1e0                	.insn	2, 0xd1e0
 800106ac:	c336                	.insn	2, 0xc336
 800106ae:	2016                	.insn	2, 0x2016
@@ -966,11 +966,10 @@ Disassembly of section .rodata:
 800107fc:	9eda 
 800107fe:	b958                	.insn	2, 0xb958
 
-Disassembly of section .srodata:
+Disassembly of section .output_data:
 
-80010800 <DONE_FLAG>:
-80010800:	fffc                	.insn	2, 0xfffc
-80010802:	8001                	.insn	2, 0x8001
+80011060 <output_C>:
+	...
 
 Disassembly of section .riscv.attributes:
 
