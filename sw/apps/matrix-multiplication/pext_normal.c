@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "matrix_data.h"
 
-static int32_t output_C[H_A * W_B] __attribute__((aligned(4)));
+static int32_t output_C[H_A * W_B] __attribute__((section(".output_data"), aligned(4)));
 
 // Done flag for testbench (linker symbol)
 extern volatile uint32_t _done_flag;

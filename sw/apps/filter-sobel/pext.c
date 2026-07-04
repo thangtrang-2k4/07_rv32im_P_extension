@@ -31,7 +31,7 @@
 extern volatile uint32_t _done_flag;
 
 // ===== OUTPUT: 8-bit =====
-volatile uint8_t output[HEIGHT][WIDTH];
+volatile uint8_t output[HEIGHT][WIDTH] __attribute__((section(".output_data")));
 // (removed duplicate _done_flag definition)
 
 // ===========================================================
