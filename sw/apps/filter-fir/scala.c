@@ -26,7 +26,7 @@ extern volatile uint32_t _done_flag;
 /* ──────────────────────────────────────────────────────────────────── */
 /*  Output buffer                                                      */
 /* ──────────────────────────────────────────────────────────────────── */
-volatile int8_t output[INPUT_LEN];
+volatile int8_t output[INPUT_LEN] __attribute__((section(".output_data")));
 
 /* ──────────────────────────────────────────────────────────────────── */
 /*  Hàm FIR Scalar                                                     */
