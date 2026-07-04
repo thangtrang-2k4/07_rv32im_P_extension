@@ -20,7 +20,7 @@
  */
 
 #include <stdint.h>
-#include "fir_data2.h"
+#include "fir_data3.h"
 
 /* ──────────────────────────────────────────────────────────────────── */
 /*  Cấu hình tự động từ fir_data.h                                     */
