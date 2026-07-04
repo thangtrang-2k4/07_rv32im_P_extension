@@ -70,8 +70,8 @@ module rv32imp_fpga (
     sram_dump_uart #(
         .ADDR_WIDTH(32),
         .DATA_WIDTH(32),
-        .BASE_ADDR(32'h0), 
-        .COUNT(4096)
+        .BASE_ADDR(32'd1048), 
+        .COUNT(1024)
     ) u_dump (
         .clk(MAX10_CLK1_50),
         .rst_n(KEY[0]),
