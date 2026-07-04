@@ -1,0 +1,325 @@
+
+pext.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+80000000 <_start>:
+80000000:	00020117          	auipc	sp,0x20
+80000004:	00010113          	mv	sp,sp
+80000008:	00010297          	auipc	t0,0x10
+8000000c:	1a828293          	addi	t0,t0,424 # 800101b0 <_bss_end>
+80000010:	00010317          	auipc	t1,0x10
+80000014:	1a030313          	addi	t1,t1,416 # 800101b0 <_bss_end>
+
+80000018 <clear_bss>:
+80000018:	0062d863          	bge	t0,t1,80000028 <done_bss>
+8000001c:	0002a023          	sw	zero,0(t0)
+80000020:	00428293          	addi	t0,t0,4
+80000024:	ff5ff06f          	j	80000018 <clear_bss>
+
+80000028 <done_bss>:
+80000028:	10c000ef          	jal	80000134 <main>
+8000002c:	0000006f          	j	8000002c <done_bss+0x4>
+
+80000030 <fir_pext>:
+80000030:	80010337          	lui	t1,0x80010
+80000034:	fe010113          	addi	sp,sp,-32 # 8001ffe0 <_done_flag+0xbfe4>
+80000038:	00030313          	mv	t1,t1
+8000003c:	00030713          	mv	a4,t1
+80000040:	00010793          	mv	a5,sp
+80000044:	00072683          	lw	a3,0(a4)
+80000048:	00d7a023          	sw	a3,0(a5)
+8000004c:	00478793          	addi	a5,a5,4
+80000050:	02010693          	addi	a3,sp,32
+80000054:	00470713          	addi	a4,a4,4
+80000058:	fef696e3          	bne	a3,a5,80000044 <fir_pext+0x14>
+8000005c:	80010537          	lui	a0,0x80010
+80000060:	80011e37          	lui	t3,0x80011
+80000064:	01f50513          	addi	a0,a0,31 # 8001001f <fir_coeffs+0x1f>
+80000068:	060e0e13          	addi	t3,t3,96 # 80011060 <output>
+8000006c:	02030813          	addi	a6,t1,32 # 80010020 <input_data>
+80000070:	00000893          	li	a7,0
+80000074:	01f00e93          	li	t4,31
+80000078:	00030693          	mv	a3,t1
+8000007c:	00080793          	mv	a5,a6
+80000080:	00000613          	li	a2,0
+80000084:	00078703          	lb	a4,0(a5)
+80000088:	00068583          	lb	a1,0(a3)
+8000008c:	fff78793          	addi	a5,a5,-1
+80000090:	00168693          	addi	a3,a3,1
+80000094:	02b70733          	mul	a4,a4,a1
+80000098:	00e60633          	add	a2,a2,a4
+8000009c:	fef514e3          	bne	a0,a5,80000084 <fir_pext+0x54>
+800000a0:	20060613          	addi	a2,a2,512
+800000a4:	011e07b3          	add	a5,t3,a7
+800000a8:	40a65613          	srai	a2,a2,0xa
+800000ac:	00c78023          	sb	a2,0(a5)
+800000b0:	00188893          	addi	a7,a7,1
+800000b4:	00180813          	addi	a6,a6,1
+800000b8:	fdd890e3          	bne	a7,t4,80000078 <fir_pext+0x48>
+800000bc:	03f30313          	addi	t1,t1,63
+800000c0:	19000e93          	li	t4,400
+800000c4:	00010693          	mv	a3,sp
+800000c8:	00030713          	mv	a4,t1
+800000cc:	00000513          	li	a0,0
+800000d0:	fff74783          	lbu	a5,-1(a4)
+800000d4:	ffe74583          	lbu	a1,-2(a4)
+800000d8:	00074803          	lbu	a6,0(a4)
+800000dc:	ffd74603          	lbu	a2,-3(a4)
+800000e0:	01059593          	slli	a1,a1,0x10
+800000e4:	00879793          	slli	a5,a5,0x8
+800000e8:	00b7e7b3          	or	a5,a5,a1
+800000ec:	0107e7b3          	or	a5,a5,a6
+800000f0:	01861613          	slli	a2,a2,0x18
+800000f4:	00c7e7b3          	or	a5,a5,a2
+800000f8:	0006a603          	lw	a2,0(a3)
+800000fc:	8cc7d53b          	pm4adda.b	a0,a5,a2
+80000100:	00468693          	addi	a3,a3,4
+80000104:	02010793          	addi	a5,sp,32
+80000108:	ffc70713          	addi	a4,a4,-4
+8000010c:	fcd792e3          	bne	a5,a3,800000d0 <fir_pext+0xa0>
+80000110:	20050513          	addi	a0,a0,512
+80000114:	011e07b3          	add	a5,t3,a7
+80000118:	40a55513          	srai	a0,a0,0xa
+8000011c:	00a78023          	sb	a0,0(a5)
+80000120:	00188893          	addi	a7,a7,1
+80000124:	00130313          	addi	t1,t1,1
+80000128:	f9d89ee3          	bne	a7,t4,800000c4 <fir_pext+0x94>
+8000012c:	02010113          	addi	sp,sp,32
+80000130:	00008067          	ret
+
+80000134 <main>:
+80000134:	ff010113          	addi	sp,sp,-16
+80000138:	00112623          	sw	ra,12(sp)
+8000013c:	ef5ff0ef          	jal	80000030 <fir_pext>
+80000140:	00c12083          	lw	ra,12(sp)
+80000144:	800147b7          	lui	a5,0x80014
+80000148:	00100713          	li	a4,1
+8000014c:	fee7ae23          	sw	a4,-4(a5) # 80013ffc <_done_flag>
+80000150:	00000513          	li	a0,0
+80000154:	01010113          	addi	sp,sp,16
+80000158:	00008067          	ret
+
+Disassembly of section .rodata:
+
+80010000 <fir_coeffs>:
+80010000:	ffff                	.insn	2, 0xffff
+80010002:	0100                	.insn	2, 0x0100
+80010004:	120b0603          	lb	a2,288(s6)
+80010008:	241a                	.insn	2, 0x241a
+8001000a:	4b43392f          	.insn	4, 0x4b43392f
+8001000e:	5451                	.insn	2, 0x5451
+80010010:	5154                	.insn	2, 0x5154
+80010012:	2f39434b          	.insn	4, 0x2f39434b
+80010016:	1a24                	.insn	2, 0x1a24
+80010018:	0b12                	.insn	2, 0x0b12
+8001001a:	0306                	.insn	2, 0x0306
+8001001c:	0001                	.insn	2, 0x0001
+8001001e:	ffff                	.insn	2, 0xffff
+
+80010020 <input_data>:
+80010020:	2e16                	.insn	2, 0x2e16
+80010022:	191f 3f3c 163e      	.insn	6, 0x163e3f3c191f
+80010028:	623a                	.insn	2, 0x623a
+8001002a:	3040                	.insn	2, 0x3040
+8001002c:	5845                	.insn	2, 0x5845
+8001002e:	1138                	.insn	2, 0x1138
+80010030:	e0173937          	lui	s2,0xe0173
+80010034:	1de0                	.insn	2, 0x1de0
+80010036:	bbf8                	.insn	2, 0xbbf8
+80010038:	e1f8                	.insn	2, 0xe1f8
+8001003a:	a7ce                	.insn	2, 0xa7ce
+8001003c:	f4d8                	.insn	2, 0xf4d8
+8001003e:	a8c4                	.insn	2, 0xa8c4
+80010040:	cfba                	.insn	2, 0xcfba
+80010042:	b7c9                	.insn	2, 0xb7c9
+80010044:	d3e812eb          	.insn	4, 0xd3e812eb
+80010048:	15fe17f3          	.insn	4, 0x15fe17f3
+8001004c:	461e                	.insn	2, 0x461e
+8001004e:	5a272223          	sw	sp,1444(a4)
+80010052:	48352333          	.insn	4, 0x48352333
+80010056:	1232                	.insn	2, 0x1232
+80010058:	3f25                	.insn	2, 0x3f25
+8001005a:	11f8e60b          	.insn	4, 0x11f8e60b
+8001005e:	eedeafe3          	.insn	4, 0xeedeafe3
+80010062:	afb9                	.insn	2, 0xafb9
+80010064:	e2ba                	.insn	2, 0xe2ba
+80010066:	d8d3a5cb          	.insn	4, 0xd8d3a5cb
+8001006a:	fcd1acd3          	.insn	4, 0xfcd1acd3
+8001006e:	d8e9                	.insn	2, 0xd8e9
+80010070:	34f2                	.insn	2, 0x34f2
+80010072:	ea19                	.insn	2, 0xea19
+80010074:	16416337          	lui	t1,0x16416
+80010078:	6a2e                	.insn	2, 0x6a2e
+8001007a:	2e39                	.insn	2, 0x2e39
+8001007c:	633e                	.insn	2, 0x633e
+8001007e:	52251637          	lui	a2,0x52251
+80010082:	f015                	.insn	2, 0xf015
+80010084:	d1dd0517          	auipc	a0,0xd1dd0
+80010088:	0bcd                	.insn	2, 0x0bcd
+8001008a:	a0c9                	.insn	2, 0xa0c9
+8001008c:	f4dd                	.insn	2, 0xf4dd
+8001008e:	afd9                	.insn	2, 0xafd9
+80010090:	ffba                	.insn	2, 0xffba
+80010092:	bfca                	.insn	2, 0xbfca
+80010094:	e3f401e7          	jalr	gp,-449(s0)
+80010098:	1b05                	.insn	2, 0x1b05
+8001009a:	491c0e17          	auipc	t3,0x491c0
+8001009e:	2f2d                	.insn	2, 0x2f2d
+800100a0:	6244                	.insn	2, 0x6244
+800100a2:	2535                	.insn	2, 0x2535
+800100a4:	152a5733          	.insn	4, 0x152a5733
+800100a8:	392c                	.insn	2, 0x392c
+800100aa:	dd18                	.insn	2, 0xdd18
+800100ac:	1bed                	.insn	2, 0x1bed
+800100ae:	fff9cdef          	jal	s11,7ffad0ac <_start-0x52f54>
+800100b2:	b7c2                	.insn	2, 0xb7c2
+800100b4:	dcb4                	.insn	2, 0xdcb4
+800100b6:	b9c1                	.insn	2, 0xb9c1
+800100b8:	ddbc                	.insn	2, 0xddbc
+800100ba:	adcc                	.insn	2, 0xadcc
+800100bc:	f5e9                	.insn	2, 0xf5e9
+800100be:	d2df 41fa fe1f      	.insn	6, 0xfe1f41fad2df
+800100c4:	5615                	.insn	2, 0x5615
+800100c6:	0526                	.insn	2, 0x0526
+800100c8:	604a                	.insn	2, 0x604a
+800100ca:	224a                	.insn	2, 0x224a
+800100cc:	4e46                	.insn	2, 0x4e46
+800100ce:	1525                	.insn	2, 0x1525
+800100d0:	eb0e331b          	.insn	4, 0xeb0e331b
+800100d4:	04fc                	.insn	2, 0x04fc
+800100d6:	a9e5                	.insn	2, 0xa9e5
+800100d8:	aac0dfe3          	bge	ra,a2,8000fb96 <main+0xfa62>
+800100dc:	f5bc                	.insn	2, 0xf5bc
+800100de:	a7b2                	.insn	2, 0xa7b2
+800100e0:	d9c4                	.insn	2, 0xd9c4
+800100e2:	b3d4                	.insn	2, 0xb3d4
+800100e4:	0de5                	.insn	2, 0x0de5
+800100e6:	e808                	.insn	2, 0xe808
+800100e8:	052126fb          	.insn	4, 0x052126fb
+800100ec:	372d                	.insn	2, 0x372d
+800100ee:	0f32                	.insn	2, 0x0f32
+800100f0:	224a5b3f 08275145 	.insn	8, 0x08275145224a5b3f
+800100f8:	4024                	.insn	2, 0x4024
+800100fa:	11f4ea2f          	.insn	4, 0x11f4ea2f
+800100fe:	f4c8cbe7          	.insn	4, 0xf4c8cbe7
+80010102:	acd0                	.insn	2, 0xacd0
+80010104:	dfbd                	.insn	2, 0xdfbd
+80010106:	9db0                	.insn	2, 0x9db0
+80010108:	edbe                	.insn	2, 0xedbe
+8001010a:	e9eebfbf 24f8e0f2 	.insn	8, 0x24f8e0f2e9eebfbf
+80010112:	f912                	.insn	2, 0xf912
+80010114:	3621                	.insn	2, 0x3621
+80010116:	2641                	.insn	2, 0x2641
+80010118:	4a31                	.insn	2, 0x4a31
+8001011a:	1745                	.insn	2, 0x1745
+8001011c:	533d                	.insn	2, 0x533d
+8001011e:	2a1c163b          	.insn	4, 0x2a1c163b
+80010122:	f200                	.insn	2, 0xf200
+80010124:	0ff1                	.insn	2, 0x0ff1
+80010126:	c4e5                	.insn	2, 0xc4e5
+80010128:	abd4f5c3          	.insn	4, 0xabd4f5c3
+8001012c:	e3c1                	.insn	2, 0xe3c1
+8001012e:	eddd81c7          	.insn	4, 0xeddd81c7
+80010132:	b0c6                	.insn	2, 0xb0c6
+80010134:	01e2                	.insn	2, 0x01e2
+80010136:	f1d4                	.insn	2, 0xf1d4
+80010138:	100b36ff 27255328 	.insn	16, 0x1b31495818366d4427255328100b36ff
+80010140:	18366d44 1b314958 
+80010148:	4326                	.insn	2, 0x4326
+8001014a:	ef0e                	.insn	2, 0xef0e
+8001014c:	2af0                	.insn	2, 0x2af0
+8001014e:	ede4bceb          	.insn	4, 0xede4bceb
+80010152:	99bd                	.insn	2, 0x99bd
+80010154:	e0cd                	.insn	2, 0xe0cd
+80010156:	b1c0                	.insn	2, 0xb1c0
+80010158:	b6c9dfb7          	lui	t6,0xb6c9d
+8001015c:	d6ecffdb          	.insn	4, 0xd6ecffdb
+80010160:	f2171ff7          	.insn	4, 0xf2171ff7
+80010164:	4716                	.insn	2, 0x4716
+80010166:	3430                	.insn	2, 0x3430
+80010168:	6832                	.insn	2, 0x6832
+8001016a:	48451047          	.insn	4, 0x48451047
+8001016e:	1411                	.insn	2, 0x1411
+80010170:	ff0b410f          	.insn	4, 0xff0b410f
+80010174:	100d                	.insn	2, 0x100d
+80010176:	b6e4                	.insn	2, 0xb6e4
+80010178:	f0d6                	.insn	2, 0xf0d6
+8001017a:	abc9                	.insn	2, 0xabc9
+8001017c:	e6cc                	.insn	2, 0xe6cc
+8001017e:	92b8                	.insn	2, 0x92b8
+80010180:	dfd6                	.insn	2, 0xdfd6
+80010182:	aec6                	.insn	2, 0xaec6
+80010184:	fdc5                	.insn	2, 0xfdc5
+80010186:	2909dfe7          	.insn	4, 0x2909dfe7
+8001018a:	011f 4d24 1330      	.insn	6, 0x13304d24011f
+80010190:	4e38                	.insn	2, 0x4e38
+80010192:	1242                	.insn	2, 0x1242
+80010194:	5346                	.insn	2, 0x5346
+80010196:	282d1333          	.insn	4, 0x282d1333
+8001019a:	f611                	.insn	2, 0xf611
+8001019c:	b8d11aeb          	.insn	4, 0xb8d11aeb
+800101a0:	dfdc                	.insn	2, 0xdfdc
+800101a2:	97c1                	.insn	2, 0x97c1
+800101a4:	e4d9                	.insn	2, 0xe4d9
+800101a6:	a1c9                	.insn	2, 0xa1c9
+800101a8:	d4c0                	.insn	2, 0xd4c0
+800101aa:	abca                	.insn	2, 0xabca
+800101ac:	11e6                	.insn	2, 0x11e6
+800101ae:	e2ff                	.short	0xe2ff
+
+Disassembly of section .output_data:
+
+80011060 <output>:
+	...
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	2f41                	.insn	2, 0x2f41
+   2:	0000                	.insn	2, 0x0000
+   4:	7200                	.insn	2, 0x7200
+   6:	7369                	.insn	2, 0x7369
+   8:	01007663          	bgeu	zero,a6,14 <_start-0x7fffffec>
+   c:	0025                	.insn	2, 0x0025
+   e:	0000                	.insn	2, 0x0000
+  10:	1004                	.insn	2, 0x1004
+  12:	7205                	.insn	2, 0x7205
+  14:	3376                	.insn	2, 0x3376
+  16:	6932                	.insn	2, 0x6932
+  18:	7032                	.insn	2, 0x7032
+  1a:	5f31                	.insn	2, 0x5f31
+  1c:	326d                	.insn	2, 0x326d
+  1e:	3070                	.insn	2, 0x3070
+  20:	705f 7030 3531      	.insn	6, 0x35317030705f
+  26:	7a5f 6d6d 6c75      	.insn	6, 0x6c756d6d7a5f
+  2c:	7031                	.insn	2, 0x7031
+  2e:	0030                	.insn	2, 0x0030
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347          	.insn	4, 0x3a434347
+   4:	2820                	.insn	2, 0x2820
+   6:	66663667          	.insn	4, 0x66663667
+   a:	6664                	.insn	2, 0x6664
+   c:	3764                	.insn	2, 0x3764
+   e:	31383633          	.insn	4, 0x31383633
+  12:	2938                	.insn	2, 0x2938
+  14:	3120                	.insn	2, 0x3120
+  16:	2e36                	.insn	2, 0x2e36
+  18:	2e30                	.insn	2, 0x2e30
+  1a:	2030                	.insn	2, 0x2030
+  1c:	3032                	.insn	2, 0x3032
+  1e:	3532                	.insn	2, 0x3532
+  20:	3830                	.insn	2, 0x3830
+  22:	3331                	.insn	2, 0x3331
+  24:	2820                	.insn	2, 0x2820
+  26:	7865                	.insn	2, 0x7865
+  28:	6570                	.insn	2, 0x6570
+  2a:	6972                	.insn	2, 0x6972
+  2c:	656d                	.insn	2, 0x656d
+  2e:	746e                	.insn	2, 0x746e
+  30:	6c61                	.insn	2, 0x6c61
+  32:	0029                	.insn	2, 0x0029
