@@ -9,7 +9,18 @@ import uart_receive
 
 # ===== MAIN PROCESS =====
 if __name__ == "__main__":
-    com_port = "COM3" if len(sys.argv) < 2 else sys.argv[1]
+    if len(sys.argv) < 3:
+        print("Sử dụng: python test_sobel_auto.py <CỔNG_COM> <ảnh>")
+        print("Trong đó <ảnh> là: '1' hoặc '2'")
+        sys.exit(1)
+        
+    com_port = sys.argv[1]
+    img_id = sys.argv[2]
+    
+    if img_id not in ["1", "2"]:
+        print("Lỗi: <ảnh> phải là '1' hoặc '2'")
+        sys.exit(1)
+        
     result_path = "final_output_uart.hex"
     
     # 1. Nhận UART
@@ -46,6 +57,6 @@ if __name__ == "__main__":
         img = Image.fromarray(arr, mode="L")
         img.show()
         
-        save_path = "photo1_reconstructed.png"
+        save_path = f"photo{img_id}_reconstructed.png"
         img.save(save_path)
         print(f"Ảnh Sobel 64x64 đã lưu tại {save_path} và hiển thị thành công.")
